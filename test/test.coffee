@@ -47,3 +47,25 @@ describe 'jade', ->
       .done (res) ->
         console.log res
       , should.not.exist
+
+describe 'coffeescript', ->
+
+  before ->
+    @coffee = accord.load('coffee-script')
+    @path = path.join(__dirname, 'fixtures', 'coffee')
+
+  it 'should render a string', ->
+    @coffee.render('console.log "test"', { bare: true })
+      .done (res) ->
+        console.log res
+      , should.not.exist
+
+  it 'should render a file', ->
+    @coffee.renderFile(path.join(@path, 'basic.coffee'))
+      .done (res) ->
+        console.log res
+      , should.not.exist
+
+  it 'should not be able to precompile', ->
+    @coffee.precompile()
+      .done(should.not.exist, should.exist)

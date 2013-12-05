@@ -11,10 +11,16 @@ class Adapter
     @compile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
 
   precompile: (str, opts = {}) ->
-    @precompile(str, opts)
+    if @pre_compile
+      @pre_compile(str, opts)
+    else
+      W.reject('precompile not supported')
 
   precompileFile: (file, opts = {}) ->
-    @precompile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
+    if @pre_compile
+      @pre_compile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
+    else
+      W.reject('precompile not supported')
 
   compile: ->
     W.reject('make sure you define a compile method')
