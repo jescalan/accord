@@ -31,3 +31,9 @@ describe 'jade', ->
       .done (res) ->
         console.log res({ foo: 'such options' })
       , should.not.exist
+
+  it 'should handle external file requests', ->
+    @jade.renderFile(path.join(@path, 'partial.jade'))
+      .done (res) ->
+        console.log res
+      , should.not.exist
