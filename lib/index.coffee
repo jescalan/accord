@@ -22,5 +22,7 @@ class Accord
     # return the adapter with bound compiler
     return new (require(cpath))(compiler)
 
+  supports: (name) ->
+    fs.existsSync("#{path.join(__dirname, 'adapters', name)}.coffee")    
 
 module.exports = new Accord

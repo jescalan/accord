@@ -2,6 +2,16 @@ should = require 'should'
 path = require 'path'
 accord = require '../'
 
+describe 'base functions', ->
+
+  it 'supports should work', ->
+    accord.supports('jade').should.be.ok
+    accord.supports('blargh').should.not.be.ok
+
+  it 'load should work', ->
+    (-> accord.load('jade')).should.not.throw
+    (-> accord.load('blargh')).should.throw
+
 describe 'jade', ->
 
   before ->
