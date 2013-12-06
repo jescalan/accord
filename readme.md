@@ -73,27 +73,27 @@ Docs below should explain the methods executed in the example above.
 ##### HTML
 - jade
 - ejs
-- mustache (hogan)
-- handlebars
-- haml
-- haml-coffee
-- dust
-- underscore
-- swig
-- toffee
 - markdown
+- mustache/hogan (pending)
+- handlebars (pending)
+- haml (pending)
+- haml-coffee (pending)
+- dust (pending)
+- underscore (pending)
+- swig (pending)
+- toffee (pending)
 
 ##### CSS
 - stylus
-- scss
-- less
+- scss (pending)
+- less (pending)
 
 ##### Javascript
 - coffeescript
-- coffeescript-redux
-- dogescript
-- coco
-- typescript
+- coffeescript-redux (pending)
+- dogescript (pending)
+- coco (pending)
+- typescript (pending)
 
 ##### Minifiers
 - uglify-js
@@ -106,8 +106,8 @@ Docs below should explain the methods executed in the example above.
 Accord can also precompile templates into javascript functions for some languages, which is really useful for client-side rendering. Languages with precompile support are listed below. If you try to precompile a language without support for it, you will get an error.
 
 - jade
-- ejs
-- underscore
+- ejs (pending)
+- underscore (pending)
 
 We are always looking to add precompile support for more languages, but it can be difficult. Any contributions that help to expand this list are greatly appreciated!
 

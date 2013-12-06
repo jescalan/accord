@@ -74,6 +74,11 @@ describe 'coffeescript', ->
     @coffee = accord.load('coffee-script')
     @path = path.join(__dirname, 'fixtures', 'coffee')
 
+  it 'should expose extensions, output, and compiler', ->
+    @coffee.extensions.should.be.an.instanceOf(Array)
+    @coffee.output.should.be.type('string')
+    @coffee.compiler.should.be.ok
+
   it 'should render a string', ->
     @coffee.render('console.log "test"', { bare: true })
       .catch(should.not.exist)
@@ -94,6 +99,11 @@ describe 'stylus', ->
   before ->
     @stylus = accord.load('stylus')
     @path = path.join(__dirname, 'fixtures', 'stylus')
+
+  it 'should expose extensions, output, and compiler', ->
+    @stylus.extensions.should.be.an.instanceOf(Array)
+    @stylus.output.should.be.type('string')
+    @stylus.compiler.should.be.ok
 
   it 'should render a string', ->
     @stylus.render('.test\n  foo: bar')
