@@ -19,6 +19,9 @@
     "mocha": "*",
     "should": "*",
     "jade": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "acorn": "*",
+    "css-parse": "*",
+    "htmlparser": "*"
   }
 }
