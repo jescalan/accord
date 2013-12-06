@@ -77,12 +77,13 @@ describe 'coffeescript', ->
   it 'should render a string', ->
     @coffee.render('console.log "test"', { bare: true })
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@coffee, res, path.join(@path, 'string.coffee')))
 
   it 'should render a file', ->
-    @coffee.renderFile(path.join(@path, 'basic.coffee'))
+    lpath = path.join(@path, 'basic.coffee')
+    @coffee.renderFile(lpath)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@coffee, res, lpath))
 
   it 'should not be able to precompile', ->
     @coffee.precompile()
