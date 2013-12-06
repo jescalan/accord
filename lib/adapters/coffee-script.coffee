@@ -3,11 +3,11 @@ W = require 'when'
 
 class CoffeeScript extends Adapter
 
-  constructor: (@coffee) ->
+  constructor: (@compiler) ->
     @extensions = ['coffee']
     @output = 'js'
 
   compile: (str, options) ->
-    W.resolve @coffee.compile(str, options)
+    W.resolve @compiler.compile(str, options)
 
 module.exports = CoffeeScript

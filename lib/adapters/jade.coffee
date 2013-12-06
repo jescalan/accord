@@ -3,14 +3,14 @@ W = require 'when'
 
 class Jade extends Adapter
 
-  constructor: (@jade) ->
+  constructor: (@compiler) ->
     @extensions = ['jade']
     @output = 'html'
 
   compile: (str, options) ->
-    W.resolve @jade.render(str, options)
+    W.resolve @compiler.render(str, options)
 
   pre_compile: (str, options) ->
-    W.resolve @jade.compile(str, options)    
+    W.resolve @compiler.compile(str, options)    
 
 module.exports = Jade

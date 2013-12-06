@@ -21,7 +21,7 @@ Compiling many different languages is a central component of [roots](http://root
 
 Although we are planning a CLI interface which will be awesome, right now accord exposes only a javascript API. Since some templating engines are async and others are not, accord keeps things consistent by returning a promise for any compilation task (using when.js). Here's an example in coffeescript:
 
-```
+```coffee
 fs = require 'fs'
 accord = require 'accord'
 stylus = accord.load('jade')
@@ -50,9 +50,23 @@ jade.precompileFile('./example.jade')
 
 ```
 
-The `accord.load` method is really the core of the library. It accepts two params, the second optional. The first should be a string, the name of the compiler you want to use. If that language is supported by accord and you have it loaded locally, it will automatically require and adapt it for use. If either of the two conditions above are not met, it will throw you an appropriate error.
+Docs below should explain the methods executed in the example above.
 
-If you have a modded version of a compiler or are trying to require it from somewhere else, you can require it yourself and pass that in as the second argument. But be warned that if you have modified the compiler to be breaking from the current stable version, it almost might break the accord adapter.
+##### Accord Methods
+
+- `accord.load(string, object)` - loads the compiler named in the first param, npm package with the name must be installed locally, or the optional second param must be the compiler you are after. The second param allows you to load the compiler from elsewhere or load an alternate version if you want, but be careful.
+
+- `accord.supports(string)` - quick test to see if accord supports a certain compiler. accepts a string (name of compiler), returns a boolean.
+
+##### Accord Adapter Methods
+
+- `adapter.render(string, options)` - render a string
+- `adapter.renderFile(path, options)` - render a file
+- `adapter.precompile(string, options)` - precompile a string if the adapter has precompile support
+- `adapter.precompileFile(path, options)` - precompile a file if the adapter has precompile support
+- `adapter.extensions` - array of all file extensions the compiler should match
+- `adapter.output` - string, expected output extension
+- `adapter.compiler` - the actual compiler, no adapter wrapper, if you need it
 
 ### Supported Languages
 

@@ -4,7 +4,7 @@ _ = require 'lodash'
 
 class Stylus extends Adapter
 
-  constructor: (@stylus) ->
+  constructor: (@compiler) ->
     @extensions = ['styl']
     @output = 'css'
 
@@ -22,12 +22,12 @@ class Stylus extends Adapter
         when 'import' then imports.push(v)
         when 'use' then plugins.push(v)
         else sets[k] = v
-        
+
     includes = _.flatten(includes)
     imports = _.flatten(imports)
     plugins = _.flatten(plugins)
 
-    base = @stylus(str)
+    base = @compiler(str)
 
     base.set(k, v) for k, v of sets
     base.define(k, v) for k, v of defines
