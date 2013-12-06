@@ -1,5 +1,5 @@
 Adapter = require '../adapter_base'
-W = require 'when'
+nodefn = require 'when/node/function'
 _ = require 'lodash'
 
 class Stylus extends Adapter
@@ -9,25 +9,32 @@ class Stylus extends Adapter
     @output = 'css'
 
   compile: (str, options) ->
-    defines = []
+    sets = {}
+    defines = {}
     includes = []
     imports = []
     plugins = []
 
     for k, v of options
       switch k
-        when 'define' then defines.push(v)
+        when 'define' then _.extend(defines, v)
         when 'include' then includes.push(v)
         when 'import' then imports.push(v)
         when 'use' then plugins.push(v)
+        else sets[k] = v
+        
+    includes = _.flatten(includes)
+    imports = _.flatten(imports)
+    plugins = _.flatten(plugins)
 
-    # { foo: 'bar' } => .set('foo', 'bar')
-    # { define: { color: 'blue', foo: 'bar'} } => .define('color', 'blue').define('foo', 'bar')
-    # { include: 'foo' } => .include('foo')
-    # { include: ['foo', 'bar'] } => .include('foo').include('bar')
-    # { import: 'foo' } => .import('foo')
-    # { import: ['foo', 'bar'] } => .import('foo').import('bar')
-    # { use: 'foo' } => .use('foo')
-    # { use: ['foo', 'bar'] } => .use('foo').use('bar')
+    base = @stylus(str)
+
+    base.set(k, v) for k, v of sets
+    base.define(k, v) for k, v of defines
+    base.include(i) for i in includes
+    base.import(i) for i in imports
+    base.use(i) for i in plugins
+
+    nodefn.call(base.render.bind(base))
 
 module.exports = Stylus
