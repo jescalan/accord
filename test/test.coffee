@@ -89,9 +89,6 @@ describe 'coffeescript', ->
     @coffee.precompile()
       .done(should.not.exist, should.exist)
 
-# stylus has a heavily modified adapter and a lot of options
-# with unique functionality, hence the more robust test suite.
-
 describe 'stylus', ->
 
   before ->
@@ -101,12 +98,13 @@ describe 'stylus', ->
   it 'should render a string', ->
     @stylus.render('.test\n  foo: bar')
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'string.styl')))
 
   it 'should render a file', ->
-    @stylus.renderFile(path.join(@path, 'basic.styl'))
+    lpath = path.join(@path, 'basic.styl')
+    @stylus.renderFile(lpath)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, lpath))
 
   it 'should not be able to precompile', ->
     @stylus.precompile()
@@ -117,9 +115,10 @@ describe 'stylus', ->
       paths: ['pluginz']
       foo: 'bar'
 
-    @stylus.renderFile(path.join(@path, 'include1.styl'), opts)
+    lpath = path.join(@path, 'include1.styl')
+    @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, lpath))
 
   it 'should set defines', ->
     opts =
@@ -127,39 +126,43 @@ describe 'stylus', ->
       
     @stylus.render('.test\n  test: foo', opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'defines.styl')))
 
   it 'should set includes', ->
     opts =
       include: 'pluginz'
-      
-    @stylus.renderFile(path.join(@path, 'include1.styl'), opts)
+    
+    lpath = path.join(@path, 'include1.styl')
+    @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, lpath))
 
   it 'should set multiple includes', ->
     opts =
       include: ['pluginz', 'extra_plugin']
-      
-    @stylus.renderFile(path.join(@path, 'include2.styl'), opts)
+    
+    lpath = path.join(@path, 'include2.styl')
+    @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, lpath))
 
   it 'should set imports', ->
     opts =
       import: 'pluginz/lib'
-      
-    @stylus.renderFile(path.join(@path, 'import1.styl'), opts)
+    
+    lpath = path.join(@path, 'import1.styl')
+    @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, lpath))
 
   it 'should set multiple imports', ->
     opts =
       import: ['pluginz/lib', 'pluginz/lib2']
-      
-    @stylus.renderFile(path.join(@path, 'import2.styl'), opts)
+    
+    lpath = path.join(@path, 'import2.styl')
+    @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, lpath))
 
   it 'should set plugins', ->
     opts =
@@ -168,7 +171,7 @@ describe 'stylus', ->
       
     @stylus.render('.test\n  foo: main-width', opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins1.styl')))
 
   it 'should set multiple plugins', ->
     opts =
@@ -179,4 +182,4 @@ describe 'stylus', ->
       
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
       .catch(should.not.exist)
-      .done (res) -> console.log res
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins2.styl')))
