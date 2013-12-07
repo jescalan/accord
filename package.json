@@ -22,6 +22,7 @@
     "stylus": "*",
     "acorn": "*",
     "css-parse": "*",
-    "htmlparser": "*"
+    "htmlparser": "*",
+    "ejs": "*"
   }
 }

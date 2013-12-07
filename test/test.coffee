@@ -193,3 +193,42 @@ describe 'stylus', ->
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins2.styl')))
+
+describe 'ejs', ->
+
+  before ->
+    @ejs = accord.load('ejs')
+    @path = path.join(__dirname, 'fixtures', 'ejs')
+
+  it 'should expose extensions, output, and compiler', ->
+    @ejs.extensions.should.be.an.instanceOf(Array)
+    @ejs.output.should.be.type('string')
+    @ejs.compiler.should.be.ok
+
+  it 'should render a string', ->
+    @ejs.render('<p>ejs yah</p><p><%= foo%></p>', { foo: 'wow opts' })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@ejs, res, path.join(@path, 'rstring.ejs')))
+
+  it 'should render a file', ->
+    lpath = path.join(@path, 'basic.ejs')
+    @ejs.renderFile(lpath, { foo: 'wow opts' })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@ejs, res, lpath))
+
+  it 'should precompile a string', ->
+    @ejs.precompile("<p>precompilez</p><p><%= foo %></p>")
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), path.join(@path, 'pstring.ejs')))
+
+  it 'should precompile a file', ->
+    lpath = path.join(@path, 'precompile.ejs')
+    @ejs.precompileFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), lpath))
+
+  it 'should handle external file requests', ->
+    lpath = path.join(@path, 'partial.ejs')
+    @ejs.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@ejs, res, lpath))
