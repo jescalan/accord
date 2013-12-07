@@ -9,7 +9,9 @@ class Accord
 
     # compiler-specific overrides
     lib_name = name
+
     if name == 'markdown' then lib_name = 'marked'
+    if name == 'minify-js' then lib_name = 'uglifyjs'
 
     # ensure compiler is supported
     if !fs.existsSync("#{cpath}.coffee") then throw new Error('compiler not supported')
@@ -27,6 +29,6 @@ class Accord
     return new (require(cpath))(compiler)
 
   supports: (name) ->
-    fs.existsSync("#{path.join(__dirname, 'adapters', name)}.coffee")    
+    fs.existsSync("#{path.join(__dirname, 'adapters', name)}.coffee")
 
 module.exports = new Accord

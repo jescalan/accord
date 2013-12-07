@@ -24,6 +24,7 @@
     "css-parse": "*",
     "htmlparser": "*",
     "ejs": "*",
-    "marked": "*"
+    "marked": "*",
+    "uglifyjs": "*"
   }
 }

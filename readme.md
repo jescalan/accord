@@ -79,6 +79,7 @@ Docs below should explain the methods executed in the example above.
 - haml _(pending)_
 - haml-coffee _(pending)_
 - dust _(pending)_
+- nunjucks _(pending)_
 - underscore _(pending)_
 - swig _(pending)_
 - toffee _(pending)_

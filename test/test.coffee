@@ -133,7 +133,7 @@ describe 'stylus', ->
   it 'should set defines', ->
     opts =
       define: { foo: 'bar', baz: 'quux' }
-      
+
     @stylus.render('.test\n  test: foo', opts)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, path.join(@path, 'defines.styl')))
@@ -141,7 +141,7 @@ describe 'stylus', ->
   it 'should set includes', ->
     opts =
       include: 'pluginz'
-    
+
     lpath = path.join(@path, 'include1.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
@@ -150,7 +150,7 @@ describe 'stylus', ->
   it 'should set multiple includes', ->
     opts =
       include: ['pluginz', 'extra_plugin']
-    
+
     lpath = path.join(@path, 'include2.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
@@ -159,7 +159,7 @@ describe 'stylus', ->
   it 'should set imports', ->
     opts =
       import: 'pluginz/lib'
-    
+
     lpath = path.join(@path, 'import1.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
@@ -168,7 +168,7 @@ describe 'stylus', ->
   it 'should set multiple imports', ->
     opts =
       import: ['pluginz/lib', 'pluginz/lib2']
-    
+
     lpath = path.join(@path, 'import2.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
@@ -178,7 +178,7 @@ describe 'stylus', ->
     opts =
       use: (style) ->
         style.define('main-width', 500)
-      
+
     @stylus.render('.test\n  foo: main-width', opts)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins1.styl')))
@@ -189,7 +189,7 @@ describe 'stylus', ->
         ((style) -> style.define('main-width', 500)),
         ((style) -> style.define('main-height', 200)),
       ]
-      
+
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins2.styl')))
@@ -250,17 +250,49 @@ describe 'markdown', ->
       .done((res) => should.match_expected(@markdown, res, path.join(@path, 'string.md')))
 
   it 'should render a file', ->
-    lpath = path.join(@path, 'basic.md')      
+    lpath = path.join(@path, 'basic.md')
     @markdown.renderFile(lpath)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@markdown, res, lpath))
 
   it 'should render with options', ->
-    lpath = path.join(@path, 'opts.md')      
+    lpath = path.join(@path, 'opts.md')
     @markdown.renderFile(lpath, {sanitize: true})
       .catch(should.not.exist)
       .done((res) => should.match_expected(@markdown, res, lpath))
 
   it 'should not be able to precompile', ->
     @markdown.precompile()
+      .done(should.not.exist, should.exist)
+
+describe 'minify-js', ->
+
+  before ->
+    @minifyjs = accord.load('minify-js')
+    @path = path.join(__dirname, 'fixtures', 'minify-js')
+
+  it 'should expose extensions, output, and compiler', ->
+    @minifyjs.extensions.should.be.an.instanceOf(Array)
+    @minifyjs.output.should.be.type('string')
+    @minifyjs.compiler.should.be.ok
+
+  it 'should minify a string', ->
+    @minifyjs.render('var foo = "foobar";\nconsole.log(foo)')
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifyjs, res, path.join(@path, 'string.js')))
+
+  it 'should minify a file', ->
+    lpath = path.join(@path, 'basic.js')
+    @minifyjs.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifyjs, res, lpath))
+
+  it 'should minify with options', ->
+    lpath = path.join(@path, 'opts.js')
+    @minifyjs.renderFile(lpath, { compress: false })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifyjs, res, lpath))
+
+  it 'should not be able to precompile', ->
+    @minifyjs.precompile()
       .done(should.not.exist, should.exist)
