@@ -24,7 +24,7 @@ Although we are planning a CLI interface which will be awesome, right now accord
 ```coffee
 fs = require 'fs'
 accord = require 'accord'
-stylus = accord.load('jade')
+jade = accord.load('jade')
 
 # render a string
 jade.render('body\n  .test')
