@@ -8,10 +8,11 @@ class Accord
     cpath = path.join(__dirname, 'adapters', name)
 
     # compiler-specific overrides
-    lib_name = name
-
-    if name == 'markdown' then lib_name = 'marked'
-    if name == 'minify-js' then lib_name = 'uglifyjs'
+    lib_name = switch name
+      when 'markdown' then 'marked'
+      when 'minify-js' then 'uglifyjs'
+      when 'minify-css' then 'clean-css'
+      else name
 
     # ensure compiler is supported
     if !fs.existsSync("#{cpath}.coffee") then throw new Error('compiler not supported')

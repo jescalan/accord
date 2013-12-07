@@ -296,3 +296,35 @@ describe 'minify-js', ->
   it 'should not be able to precompile', ->
     @minifyjs.precompile()
       .done(should.not.exist, should.exist)
+
+describe 'minify-css', ->
+
+  before ->
+    @minifycss = accord.load('minify-css')
+    @path = path.join(__dirname, 'fixtures', 'minify-css')
+
+  it 'should expose extensions, output, and compiler', ->
+    @minifycss.extensions.should.be.an.instanceOf(Array)
+    @minifycss.output.should.be.type('string')
+    @minifycss.compiler.should.be.ok
+
+  it 'should minify a string', ->
+    @minifycss.render('.test {\n  foo: bar;\n}')
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifycss, res, path.join(@path, 'string.css')))
+
+  it 'should minify a file', ->
+    lpath = path.join(@path, 'basic.css')
+    @minifycss.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifycss, res, lpath))
+
+  it 'should minify with options', ->
+    lpath = path.join(@path, 'opts.css')
+    @minifycss.renderFile(lpath, { keepBreaks: true })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifycss, res, lpath))
+
+  it 'should not be able to precompile', ->
+    @minifycss.precompile()
+      .done(should.not.exist, should.exist)
