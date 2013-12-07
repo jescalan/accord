@@ -73,7 +73,7 @@ Docs below should explain the methods executed in the example above.
 ##### HTML
 - [jade](http://jade-lang.com/)
 - [ejs](https://github.com/visionmedia/ejs)
-- markdown _(pending)_
+- [markdown](https://github.com/chjj/marked)
 - mustache/hogan _(pending)_
 - handlebars _(pending)_
 - haml _(pending)_

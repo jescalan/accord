@@ -23,6 +23,7 @@
     "acorn": "*",
     "css-parse": "*",
     "htmlparser": "*",
-    "ejs": "*"
+    "ejs": "*",
+    "marked": "*"
   }
 }

@@ -232,3 +232,35 @@ describe 'ejs', ->
     @ejs.renderFile(lpath)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@ejs, res, lpath))
+
+describe 'markdown', ->
+
+  before ->
+    @markdown = accord.load('markdown')
+    @path = path.join(__dirname, 'fixtures', 'markdown')
+
+  it 'should expose extensions, output, and compiler', ->
+    @markdown.extensions.should.be.an.instanceOf(Array)
+    @markdown.output.should.be.type('string')
+    @markdown.compiler.should.be.ok
+
+  it 'should render a string', ->
+    @markdown.render('hello **world**')
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@markdown, res, path.join(@path, 'string.md')))
+
+  it 'should render a file', ->
+    lpath = path.join(@path, 'basic.md')      
+    @markdown.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@markdown, res, lpath))
+
+  it 'should render with options', ->
+    lpath = path.join(@path, 'opts.md')      
+    @markdown.renderFile(lpath, {sanitize: true})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@markdown, res, lpath))
+
+  it 'should not be able to precompile', ->
+    @markdown.precompile()
+      .done(should.not.exist, should.exist)
