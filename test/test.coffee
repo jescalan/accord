@@ -328,3 +328,35 @@ describe 'minify-css', ->
   it 'should not be able to precompile', ->
     @minifycss.precompile()
       .done(should.not.exist, should.exist)
+
+describe 'minify-html', ->
+
+  before ->
+    @minifyhtml = accord.load('minify-html')
+    @path = path.join(__dirname, 'fixtures', 'minify-html')
+
+  it 'should expose extensions, output, and compiler', ->
+    @minifyhtml.extensions.should.be.an.instanceOf(Array)
+    @minifyhtml.output.should.be.type('string')
+    @minifyhtml.compiler.should.be.ok
+
+  it 'should minify a string', ->
+    @minifyhtml.render('<div class="hi" id="">\n  <p>hello</p>\n</div>')
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifyhtml, res, path.join(@path, 'string.html')))
+
+  it 'should minify a file', ->
+    lpath = path.join(@path, 'basic.html')
+    @minifyhtml.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifyhtml, res, lpath))
+
+  it 'should minify with options', ->
+    lpath = path.join(@path, 'opts.html')
+    @minifyhtml.renderFile(lpath, { collapseWhitespace: false })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@minifyhtml, res, lpath))
+
+  it 'should not be able to precompile', ->
+    @minifyhtml.precompile()
+      .done(should.not.exist, should.exist)

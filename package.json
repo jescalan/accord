@@ -26,6 +26,7 @@
     "ejs": "*",
     "marked": "*",
     "uglifyjs": "*",
-    "clean-css": "*"
+    "clean-css": "*",
+    "html-minifier": "*"
   }
 }

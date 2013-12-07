@@ -1,0 +1,19 @@
+Adapter = require '../adapter_base'
+W = require 'when'
+_ = require 'lodash'
+
+class MinifyHTML extends Adapter
+
+  constructor: (@compiler) ->
+    @extensions = ['html']
+    @output = 'html'
+
+  compile: (str, options) ->
+    options = _.defaults options,
+      removeComments: true
+      collapseWhitespace: true
+      removeEmptyAttributes: true
+
+    W.resolve @compiler.minify(str, options)
+
+module.exports = MinifyHTML

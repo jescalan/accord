@@ -12,6 +12,7 @@ class Accord
       when 'markdown' then 'marked'
       when 'minify-js' then 'uglifyjs'
       when 'minify-css' then 'clean-css'
+      when 'minify-html' then 'html-minifier'
       else name
 
     # ensure compiler is supported
