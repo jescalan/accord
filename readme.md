@@ -28,25 +28,24 @@ stylus = accord.load('jade')
 
 # render a string
 jade.render('body\n  .test')
-  .done (res) ->
-    console.log res
-  , (err) ->
-    console.error(err)
+  .catch(console.error.bind(console))
+  .done(console.log.bind(console))
 
 # or a file
 jade.renderFile('./example.jade')
-  .done (res) ->
-    console.log res
-  , (err) ->
-    console.error(err)
+  .catch(console.error.bind(console))
+  .done(console.log.bind(console))
 
-# or precompile the template (limited support)
-# you can also just use jade.precompile('string')
+# or precompile a string
+# (only a few compilers support precompile right now, see below)
+jade.precompile('body\n  .test')
+  .catch(console.error.bind(console))
+  .done (res) -> console.log(res.toString())
+
+# or a file
 jade.precompileFile('./example.jade')
-  .done (fn) ->
-    console.log fn.toString()
-  , (err) ->
-    console.error(err)
+  .catch(console.error.bind(console))
+  .done (res) -> console.log(res.toString())
 
 ```
 
