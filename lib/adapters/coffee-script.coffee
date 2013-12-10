@@ -4,6 +4,7 @@ W = require 'when'
 class CoffeeScript extends Adapter
 
   constructor: (@compiler) ->
+    @name = 'coffee-script'
     @extensions = ['coffee']
     @output = 'js'
 

@@ -4,6 +4,7 @@ W = require 'when'
 class MinifyCSS extends Adapter
 
   constructor: (@compiler) ->
+    @name = 'minify-css'
     @extensions = ['css']
     @output = 'css'
 

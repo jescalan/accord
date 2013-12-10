@@ -5,6 +5,7 @@ _ = require 'lodash'
 class Stylus extends Adapter
 
   constructor: (@compiler) ->
+    @name = 'stylus'
     @extensions = ['styl']
     @output = 'css'
 

@@ -1,23 +1,8 @@
 should = require 'should'
 path = require 'path'
-fs = require 'fs'
 accord = require '../'
 
-should.match_expected = (compiler, content, epath) ->
-  parser = switch compiler.output
-    when 'html'
-      HP = require('htmlparser')
-      handler = new HP.DefaultHandler
-      p = new HP.Parser(handler)
-      ((c) -> p.parseComplete.call(p, c); handler.dom)
-    when 'css' then require ('css-parse')
-    when 'js' then (require('acorn')).parse
-
-  expected_path = path.join(path.dirname(epath), 'expected', "#{path.basename(epath, compiler.extensions[0])}#{compiler.output}")
-  fs.existsSync(expected_path).should.be.ok
-  expected = parser(fs.readFileSync(expected_path, 'utf8'))
-  results = parser(content)
-  expected.should.eql(results)
+require('./helpers')(should)
 
 describe 'base functions', ->
 
@@ -35,10 +20,11 @@ describe 'jade', ->
     @jade = accord.load('jade')
     @path = path.join(__dirname, 'fixtures', 'jade')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @jade.extensions.should.be.an.instanceOf(Array)
     @jade.output.should.be.type('string')
     @jade.compiler.should.be.ok
+    @jade.name.should.be.ok
 
   it 'should render a string', ->
     @jade.render('p BLAHHHHH\np= foo', { foo: 'such options' })
@@ -74,10 +60,11 @@ describe 'coffeescript', ->
     @coffee = accord.load('coffee-script')
     @path = path.join(__dirname, 'fixtures', 'coffee')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @coffee.extensions.should.be.an.instanceOf(Array)
     @coffee.output.should.be.type('string')
     @coffee.compiler.should.be.ok
+    @coffee.name.should.be.ok
 
   it 'should render a string', ->
     @coffee.render('console.log "test"', { bare: true })
@@ -100,10 +87,11 @@ describe 'stylus', ->
     @stylus = accord.load('stylus')
     @path = path.join(__dirname, 'fixtures', 'stylus')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @stylus.extensions.should.be.an.instanceOf(Array)
     @stylus.output.should.be.type('string')
     @stylus.compiler.should.be.ok
+    @stylus.name.should.be.ok
 
   it 'should render a string', ->
     @stylus.render('.test\n  foo: bar')
@@ -200,10 +188,11 @@ describe 'ejs', ->
     @ejs = accord.load('ejs')
     @path = path.join(__dirname, 'fixtures', 'ejs')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @ejs.extensions.should.be.an.instanceOf(Array)
     @ejs.output.should.be.type('string')
     @ejs.compiler.should.be.ok
+    @ejs.name.should.be.ok
 
   it 'should render a string', ->
     @ejs.render('<p>ejs yah</p><p><%= foo%></p>', { foo: 'wow opts' })
@@ -239,10 +228,11 @@ describe 'markdown', ->
     @markdown = accord.load('markdown')
     @path = path.join(__dirname, 'fixtures', 'markdown')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @markdown.extensions.should.be.an.instanceOf(Array)
     @markdown.output.should.be.type('string')
     @markdown.compiler.should.be.ok
+    @markdown.name.should.be.ok
 
   it 'should render a string', ->
     @markdown.render('hello **world**')
@@ -271,10 +261,11 @@ describe 'minify-js', ->
     @minifyjs = accord.load('minify-js')
     @path = path.join(__dirname, 'fixtures', 'minify-js')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @minifyjs.extensions.should.be.an.instanceOf(Array)
     @minifyjs.output.should.be.type('string')
     @minifyjs.compiler.should.be.ok
+    @minifyjs.name.should.be.ok
 
   it 'should minify a string', ->
     @minifyjs.render('var foo = "foobar";\nconsole.log(foo)')
@@ -303,10 +294,11 @@ describe 'minify-css', ->
     @minifycss = accord.load('minify-css')
     @path = path.join(__dirname, 'fixtures', 'minify-css')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @minifycss.extensions.should.be.an.instanceOf(Array)
     @minifycss.output.should.be.type('string')
     @minifycss.compiler.should.be.ok
+    @minifycss.name.should.be.ok
 
   it 'should minify a string', ->
     @minifycss.render('.test {\n  foo: bar;\n}')
@@ -335,10 +327,11 @@ describe 'minify-html', ->
     @minifyhtml = accord.load('minify-html')
     @path = path.join(__dirname, 'fixtures', 'minify-html')
 
-  it 'should expose extensions, output, and compiler', ->
+  it 'should expose name, extensions, output, and compiler', ->
     @minifyhtml.extensions.should.be.an.instanceOf(Array)
     @minifyhtml.output.should.be.type('string')
     @minifyhtml.compiler.should.be.ok
+    @minifyhtml.name.should.be.ok
 
   it 'should minify a string', ->
     @minifyhtml.render('<div class="hi" id="">\n  <p>hello</p>\n</div>')

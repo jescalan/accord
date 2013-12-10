@@ -5,6 +5,7 @@ _ = require 'lodash'
 class MinifyJS extends Adapter
 
   constructor: (@compiler) ->
+    @name = 'minify-js'
     @extensions = ['js']
     @output = 'js'
 
