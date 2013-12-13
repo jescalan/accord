@@ -1,5 +1,6 @@
 path = require 'path'
 fs = require 'fs'
+util = require 'util'
 
 module.exports = (should) ->
 
@@ -7,10 +8,8 @@ module.exports = (should) ->
 
     parser = switch compiler.output
       when 'html'
-        HP = require('htmlparser')
-        handler = new HP.DefaultHandler
-        p = new HP.Parser(handler)
-        ((c) -> p.parseComplete.call(p, c); handler.dom)
+        parser = new (require('parse5').Parser)
+        parser.parseFragment.bind(parser)
       when 'css' then require ('css-parse')
       when 'js' then (require('acorn')).parse
 
@@ -18,4 +17,4 @@ module.exports = (should) ->
     fs.existsSync(expected_path).should.be.ok
     expected = parser(fs.readFileSync(expected_path, 'utf8'))
     results = parser(content)
-    expected.should.eql(results)
+    util.inspect(expected).should.eql(util.inspect(results))

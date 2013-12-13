@@ -22,7 +22,7 @@
     "stylus": "*",
     "acorn": "*",
     "css-parse": "*",
-    "htmlparser": "*",
+    "parse5": "*",
     "ejs": "*",
     "marked": "*",
     "uglifyjs": "*",
