@@ -13,7 +13,8 @@
     "coffee-script": "1.6.x",
     "colors": "0.6.x",
     "when": "2.x.x",
-    "lodash": "2.x.x"
+    "lodash": "2.x.x",
+    "glob": "3.x.x"
   },
   "devDependencies": {
     "mocha": "*",
@@ -27,6 +28,13 @@
     "marked": "*",
     "uglifyjs": "*",
     "clean-css": "*",
-    "html-minifier": "*"
+    "html-minifier": "*",
+    "gulp": "3.x.x",
+    "gulp-coffee": "1.x.x"
+  },
+  "scripts": {
+    "test": "mocha",
+    "prepublish": "mv lib/ src; gulp build",
+    "postpublish": "rm -rf lib; mv src/ lib"
   }
 }
