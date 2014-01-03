@@ -28,13 +28,9 @@
     "marked": "*",
     "uglifyjs": "*",
     "clean-css": "*",
-    "html-minifier": "*",
-    "gulp": "3.x.x",
-    "gulp-coffee": "1.x.x"
+    "html-minifier": "*"
   },
   "scripts": {
-    "test": "mocha",
-    "prepublish": "mv lib/ src; gulp build",
-    "postpublish": "rm -rf lib; mv src/ lib"
+    "test": "mocha"
   }
 }
