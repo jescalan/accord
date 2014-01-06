@@ -37,14 +37,14 @@ describe 'jade', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@jade, res, lpath))
 
-  it 'should precompile a string', ->
-    @jade.precompile("p why cant I shot web?\np= foo")
+  it 'should compile a string', ->
+    @jade.compile("p why cant I shot web?\np= foo")
       .catch(should.not.exist)
       .done((res) => should.match_expected(@jade, res({foo: 'such options'}), path.join(@path, 'pstring.jade')))
 
-  it 'should precompile a file', ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.jade')
-    @jade.precompileFile(lpath)
+    @jade.compileFile(lpath)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@jade, res({foo: 'such options'}), lpath))
 

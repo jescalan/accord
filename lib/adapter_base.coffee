@@ -5,24 +5,21 @@ _ = require 'lodash'
 class Adapter
 
   render: (str, opts = {}) ->
-    @compile(str, opts)
+    @render(str, opts)
 
   renderFile: (file, opts = {}) ->
+    @render(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
+
+  compile: (str, opts = {}) ->
+    @compile(str, opts)
+
+  compileFile: (file, opts = {}) ->
     @compile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
 
-  precompile: (str, opts = {}) ->
-    if @pre_compile
-      @pre_compile(str, opts)
+  compile_client: (file, opts = {}) ->
+    if @compile_client
+      @compile_client(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
     else
-      W.reject('precompile not supported')
-
-  precompileFile: (file, opts = {}) ->
-    if @pre_compile
-      @pre_compile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
-    else
-      W.reject('precompile not supported')
-
-  compile: ->
-    W.reject('make sure you define a compile method')
+      W.reject('client compile not supported')
 
 module.exports = Adapter

@@ -8,10 +8,18 @@ class Jade extends Adapter
     @extensions = ['jade']
     @output = 'html'
 
-  compile: (str, options) ->
+  render: (str, options) ->
     W.resolve @compiler.render(str, options)
 
-  pre_compile: (str, options) ->
+  compile: (str, options) ->
     W.resolve @compiler.compile(str, options)
+
+  compile_client: (str, options) ->
+    W.resolve @compiler.compileClient(str, options)
+
+  client_helpers: ->
+    runtime = @compiler.runtime
+    helpers = Object.keys(runtime).reduce(((m,i) -> m[i] = runtime[i].toString(); m), {})
+    return "var jade = #{JSON.stringify(helpers)}"
 
 module.exports = Jade
