@@ -8,13 +8,13 @@ class Jade extends Adapter
     @extensions = ['jade']
     @output = 'html'
 
-  render: (str, options) ->
+  _render: (str, options) ->
     W.resolve @compiler.render(str, options)
 
-  compile: (str, options) ->
+  _compile: (str, options) ->
     W.resolve @compiler.compile(str, options)
 
-  compile_client: (str, options) ->
+  _compile_client: (str, options) ->
     W.resolve @compiler.compileClient(str, options)
 
   client_helpers: ->
