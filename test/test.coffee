@@ -48,10 +48,16 @@ describe 'jade', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@jade, res({foo: 'such options'}), lpath, done))
 
-  it.skip 'should client-compile a string', (done) ->
-    @jade.compile("p imma firin mah lazer!\np= foo")
+  it 'should client-compile a string', (done) ->
+    @jade.compileClient("p imma firin mah lazer!\np= foo", {foo: 'such options'})
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), path.join(@path, 'pstring.jade'), done))
+      .done((res) => should.match_expected(@jade, res, path.join(@path, 'cstring.jade'), done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(@path, 'client.jade')
+    @jade.compileFileClient(lpath, {foo: 'such options'})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@jade, res, lpath, done))
 
   it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.jade')

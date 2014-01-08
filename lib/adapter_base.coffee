@@ -19,8 +19,8 @@ class Adapter
     @compile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
 
   compileClient: (str, opts = {}) ->
-    if not @_compile_client then return W.reject('client-side compile not supported')
-    @compile_client(str, opts)
+    if not @_compileClient then return W.reject('client-side compile not supported')
+    @_compileClient(str, opts)
 
   compileFileClient: (file, opts = {}) ->
     @compileClient(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))

@@ -14,10 +14,10 @@ class Jade extends Adapter
   _compile: (str, options) ->
     W.resolve @compiler.compile(str, options)
 
-  _compile_client: (str, options) ->
+  _compileClient: (str, options) ->
     W.resolve @compiler.compileClient(str, options)
 
-  client_helpers: ->
+  clientHelpers: ->
     runtime = @compiler.runtime
     helpers = Object.keys(runtime).reduce(((m,i) -> m[i] = runtime[i].toString(); m), {})
     return "var jade = #{JSON.stringify(helpers)}"
