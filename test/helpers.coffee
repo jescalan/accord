@@ -4,7 +4,7 @@ util = require 'util'
 
 module.exports = (should) ->
 
-  should.match_expected = (compiler, content, epath) ->
+  should.match_expected = (compiler, content, epath, done) ->
 
     parser = switch compiler.output
       when 'html'
@@ -18,3 +18,4 @@ module.exports = (should) ->
     expected = parser(fs.readFileSync(expected_path, 'utf8'))
     results = parser(content)
     util.inspect(expected).should.eql(util.inspect(results))
+    done()
