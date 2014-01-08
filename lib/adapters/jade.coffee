@@ -1,5 +1,6 @@
 Adapter = require '../adapter_base'
 W = require 'when'
+UglifyJS = require 'uglify-js'
 
 class Jade extends Adapter
 
@@ -19,7 +20,8 @@ class Jade extends Adapter
 
   clientHelpers: ->
     runtime = @compiler.runtime
-    helpers = Object.keys(runtime).reduce(((m,i) -> m[i] = runtime[i].toString(); m), {})
-    return "var jade = #{JSON.stringify(helpers)}"
+    res = "var jade = {"
+    Object.keys(runtime).map((f) -> res += "#{f}: #{runtime[f].toString()},")
+    return UglifyJS.minify("#{res.slice(0,-1)}}", { fromString: true }).code
 
 module.exports = Jade
