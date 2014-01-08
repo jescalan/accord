@@ -8,7 +8,7 @@ class MinifyCSS extends Adapter
     @extensions = ['css']
     @output = 'css'
 
-  compile: (str, options) ->
+  _render: (str, options) ->
     W.resolve (new @compiler(options)).minify(str)
 
 module.exports = MinifyCSS

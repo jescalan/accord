@@ -8,7 +8,7 @@ class CoffeeScript extends Adapter
     @extensions = ['coffee']
     @output = 'js'
 
-  compile: (str, options) ->
+  _render: (str, options) ->
     W.resolve @compiler.compile(str, options)
 
 module.exports = CoffeeScript

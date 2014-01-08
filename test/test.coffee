@@ -77,8 +77,8 @@ describe 'coffeescript', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@coffee, res, lpath))
 
-  it 'should not be able to precompile', ->
-    @coffee.precompile()
+  it 'should not be able to compile', ->
+    @coffee.compile()
       .done(should.not.exist, should.exist)
 
 describe 'stylus', ->
@@ -104,8 +104,8 @@ describe 'stylus', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, lpath))
 
-  it 'should not be able to precompile', ->
-    @stylus.precompile()
+  it 'should not be able to compile', ->
+    @stylus.compile()
       .done(should.not.exist, should.exist)
 
   it 'should set normal options', ->
@@ -205,14 +205,14 @@ describe 'ejs', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@ejs, res, lpath))
 
-  it 'should precompile a string', ->
-    @ejs.precompile("<p>precompilez</p><p><%= foo %></p>")
+  it 'should compile a string', ->
+    @ejs.compile("<p>precompilez</p><p><%= foo %></p>")
       .catch(should.not.exist)
       .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), path.join(@path, 'pstring.ejs')))
 
-  it 'should precompile a file', ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.ejs')
-    @ejs.precompileFile(lpath)
+    @ejs.compileFile(lpath)
       .catch(should.not.exist)
       .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), lpath))
 
@@ -251,8 +251,8 @@ describe 'markdown', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@markdown, res, lpath))
 
-  it 'should not be able to precompile', ->
-    @markdown.precompile()
+  it 'should not be able to compile', ->
+    @markdown.compile()
       .done(should.not.exist, should.exist)
 
 describe 'minify-js', ->
@@ -284,8 +284,8 @@ describe 'minify-js', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@minifyjs, res, lpath))
 
-  it 'should not be able to precompile', ->
-    @minifyjs.precompile()
+  it 'should not be able to compile', ->
+    @minifyjs.compile()
       .done(should.not.exist, should.exist)
 
 describe 'minify-css', ->
@@ -317,8 +317,8 @@ describe 'minify-css', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@minifycss, res, lpath))
 
-  it 'should not be able to precompile', ->
-    @minifycss.precompile()
+  it 'should not be able to compile', ->
+    @minifycss.compile()
       .done(should.not.exist, should.exist)
 
 describe 'minify-html', ->
@@ -350,6 +350,6 @@ describe 'minify-html', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@minifyhtml, res, lpath))
 
-  it 'should not be able to precompile', ->
-    @minifyhtml.precompile()
+  it 'should not be able to compile', ->
+    @minifyhtml.compile()
       .done(should.not.exist, should.exist)

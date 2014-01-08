@@ -9,7 +9,7 @@ class MinifyJS extends Adapter
     @extensions = ['js']
     @output = 'js'
 
-  compile: (str, options) ->
+  _render: (str, options) ->
     W.resolve @compiler.minify(str, _.extend(options, { fromString: true })).code
 
 module.exports = MinifyJS

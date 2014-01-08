@@ -8,10 +8,10 @@ class EJS extends Adapter
     @extensions = ['ejs']
     @output = 'html'
 
-  compile: (str, options) ->
+  _render: (str, options) ->
     W.resolve @compiler.render(str, options)
 
-  pre_compile: (str, options) ->
+  _compile: (str, options) ->
     W.resolve @compiler.compile(str, options)
 
 module.exports = EJS
