@@ -36,14 +36,24 @@ jade.renderFile('./example.jade')
   .catch(console.error.bind(console))
   .done(console.log.bind(console))
 
-# or precompile a string
-# (only a few compilers support precompile right now, see below)
-jade.precompile('body\n  .test')
+# or compile a string to a function
+# (only some to-html compilers support this, see below)
+jade.compile('body\n  .test')
   .catch(console.error.bind(console))
   .done (res) -> console.log(res.toString())
 
 # or a file
-jade.precompileFile('./example.jade')
+jade.compileFile('./example.jade')
+  .catch(console.error.bind(console))
+  .done (res) -> console.log(res.toString())
+
+# compile a client-side js template
+jade.compileClient('body\n  .test')
+  .catch(console.error.bind(console))
+  .done (res) -> console.log(res.toString())
+
+# or a file
+jade.compileFileClient('./example.jade')
   .catch(console.error.bind(console))
   .done (res) -> console.log(res.toString())
 
@@ -59,10 +69,12 @@ Docs below should explain the methods executed in the example above.
 
 ##### Accord Adapter Methods
 
-- `adapter.render(string, options)` - render a string
-- `adapter.renderFile(path, options)` - render a file
-- `adapter.precompile(string, options)` - precompile a string if the adapter has precompile support
-- `adapter.precompileFile(path, options)` - precompile a file if the adapter has precompile support
+- `adapter.render(string, options)` - render a string to a compiled string
+- `adapter.renderFile(path, options)` - render a file to a compiled string
+- `adapter.compile(string, options)` - compile a string to a function
+- `adapter.precompileFile(path, options)` - compile a file to a function
+- `adapter.compileClient(string, options)` - compile a string to a client-side-ready function
+- `adapter.compileFileClient(string, options)` - compile a file to a client-side-ready function
 - `adapter.extensions` - array of all file extensions the compiler should match
 - `adapter.output` - string, expected output extension
 - `adapter.compiler` - the actual compiler, no adapter wrapper, if you need it

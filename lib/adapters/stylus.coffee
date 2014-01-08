@@ -9,7 +9,7 @@ class Stylus extends Adapter
     @extensions = ['styl']
     @output = 'css'
 
-  compile: (str, options) ->
+  _render: (str, options) ->
     sets = {}
     defines = {}
     includes = []

@@ -8,8 +8,7 @@ class Markdown extends Adapter
     @extensions = ['md', 'mdown', 'markdown']
     @output = 'html'
 
-  compile: (str, options) ->
-    # console.log options
+  _render: (str, options) ->
     nodefn.call(@compiler.bind(@compiler), str, options)
 
 module.exports = Markdown

@@ -1,6 +1,6 @@
 {
   "name": "accord",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Jeff Escalante <hello@jenius.me>",
   "description": "A unified interface for compiled languages and templates in javascript",
   "main": "index.js",
@@ -14,7 +14,8 @@
     "colors": "0.6.x",
     "when": "2.x.x",
     "lodash": "2.x.x",
-    "glob": "3.x.x"
+    "glob": "3.x.x",
+    "uglify-js": "2.x.x"
   },
   "devDependencies": {
     "mocha": "*",

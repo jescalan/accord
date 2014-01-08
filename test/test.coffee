@@ -26,33 +26,44 @@ describe 'jade', ->
     @jade.compiler.should.be.ok
     @jade.name.should.be.ok
 
-  it 'should render a string', ->
+  it 'should render a string', (done) ->
     @jade.render('p BLAHHHHH\np= foo', { foo: 'such options' })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@jade, res, path.join(@path, 'rstring.jade')))
+      .done((res) => should.match_expected(@jade, res, path.join(@path, 'rstring.jade'), done))
 
-  it 'should render a file', ->
+  it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.jade')
     @jade.renderFile(lpath, { foo: 'such options' })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@jade, res, lpath))
+      .done((res) => should.match_expected(@jade, res, lpath, done))
 
-  it 'should precompile a string', ->
-    @jade.precompile("p why cant I shot web?\np= foo")
+  it 'should compile a string', (done) ->
+    @jade.compile("p why cant I shot web?\np= foo")
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), path.join(@path, 'pstring.jade')))
+      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), path.join(@path, 'pstring.jade'), done))
 
-  it 'should precompile a file', ->
+  it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.jade')
-    @jade.precompileFile(lpath)
+    @jade.compileFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), lpath))
+      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), lpath, done))
 
-  it 'should handle external file requests', ->
+  it 'should client-compile a string', (done) ->
+    @jade.compileClient("p imma firin mah lazer!\np= foo", {foo: 'such options'})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@jade, res, path.join(@path, 'cstring.jade'), done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(@path, 'client.jade')
+    @jade.compileFileClient(lpath, {foo: 'such options'})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@jade, res, lpath, done))
+
+  it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.jade')
     @jade.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@jade, res, lpath))
+      .done((res) => should.match_expected(@jade, res, lpath, done))
 
 describe 'coffeescript', ->
 
@@ -66,20 +77,20 @@ describe 'coffeescript', ->
     @coffee.compiler.should.be.ok
     @coffee.name.should.be.ok
 
-  it 'should render a string', ->
+  it 'should render a string', (done) ->
     @coffee.render('console.log "test"', { bare: true })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@coffee, res, path.join(@path, 'string.coffee')))
+      .done((res) => should.match_expected(@coffee, res, path.join(@path, 'string.coffee'), done))
 
-  it 'should render a file', ->
+  it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.coffee')
     @coffee.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@coffee, res, lpath))
+      .done((res) => should.match_expected(@coffee, res, lpath, done))
 
-  it 'should not be able to precompile', ->
-    @coffee.precompile()
-      .done(should.not.exist, should.exist)
+  it 'should not be able to compile', (done) ->
+    @coffee.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
 describe 'stylus', ->
 
@@ -93,22 +104,22 @@ describe 'stylus', ->
     @stylus.compiler.should.be.ok
     @stylus.name.should.be.ok
 
-  it 'should render a string', ->
+  it 'should render a string', (done) ->
     @stylus.render('.test\n  foo: bar')
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'string.styl')))
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'string.styl'), done))
 
-  it 'should render a file', ->
+  it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.styl')
     @stylus.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, lpath))
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
 
-  it 'should not be able to precompile', ->
-    @stylus.precompile()
-      .done(should.not.exist, should.exist)
+  it 'should not be able to compile', (done) ->
+    @stylus.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
-  it 'should set normal options', ->
+  it 'should set normal options', (done) ->
     opts =
       paths: ['pluginz']
       foo: 'bar'
@@ -116,62 +127,62 @@ describe 'stylus', ->
     lpath = path.join(@path, 'include1.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, lpath))
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
 
-  it 'should set defines', ->
+  it 'should set defines', (done) ->
     opts =
       define: { foo: 'bar', baz: 'quux' }
 
     @stylus.render('.test\n  test: foo', opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'defines.styl')))
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'defines.styl'), done))
 
-  it 'should set includes', ->
+  it 'should set includes', (done) ->
     opts =
       include: 'pluginz'
 
     lpath = path.join(@path, 'include1.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, lpath))
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
 
-  it 'should set multiple includes', ->
+  it 'should set multiple includes', (done) ->
     opts =
       include: ['pluginz', 'extra_plugin']
 
     lpath = path.join(@path, 'include2.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, lpath))
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
 
-  it 'should set imports', ->
+  it 'should set imports', (done) ->
     opts =
       import: 'pluginz/lib'
 
     lpath = path.join(@path, 'import1.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, lpath))
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
 
-  it 'should set multiple imports', ->
+  it 'should set multiple imports', (done) ->
     opts =
       import: ['pluginz/lib', 'pluginz/lib2']
 
     lpath = path.join(@path, 'import2.styl')
     @stylus.renderFile(lpath, opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, lpath))
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
 
-  it 'should set plugins', ->
+  it 'should set plugins', (done) ->
     opts =
       use: (style) ->
         style.define('main-width', 500)
 
     @stylus.render('.test\n  foo: main-width', opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins1.styl')))
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins1.styl'), done))
 
-  it 'should set multiple plugins', ->
+  it 'should set multiple plugins', (done) ->
     opts =
       use: [
         ((style) -> style.define('main-width', 500)),
@@ -180,7 +191,7 @@ describe 'stylus', ->
 
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins2.styl')))
+      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins2.styl'), done))
 
 describe 'ejs', ->
 
@@ -194,33 +205,33 @@ describe 'ejs', ->
     @ejs.compiler.should.be.ok
     @ejs.name.should.be.ok
 
-  it 'should render a string', ->
+  it 'should render a string', (done) ->
     @ejs.render('<p>ejs yah</p><p><%= foo%></p>', { foo: 'wow opts' })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@ejs, res, path.join(@path, 'rstring.ejs')))
+      .done((res) => should.match_expected(@ejs, res, path.join(@path, 'rstring.ejs'), done))
 
-  it 'should render a file', ->
+  it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.ejs')
     @ejs.renderFile(lpath, { foo: 'wow opts' })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@ejs, res, lpath))
+      .done((res) => should.match_expected(@ejs, res, lpath, done))
 
-  it 'should precompile a string', ->
-    @ejs.precompile("<p>precompilez</p><p><%= foo %></p>")
+  it 'should compile a string', (done) ->
+    @ejs.compile("<p>precompilez</p><p><%= foo %></p>")
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), path.join(@path, 'pstring.ejs')))
+      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), path.join(@path, 'pstring.ejs'), done))
 
-  it 'should precompile a file', ->
+  it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.ejs')
-    @ejs.precompileFile(lpath)
+    @ejs.compileFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), lpath))
+      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), lpath, done))
 
-  it 'should handle external file requests', ->
+  it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.ejs')
     @ejs.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@ejs, res, lpath))
+      .done((res) => should.match_expected(@ejs, res, lpath, done))
 
 describe 'markdown', ->
 
@@ -234,26 +245,26 @@ describe 'markdown', ->
     @markdown.compiler.should.be.ok
     @markdown.name.should.be.ok
 
-  it 'should render a string', ->
+  it 'should render a string', (done) ->
     @markdown.render('hello **world**')
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@markdown, res, path.join(@path, 'string.md')))
+      .done((res) => should.match_expected(@markdown, res, path.join(@path, 'string.md'), done))
 
-  it 'should render a file', ->
+  it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.md')
     @markdown.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@markdown, res, lpath))
+      .done((res) => should.match_expected(@markdown, res, lpath, done))
 
-  it 'should render with options', ->
+  it 'should render with options', (done) ->
     lpath = path.join(@path, 'opts.md')
     @markdown.renderFile(lpath, {sanitize: true})
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@markdown, res, lpath))
+      .done((res) => should.match_expected(@markdown, res, lpath, done))
 
-  it 'should not be able to precompile', ->
-    @markdown.precompile()
-      .done(should.not.exist, should.exist)
+  it 'should not be able to compile', (done) ->
+    @markdown.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
 describe 'minify-js', ->
 
@@ -267,26 +278,26 @@ describe 'minify-js', ->
     @minifyjs.compiler.should.be.ok
     @minifyjs.name.should.be.ok
 
-  it 'should minify a string', ->
+  it 'should minify a string', (done) ->
     @minifyjs.render('var foo = "foobar";\nconsole.log(foo)')
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifyjs, res, path.join(@path, 'string.js')))
+      .done((res) => should.match_expected(@minifyjs, res, path.join(@path, 'string.js'), done))
 
-  it 'should minify a file', ->
+  it 'should minify a file', (done) ->
     lpath = path.join(@path, 'basic.js')
     @minifyjs.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifyjs, res, lpath))
+      .done((res) => should.match_expected(@minifyjs, res, lpath, done))
 
-  it 'should minify with options', ->
+  it 'should minify with options', (done) ->
     lpath = path.join(@path, 'opts.js')
     @minifyjs.renderFile(lpath, { compress: false })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifyjs, res, lpath))
+      .done((res) => should.match_expected(@minifyjs, res, lpath, done))
 
-  it 'should not be able to precompile', ->
-    @minifyjs.precompile()
-      .done(should.not.exist, should.exist)
+  it 'should not be able to compile', (done) ->
+    @minifyjs.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
 describe 'minify-css', ->
 
@@ -300,26 +311,26 @@ describe 'minify-css', ->
     @minifycss.compiler.should.be.ok
     @minifycss.name.should.be.ok
 
-  it 'should minify a string', ->
+  it 'should minify a string', (done) ->
     @minifycss.render('.test {\n  foo: bar;\n}')
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifycss, res, path.join(@path, 'string.css')))
+      .done((res) => should.match_expected(@minifycss, res, path.join(@path, 'string.css'), done))
 
-  it 'should minify a file', ->
+  it 'should minify a file', (done) ->
     lpath = path.join(@path, 'basic.css')
     @minifycss.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifycss, res, lpath))
+      .done((res) => should.match_expected(@minifycss, res, lpath, done))
 
-  it 'should minify with options', ->
+  it 'should minify with options', (done) ->
     lpath = path.join(@path, 'opts.css')
     @minifycss.renderFile(lpath, { keepBreaks: true })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifycss, res, lpath))
+      .done((res) => should.match_expected(@minifycss, res, lpath, done))
 
-  it 'should not be able to precompile', ->
-    @minifycss.precompile()
-      .done(should.not.exist, should.exist)
+  it 'should not be able to compile', (done) ->
+    @minifycss.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
 describe 'minify-html', ->
 
@@ -333,23 +344,23 @@ describe 'minify-html', ->
     @minifyhtml.compiler.should.be.ok
     @minifyhtml.name.should.be.ok
 
-  it 'should minify a string', ->
+  it 'should minify a string', (done) ->
     @minifyhtml.render('<div class="hi" id="">\n  <p>hello</p>\n</div>')
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifyhtml, res, path.join(@path, 'string.html')))
+      .done((res) => should.match_expected(@minifyhtml, res, path.join(@path, 'string.html'), done))
 
-  it 'should minify a file', ->
+  it 'should minify a file', (done) ->
     lpath = path.join(@path, 'basic.html')
     @minifyhtml.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifyhtml, res, lpath))
+      .done((res) => should.match_expected(@minifyhtml, res, lpath, done))
 
-  it 'should minify with options', ->
+  it 'should minify with options', (done) ->
     lpath = path.join(@path, 'opts.html')
     @minifyhtml.renderFile(lpath, { collapseWhitespace: false })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@minifyhtml, res, lpath))
+      .done((res) => should.match_expected(@minifyhtml, res, lpath, done))
 
-  it 'should not be able to precompile', ->
-    @minifyhtml.precompile()
-      .done(should.not.exist, should.exist)
+  it 'should not be able to compile', (done) ->
+    @minifyhtml.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))

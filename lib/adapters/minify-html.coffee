@@ -9,7 +9,7 @@ class MinifyHTML extends Adapter
     @extensions = ['html']
     @output = 'html'
 
-  compile: (str, options) ->
+  _render: (str, options) ->
     options = _.defaults options,
       removeComments: true
       collapseWhitespace: true
