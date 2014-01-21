@@ -5,21 +5,21 @@ _ = require 'lodash'
 class Adapter
 
   render: (str, opts = {}) ->
-    if not @_render then return W.reject('render not supported')
+    if not @_render then return W.reject(new Error('render not supported'))
     @_render(str, opts)
 
   renderFile: (file, opts = {}) ->
     @render(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
 
   compile: (str, opts = {}) ->
-    if not @_compile then return W.reject('compile not supported')
+    if not @_compile then return W.reject(new Error('compile not supported'))
     @_compile(str, opts)
 
   compileFile: (file, opts = {}) ->
     @compile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
 
   compileClient: (str, opts = {}) ->
-    if not @_compileClient then return W.reject('client-side compile not supported')
+    if not @_compileClient then return W.reject(new Error('client-side compile not supported'))
     @_compileClient(str, opts)
 
   compileFileClient: (file, opts = {}) ->
