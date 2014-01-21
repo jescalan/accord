@@ -29,9 +29,13 @@
     "marked": "*",
     "uglifyjs": "*",
     "clean-css": "*",
-    "html-minifier": "*"
+    "html-minifier": "*",
+    "coveralls": "2.x.x",
+    "mocha-lcov-reporter": "0.0.1",
+    "istanbul": "0.2.x"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild"
   }
 }
