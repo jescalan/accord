@@ -97,7 +97,7 @@ Docs below should explain the methods executed in the example above.
 
 ##### CSS
 - [stylus](http://learnboost.github.io/stylus/)
-- scss _(pending)_
+- [scss](https://github.com/andrew/node-sass)
 - less _(pending)_
 
 ##### Javascript

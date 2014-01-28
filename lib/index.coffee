@@ -12,6 +12,7 @@ exports.load = (name, lib) ->
     when 'minify-css' then 'clean-css'
     when 'minify-html' then 'html-minifier'
     when 'mustache' then 'hogan.js'
+    when 'scss' then 'node-sass'
     else name
 
   # ensure compiler is supported

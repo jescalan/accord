@@ -538,3 +538,36 @@ describe 'handlebars', ->
         tpl_string =  "#{@handlebars.clientHelpers()}; var tpl = #{res}; tpl({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
         should.match_expected(@handlebars, tpl, lpath, done)
+
+describe 'scss', ->
+
+  before ->
+    @scss = accord.load('scss')
+    @path = path.join(__dirname, 'fixtures', 'scss')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @scss.extensions.should.be.an.instanceOf(Array)
+    @scss.output.should.be.type('string')
+    @scss.compiler.should.be.ok
+    @scss.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @scss.render("$wow: 'red'; foo { bar: $wow; }")
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@scss, res, path.join(@path, 'string.scss'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.scss')
+    @scss.renderFile(lpath, { trueDoge: true })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@scss, res, lpath, done))
+
+  it 'should include external files', (done) ->
+    lpath = path.join(@path, 'external.scss')
+    @scss.renderFile(lpath, { includePaths: [@path] })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@scss, res, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @scss.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
