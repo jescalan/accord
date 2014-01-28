@@ -406,3 +406,48 @@ describe 'csso', ->
   it 'should not be able to compile', (done) ->
     @csso.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+describe 'mustache', ->
+
+  before ->
+    @mustache = accord.load('mustache')
+    @path = path.join(__dirname, 'fixtures', 'mustache')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @mustache.extensions.should.be.an.instanceOf(Array)
+    @mustache.output.should.be.type('string')
+    @mustache.compiler.should.be.ok
+    @mustache.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @mustache.render("Why hello, {{ name }}!", { name: 'dogeudle' })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@mustache, res, path.join(@path, 'string.mustache'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.mustache')
+    @mustache.renderFile(lpath, { name: 'doge', winner: true })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@mustache, res, lpath, done))
+
+  it 'should compile a string', (done) ->
+    @mustache.compile("Wow, such {{ noun }}")
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@mustache, res.render({noun: 'compile'}), path.join(@path, 'pstring.mustache'), done))
+
+  it 'should compile a file', (done) ->
+    lpath = path.join(@path, 'precompile.mustache')
+    @mustache.compileFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@mustache, res.render({name: 'foo'}), lpath, done))
+
+  it 'client compile should work', (done) ->
+    @mustache.compileClient("Wow, such {{ noun }}")
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@mustache, res.render({noun: 'compile'}), path.join(@path, 'pstring.mustache'), done))
+
+  it 'should handle partials', (done) ->
+    lpath = path.join(@path, 'partial.mustache')
+    @mustache.renderFile(lpath, { foo: 'bar', partials: { partial: 'foo {{ foo }}' } })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@mustache, res, lpath, done))

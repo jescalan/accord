@@ -8,9 +8,10 @@ exports.load = (name, lib) ->
   # compiler-specific overrides
   lib_name = switch name
     when 'markdown' then 'marked'
-    when 'minify-js' then 'uglifyjs'
+    when 'minify-js' then 'uglify-js'
     when 'minify-css' then 'clean-css'
     when 'minify-html' then 'html-minifier'
+    when 'mustache' then 'hogan.js'
     else name
 
   # ensure compiler is supported

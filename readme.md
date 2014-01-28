@@ -86,7 +86,7 @@ Docs below should explain the methods executed in the example above.
 - [jade](http://jade-lang.com/)
 - [ejs](https://github.com/visionmedia/ejs)
 - [markdown](https://github.com/chjj/marked)
-- mustache/hogan _(pending)_
+- [mustache/hogan](https://github.com/twitter/hogan.js)
 - handlebars _(pending)_
 - haml _(pending)_
 - haml-coffee _(pending)_
