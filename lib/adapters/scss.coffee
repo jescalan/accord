@@ -1,6 +1,5 @@
 Adapter = require '../adapter_base'
 W = require 'when'
-_ = require 'lodash'
 
 class SCSS extends Adapter
 
