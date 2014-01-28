@@ -103,7 +103,6 @@ Docs below should explain the methods executed in the example above.
 
 ##### Javascript
 - [coffeescript](http://coffeescript.org/)
-- coffeescript-redux _(pending)_
 - dogescript _(pending)_
 - coco _(pending)_
 - typescript _(pending)_
@@ -112,7 +111,7 @@ Docs below should explain the methods executed in the example above.
 - [minify-js](https://github.com/mishoo/UglifyJS2)
 - [minify-css](https://github.com/GoalSmashers/clean-css)
 - [minify-html](https://github.com/kangax/html-minifier)
-- csso _(pending)_
+- [csso](https://github.com/css/csso)
 
 ### Languages Supporting Precompile
 

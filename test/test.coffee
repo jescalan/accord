@@ -373,3 +373,36 @@ describe 'minify-html', ->
   it 'should not be able to compile', (done) ->
     @minifyhtml.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+describe 'csso', ->
+
+  before ->
+    @csso = accord.load('csso')
+    @path = path.join(__dirname, 'fixtures', 'csso')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @csso.extensions.should.be.an.instanceOf(Array)
+    @csso.output.should.be.type('string')
+    @csso.compiler.should.be.ok
+    @csso.name.should.be.ok
+
+  it 'should minify a string', (done) ->
+    @csso.render(".hello { foo: bar; }\n .hello { color: green }")
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@csso, res, path.join(@path, 'string.css'), done))
+
+  it 'should minify a file', (done) ->
+    lpath = path.join(@path, 'basic.css')
+    @csso.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@csso, res, lpath, done))
+
+  it 'should minify with options', (done) ->
+    lpath = path.join(@path, 'opts.css')
+    @csso.renderFile(lpath, { noRestructure: true })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@csso, res, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @csso.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))

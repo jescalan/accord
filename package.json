@@ -30,6 +30,7 @@
     "uglifyjs": "*",
     "clean-css": "*",
     "html-minifier": "*",
+    "csso": "*",
     "coveralls": "2.x.x",
     "mocha-lcov-reporter": "0.0.1",
     "istanbul": "0.2.x"

@@ -5,7 +5,6 @@ util = require 'util'
 module.exports = (should) ->
 
   should.match_expected = (compiler, content, epath, done) ->
-
     parser = switch compiler.output
       when 'html'
         parser = new (require('parse5').Parser)
