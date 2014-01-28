@@ -1,5 +1,8 @@
 Adapter = require '../adapter_base'
 W = require 'when'
+util = require 'util'
+fs = require 'fs'
+path = require 'path'
 
 class Mustache extends Adapter
 
@@ -14,8 +17,12 @@ class Mustache extends Adapter
   _compile: (str, options) ->
     W.resolve @compiler.compile(str, options)
 
-  _compileClient: @::_compile
+  _compileClient: (str, options) ->
+    options.asString = true
+    @_compile(str, options).then((o) -> "new Hogan.Template(#{o.toString()});")
 
-  # hogan does not need any additional client helpers
+  clientHelpers: ->
+    runtime_path = path.join(@compiler.__accord_path, '../web/builds/2.0.0/hogan-2.0.0.min.js')
+    return fs.readFileSync(runtime_path, 'utf8')
 
 module.exports = Mustache

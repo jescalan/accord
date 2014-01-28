@@ -462,9 +462,13 @@ describe 'mustache', ->
       .done((res) => should.match_expected(@mustache, res.render({name: 'foo'}), lpath, done))
 
   it 'client compile should work', (done) ->
-    @mustache.compileClient("Wow, such {{ noun }}")
+    lpath = path.join(@path, 'client-complex.mustache')
+    @mustache.compileFileClient(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@mustache, res.render({noun: 'compile'}), path.join(@path, 'pstring.mustache'), done))
+      .done (res) =>
+        tpl_string =  "#{@mustache.clientHelpers()}; var tpl = #{res} tpl.render({ wow: 'local' })"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@mustache, tpl, lpath, done)
 
   it 'should handle partials', (done) ->
     lpath = path.join(@path, 'partial.mustache')
