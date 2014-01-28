@@ -87,8 +87,7 @@ Docs below should explain the methods executed in the example above.
 - [ejs](https://github.com/visionmedia/ejs)
 - [markdown](https://github.com/chjj/marked)
 - [mustache/hogan](https://github.com/twitter/hogan.js)
-- handlebars _(pending)_
-- haml _(pending)_
+- [handlebars](https://github.com/wycats/handlebars.js)
 - haml-coffee _(pending)_
 - dust _(pending)_
 - nunjucks _(pending)_
@@ -119,6 +118,7 @@ Accord can also precompile templates into javascript functions for some language
 
 - jade
 - ejs _(pending)_
+- handlebars
 - underscore _(pending)_
 
 We are always looking to add precompile support for more languages, but it can be difficult. Any contributions that help to expand this list are greatly appreciated!
