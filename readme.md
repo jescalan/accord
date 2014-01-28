@@ -103,7 +103,7 @@ Docs below should explain the methods executed in the example above.
 
 ##### Javascript
 - [coffeescript](http://coffeescript.org/)
-- dogescript _(pending)_
+- [dogescript](https://github.com/remixz/dogescript)
 - coco _(pending)_
 - typescript _(pending)_
 
