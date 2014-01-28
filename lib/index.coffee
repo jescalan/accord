@@ -25,8 +25,12 @@ exports.load = (name, lib) ->
     catch err
       throw new Error("'#{lib_name}' not found. make sure it has been installed!")
 
+  # patch in the path the compiler was loaded from
+  compiler.__accord_path = path.dirname(require.resolve(lib_name))
   # return the adapter with bound compiler
-  return new (require(cpath))(compiler)
+  adapter = new (require(cpath))(compiler)
+  return adapter
+
 
 exports.supports = (name) ->
   !!glob.sync("#{path.join(__dirname, 'adapters', name)}.*").length

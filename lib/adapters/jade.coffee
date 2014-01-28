@@ -1,4 +1,6 @@
 Adapter = require '../adapter_base'
+path = require 'path'
+fs = require 'fs'
 W = require 'when'
 UglifyJS = require 'uglify-js'
 
@@ -19,9 +21,8 @@ class Jade extends Adapter
     W.resolve @compiler.compileClient(str, options)
 
   clientHelpers: ->
-    runtime = @compiler.runtime
-    res = "var jade = {"
-    Object.keys(runtime).map((f) -> res += "#{f}: #{runtime[f].toString()},")
-    return UglifyJS.minify("#{res.slice(0,-1)}}", { fromString: true }).code
+    runtime_path = path.join(@compiler.__accord_path, 'runtime.js')
+    runtime = fs.readFileSync(runtime_path, 'utf8')
+    return UglifyJS.minify(runtime, { fromString: true }).code
 
 module.exports = Jade

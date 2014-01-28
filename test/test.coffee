@@ -65,6 +65,15 @@ describe 'jade', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@jade, res, lpath, done))
 
+  it 'should render with client side helpers', (done) ->
+    lpath = path.join(@path, 'client-complex.jade')
+    @jade.compileFileClient(lpath)
+      .catch(should.not.exist)
+      .done (res) =>
+        tpl_string =  "#{@jade.clientHelpers()}#{res}; template({ wow: 'local' })"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@jade, tpl, lpath, done)
+
 describe 'coffeescript', ->
 
   before ->
