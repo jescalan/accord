@@ -24,7 +24,10 @@
     "ejs": "*",
     "marked": "*",
     "hogan.js": "*",
+    "handlebars": "*",
     "stylus": "*",
+    "node-sass": "*",
+    "less": "*",
     "dogescript": "*",
     "uglifyjs": "*",
     "clean-css": "*",
@@ -35,9 +38,7 @@
     "parse5": "*",
     "coveralls": "2.x.x",
     "mocha-lcov-reporter": "0.0.1",
-    "istanbul": "0.2.x",
-    "handlebars": "~1.3.0",
-    "node-sass": "~0.8.1"
+    "istanbul": "0.2.x"
   },
   "scripts": {
     "test": "mocha",

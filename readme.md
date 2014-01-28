@@ -98,13 +98,13 @@ Docs below should explain the methods executed in the example above.
 ##### CSS
 - [stylus](http://learnboost.github.io/stylus/)
 - [scss](https://github.com/andrew/node-sass)
-- less _(pending)_
+- [less](https://github.com/less/less.js/)
 
 ##### Javascript
 - [coffeescript](http://coffeescript.org/)
 - [dogescript](https://github.com/remixz/dogescript)
-- coco _(pending)_
 - typescript _(pending)_
+- coco _(pending)_
 
 ##### Minifiers
 - [minify-js](https://github.com/mishoo/UglifyJS2)
