@@ -242,6 +242,26 @@ describe 'ejs', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@ejs, res, lpath, done))
 
+  it 'should client-compile a string', (done) ->
+    @ejs.compileClient("Woah look, a <%= thing %>")
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@ejs, res, path.join(@path, 'cstring.ejs'), done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(@path, 'client.ejs')
+    @ejs.compileFileClient(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@ejs, res, lpath, done))
+
+  it 'should render with client side helpers', (done) ->
+    lpath = path.join(@path, 'client-complex.ejs')
+    @ejs.compileFileClient(lpath)
+      .catch(should.not.exist)
+      .done (res) =>
+        tpl_string =  "#{@ejs.clientHelpers()}; var tpl = #{res}; tpl({ foo: 'local' })"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@ejs, tpl, lpath, done)
+
 describe 'markdown', ->
 
   before ->

@@ -117,9 +117,8 @@ Docs below should explain the methods executed in the example above.
 Accord can also precompile templates into javascript functions for some languages, which is really useful for client-side rendering. Languages with precompile support are listed below. If you try to precompile a language without support for it, you will get an error.
 
 - jade
-- ejs _(pending)_
+- ejs
 - handlebars
-- underscore _(pending)_
 
 We are always looking to add precompile support for more languages, but it can be difficult. Any contributions that help to expand this list are greatly appreciated!
 
