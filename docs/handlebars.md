@@ -15,4 +15,4 @@ hbs.render("hello there {{ name }}", {
 });
 ```
 
-The handlebars adapter also supports client-side precompiled templates, and does have a `clientHelpers` method that returns a string of javascript that must be included in any file that contains handlebars client-side templates in order for them to render correctly.
+The handlebars adapter also supports client-side precompiled templates, meaning you can run `compileClient` and/or `compileFileClient` to get back a strinigifed anonymous function, `clientHelpers` returns a string of javascript helpers that must be included in any file that contains handlebars client-side templates in order for them to render correctly.

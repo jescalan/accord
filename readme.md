@@ -10,7 +10,7 @@ A unified interface for compiled languages and templates in javascript.
 
 ### Why should you care?
 
-There are two other libraries out there that already do this same thing, [consolidate.js](https://github.com/visionmedia/consolidate.js) and [transformers](https://github.com/ForbesLindesay/transformers). After looking over and using both of them, I decided to make this one anyway mainly because of **maintenance**. When creating an interface to many different languages, all of which are constantly changing, you need to be on top of maintenance, testing, and releases. Transformers is not well maintained or tested, which rules it out. Conslidate.js is a little better, but the maintenance at this point is mostly accepting pull requests from people who have changes, rather than actively keeping on top of it. TJ has a lot to do, I understand.
+There are two other libraries out there that already do this same thing, [consolidate.js](https://github.com/visionmedia/consolidate.js) and [transformers](https://github.com/ForbesLindesay/transformers). After looking over and using both of them, I decided to make this one anyway mainly because of **maintenance**. When creating an interface to many different languages, all of which are constantly changing, you need to be on top of maintenance, testing, and releases. We haven't found either of the two libraries above to be actively maintained or well-tested enough.
 
 Compiling many different languages is a central component of [roots](http://roots.cx), and it needs a clean, well-managed, and tightly maintained and tested library that adapts to each supported language's interface. We (the maintainers of roots) are not comfortable forking and/or making pull requests into a library that we cannot feel 100% confident in, and so far we have not been able to find one that we are yet. So this is accord, a javascript templating interface you can feel confident in.
 
@@ -76,6 +76,7 @@ Docs below should explain the methods executed in the example above.
 - `adapter.precompileFile(path, options)` - compile a file to a function
 - `adapter.compileClient(string, options)` - compile a string to a client-side-ready function
 - `adapter.compileFileClient(string, options)` - compile a file to a client-side-ready function
+- `adapter.clientHelpers()` - some adapters that compile for client also need helpers, this method returns a string of minfied javascript with all of them
 - `adapter.extensions` - array of all file extensions the compiler should match
 - `adapter.output` - string, expected output extension
 - `adapter.compiler` - the actual compiler, no adapter wrapper, if you need it
@@ -119,8 +120,11 @@ Accord can also precompile templates into javascript functions for some language
 - jade
 - ejs
 - handlebars
+- mustache
 
-We are always looking to add precompile support for more languages, but it can be difficult. Any contributions that help to expand this list are greatly appreciated!
+We are always looking to add precompile support for more languages, but it can be difficult, as client-side templaye support isn't always the first thing on language authors' minds. Any contributions that help to expand this list are greatly appreciated!
+
+When using a language supporting client-side templates, make sure to check the [docs](docs) for that language for more details. In general, you'll get back a stringified function from the `compileClient` or `compileFileClient` methods, and a string of client helpers from the `clientHelpers` methods. You can take these, organize them, and write them to files however you wish. Usually the best way is to write the helpers to a file first, then iterate through each of the client-compiled functions, assigning them a name so they can be accessed later on.
 
 ### Adding Languages
 
