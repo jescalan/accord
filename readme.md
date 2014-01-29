@@ -104,8 +104,8 @@ Docs below should explain the methods executed in the example above.
 ##### Javascript
 - [coffeescript](http://coffeescript.org/)
 - [dogescript](https://github.com/remixz/dogescript)
-- typescript _(pending)_
-- coco _(pending)_
+- [coco](https://github.com/satyr/coco)
+- livescript _(pending)_
 
 ##### Minifiers
 - [minify-js](https://github.com/mishoo/UglifyJS2)

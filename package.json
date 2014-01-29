@@ -29,6 +29,7 @@
     "node-sass": "*",
     "less": "*",
     "dogescript": "*",
+    "coco": "*",
     "uglifyjs": "*",
     "clean-css": "*",
     "html-minifier": "*",
