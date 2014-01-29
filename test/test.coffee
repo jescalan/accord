@@ -247,7 +247,9 @@ describe 'ejs', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@ejs, res, path.join(@path, 'cstring.ejs'), done))
 
-  it 'should client-compile a file', (done) ->
+  # ejs writes the filename to the function, which makes this
+  # not work cross-system as expected
+  it.skip 'should client-compile a file', (done) ->
     lpath = path.join(@path, 'client.ejs')
     @ejs.compileFileClient(lpath)
       .catch(should.not.exist)
