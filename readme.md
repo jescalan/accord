@@ -105,7 +105,7 @@ Docs below should explain the methods executed in the example above.
 - [coffeescript](http://coffeescript.org/)
 - [dogescript](https://github.com/remixz/dogescript)
 - [coco](https://github.com/satyr/coco)
-- livescript _(pending)_
+- [livescript](https://github.com/gkz/LiveScript)
 
 ##### Minifiers
 - [minify-js](https://github.com/mishoo/UglifyJS2)

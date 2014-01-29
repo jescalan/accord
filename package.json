@@ -30,6 +30,7 @@
     "less": "*",
     "dogescript": "*",
     "coco": "*",
+    "LiveScript": "*",
     "uglifyjs": "*",
     "clean-css": "*",
     "html-minifier": "*",

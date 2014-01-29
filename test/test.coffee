@@ -657,3 +657,30 @@ describe 'coco', ->
   it 'should not be able to compile', (done) ->
     @coco.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+describe 'livescript', ->
+
+  before ->
+    @livescript = accord.load('LiveScript')
+    @path = path.join(__dirname, 'fixtures', 'livescript')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @livescript.extensions.should.be.an.instanceOf(Array)
+    @livescript.output.should.be.type('string')
+    @livescript.compiler.should.be.ok
+    @livescript.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @livescript.render("test = ~> console.log('foo')", { bare: true })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@livescript, res, path.join(@path, 'string.ls'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.ls')
+    @livescript.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@livescript, res, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @livescript.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
