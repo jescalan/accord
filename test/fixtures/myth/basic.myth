@@ -1,0 +1,7 @@
+:root {
+  var-purple: #847AD1;
+}
+
+a {
+  color: var(purple);
+}

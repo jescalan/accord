@@ -28,6 +28,7 @@
     "stylus": "*",
     "node-sass": "*",
     "less": "*",
+    "myth": "*",
     "dogescript": "*",
     "coco": "*",
     "LiveScript": "*",
