@@ -21,7 +21,7 @@ class EJS extends Adapter
     W.resolve @compiler.compile(str, options).toString()
 
   clientHelpers: (str, options) ->
-    runtime_path = path.join(@compiler.__accord_path, '../ejs.min.js')
+    runtime_path = path.join(@compiler.__accord_path, 'ejs.min.js')
     return fs.readFileSync(runtime_path, 'utf8')
 
 module.exports = EJS

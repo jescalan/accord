@@ -11,8 +11,11 @@ describe 'base functions', ->
     accord.supports('blargh').should.not.be.ok
 
   it 'load should work', ->
-    (-> accord.load('jade')).should.not.throw
-    (-> accord.load('blargh')).should.throw
+    (-> accord.load('jade')).should.not.throw()
+    (-> accord.load('blargh')).should.throw()
+
+  it 'load should accept a custom path', ->
+    (-> accord.load('jade', path.join(__dirname, '../node_modules/jade'))).should.not.throw()
 
 describe 'jade', ->
 

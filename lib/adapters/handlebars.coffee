@@ -27,7 +27,7 @@ class Handlebars extends Adapter
     W.resolve "Handlebars.template(#{compiler.precompile(str)});"
 
   clientHelpers: ->
-    runtime_path = path.join(@compiler.__accord_path, '../dist/handlebars.runtime.min.js')
+    runtime_path = path.join(@compiler.__accord_path, 'dist/handlebars.runtime.min.js')
     return fs.readFileSync(runtime_path, 'utf8')
 
   # @api private

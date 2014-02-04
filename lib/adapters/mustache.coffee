@@ -22,7 +22,7 @@ class Mustache extends Adapter
     @_compile(str, options).then((o) -> "new Hogan.Template(#{o.toString()});")
 
   clientHelpers: ->
-    runtime_path = path.join(@compiler.__accord_path, '../web/builds/2.0.0/hogan-2.0.0.min.js')
+    runtime_path = path.join(@compiler.__accord_path, 'web/builds/2.0.0/hogan-2.0.0.min.js')
     return fs.readFileSync(runtime_path, 'utf8')
 
 module.exports = Mustache
