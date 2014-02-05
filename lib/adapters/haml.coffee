@@ -20,11 +20,9 @@ class HAML extends Adapter
   _compile: (str, options) ->
     W.resolve @compiler.compile(str, options)
 
-  # client compile not yet supported, but when it is, this will be
-  # the path to the right info
-  clientHelpers: ->
-    runtime_path = path.join(@compiler.__accord_path, 'haml.js')
-    runtime = fs.readFileSync(runtime_path, 'utf8')
-    return UglifyJS.minify(runtime, { fromString: true }).code
+  # clientHelpers: ->
+  #   runtime_path = path.join(@compiler.__accord_path, 'haml.js')
+  #   runtime = fs.readFileSync(runtime_path, 'utf8')
+  #   return UglifyJS.minify(runtime, { fromString: true }).code
 
 module.exports = HAML
