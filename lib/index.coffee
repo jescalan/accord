@@ -14,6 +14,7 @@ exports.load = (name, custom_path) ->
     when 'minify-html' then 'html-minifier'
     when 'mustache' then 'hogan.js'
     when 'scss' then 'node-sass'
+    when 'haml' then 'hamljs'
     else name
 
   # ensure compiler is supported

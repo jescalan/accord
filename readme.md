@@ -89,6 +89,7 @@ Docs below should explain the methods executed in the example above.
 - [markdown](https://github.com/chjj/marked)
 - [mustache/hogan](https://github.com/twitter/hogan.js)
 - [handlebars](https://github.com/wycats/handlebars.js)
+- [haml](https://github.com/visionmedia/haml.js)
 - haml-coffee _(pending)_
 - dust _(pending)_
 - nunjucks _(pending)_

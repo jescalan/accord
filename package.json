@@ -25,6 +25,7 @@
     "marked": "*",
     "hogan.js": "*",
     "handlebars": "*",
+    "hamljs": "*",
     "stylus": "*",
     "node-sass": "*",
     "less": "*",

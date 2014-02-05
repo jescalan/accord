@@ -714,3 +714,41 @@ describe 'myth', ->
   it 'should not be able to compile', (done) ->
     @myth.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+describe 'haml', ->
+
+  before ->
+    @haml = accord.load('haml')
+    @path = path.join(__dirname, 'fixtures', 'haml')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @haml.extensions.should.be.an.instanceOf(Array)
+    @haml.output.should.be.type('string')
+    @haml.compiler.should.be.ok
+    @haml.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @haml.render('%div.foo= "Whats up " + name', { name: 'mang' })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@haml, res, path.join(@path, 'rstring.haml'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.haml')
+    @haml.renderFile(lpath, { compiler: 'haml' })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@haml, res, lpath, done))
+
+  it 'should compile a string', (done) ->
+    @haml.compile('%p= "Hello there " + name')
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@haml, res({ name: 'my friend' }), path.join(@path, 'pstring.haml'), done))
+
+  it 'should compile a file', (done) ->
+    lpath = path.join(@path, 'precompile.haml')
+    @haml.compileFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@haml, res({ friend: 'doge' }), lpath, done))
+
+  it 'should not support client compiles', (done) ->
+    @haml.compileClient("%p= 'Here comes the ' + thing")
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
