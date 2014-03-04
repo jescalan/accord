@@ -1,6 +1,7 @@
 function template(locals) {
 var buf = [];
 var jade_mixins = {};
-var locals_ = (locals || {}),foo = locals_.foo;
-buf.push("<p>imma firin mah lazer!</p><p>" + (jade.escape(null == (jade.interp = foo) ? "" : jade.interp)) + "</p>");;return buf.join("");
+var jade_interp;
+;var locals_for_with = (locals || {});(function (foo) {
+buf.push("<p>imma firin mah lazer!</p><p>" + (jade.escape(null == (jade_interp = foo) ? "" : jade_interp)) + "</p>");}("foo" in locals_for_with?locals_for_with.foo:typeof foo!=="undefined"?foo:undefined));;return buf.join("");
 }

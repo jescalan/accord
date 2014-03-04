@@ -1,12 +1,5 @@
-Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
-
-
-  buffer += "Here comes the ";
-  if (helper = helpers.thing) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.thing); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1);
-  return buffer;
-  });
+Handlebars.template({"compiler":[5,">= 2.0.0"],"main":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", escapeExpression=this.escapeExpression;
+  return "Here comes the "
+    + escapeExpression(((helper = helpers.thing || (depth0 && depth0.thing)),(typeof helper === functionType ? helper.call(depth0, {"name":"thing","hash":{},"data":data}) : helper)));
+},"useData":true});
