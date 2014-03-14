@@ -5,7 +5,6 @@ W = require 'when'
 UglifyJS = require 'uglify-js'
 
 class Jade extends Adapter
-
   constructor: (@compiler) ->
     @name = 'jade'
     @extensions = ['jade']

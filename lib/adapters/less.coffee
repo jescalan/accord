@@ -2,7 +2,6 @@ Adapter = require '../adapter_base'
 W = require 'when'
 
 class Less extends Adapter
-
   constructor: (@compiler) ->
     @name = 'less'
     @extensions = ['less']

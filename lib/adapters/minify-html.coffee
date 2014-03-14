@@ -3,7 +3,6 @@ W = require 'when'
 _ = require 'lodash'
 
 class MinifyHTML extends Adapter
-
   constructor: (@compiler) ->
     @name = 'minify-html'
     @extensions = ['html']

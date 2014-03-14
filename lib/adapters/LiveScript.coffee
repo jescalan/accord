@@ -2,7 +2,6 @@ Adapter = require '../adapter_base'
 W = require 'when'
 
 class LiveScript extends Adapter
-
   constructor: (@compiler) ->
     @name = 'LiveScript'
     @extensions = ['ls']

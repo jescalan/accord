@@ -5,7 +5,6 @@ fs = require 'fs'
 W = require 'when'
 
 class Handlebars extends Adapter
-
   constructor: (@compiler) ->
     @name = 'handlebars'
     @extensions = ['hbs', 'handlebars']
@@ -27,14 +26,20 @@ class Handlebars extends Adapter
     compile => "Handlebars.template(#{compiler.precompile(str)});"
 
   clientHelpers: ->
-    runtime_path = path.join(@compiler.__accord_path, 'dist/handlebars.runtime.min.js')
+    runtime_path = path.join(
+      @compiler.__accord_path,
+      'dist/handlebars.runtime.min.js'
+    )
     return fs.readFileSync(runtime_path, 'utf8')
 
-  # @api private
-  
+  ###*
+   * @private
+  ###
   register_helpers = (compiler, opts) ->
-    compiler.helpers = _.merge(compiler.helpers, opts.helpers) if opts.helpers
-    compiler.partials = _.merge(compiler.partials, opts.partials) if opts.partials
+    if opts.helpers
+      compiler.helpers = _.merge(compiler.helpers, opts.helpers)
+    if opts.partials
+      compiler.partials = _.merge(compiler.partials, opts.partials)
 
   compile = (fn) ->
     try res = fn()

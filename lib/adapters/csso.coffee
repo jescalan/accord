@@ -2,7 +2,6 @@ Adapter = require '../adapter_base'
 W = require 'when'
 
 class CSSO extends Adapter
-
   constructor: (@compiler) ->
     @name = 'csso'
     @extensions = ['css']
