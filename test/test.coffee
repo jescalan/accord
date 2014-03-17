@@ -77,6 +77,10 @@ describe 'jade', ->
         tpl = eval.call(global, tpl_string)
         should.match_expected(@jade, tpl, lpath, done)
 
+  it 'should correctly handle errors', (done) ->
+    @jade.render("!= nonexistantfunction()")
+      .done(should.not.exist, (-> done()))
+
 describe 'coffeescript', ->
 
   before ->
@@ -103,6 +107,10 @@ describe 'coffeescript', ->
   it 'should not be able to compile', (done) ->
     @coffee.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @coffee.render("!   ---@#$$@%#$")
+      .done(should.not.exist, (-> done()))
 
 describe 'stylus', ->
 
@@ -205,6 +213,10 @@ describe 'stylus', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins2.styl'), done))
 
+  it 'should correctly handle errors', (done) ->
+    @stylus.render("214m2/3l")
+      .done(should.not.exist, (-> done()))
+
 describe 'ejs', ->
 
   before ->
@@ -266,6 +278,10 @@ describe 'ejs', ->
         tpl_string =  "#{@ejs.clientHelpers()}; var tpl = #{res}; tpl({ foo: 'local' })"
         tpl = eval.call(global, tpl_string)
         should.match_expected(@ejs, tpl, lpath, done)
+
+  it 'should correctly handle errors', (done) ->
+    @ejs.render("<%= wow() %>")
+      .done(should.not.exist, (-> done()))
 
 describe 'markdown', ->
 
@@ -333,6 +349,10 @@ describe 'minify-js', ->
     @minifyjs.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
+  it 'should correctly handle errors', (done) ->
+    @minifyjs.render("@#$%#I$$N%NI#$%I$PQ")
+      .done(should.not.exist, (-> done()))
+
 describe 'minify-css', ->
 
   before ->
@@ -365,6 +385,10 @@ describe 'minify-css', ->
   it 'should not be able to compile', (done) ->
     @minifycss.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @minifycss.render("FMWT$SP#TPO%M@#@#M!@@@")
+      .done(should.not.exist, (-> done()))
 
 describe 'minify-html', ->
 
@@ -399,6 +423,10 @@ describe 'minify-html', ->
     @minifyhtml.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
+  it 'should correctly handle errors', (done) ->
+    @minifyhtml.render("<<<{@$@#$")
+      .done(should.not.exist, (-> done()))
+
 describe 'csso', ->
 
   before ->
@@ -431,6 +459,10 @@ describe 'csso', ->
   it 'should not be able to compile', (done) ->
     @csso.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @csso.render("wow")
+      .done(should.not.exist, (-> done()))
 
 describe 'mustache', ->
 
@@ -481,6 +513,10 @@ describe 'mustache', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@mustache, res, lpath, done))
 
+  it 'should correctly handle errors', (done) ->
+    @mustache.render("{{# !@{!# }}")
+      .done(should.not.exist, (-> done()))
+
 describe 'dogescript', ->
 
   before ->
@@ -507,6 +543,9 @@ describe 'dogescript', ->
   it 'should not be able to compile', (done) ->
     @doge.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  # it turns out that it's impossible for dogescript to throw an error
+  # which, honestly, is how it should be. so no test here.
 
 describe 'handlebars', ->
 
@@ -568,6 +607,10 @@ describe 'handlebars', ->
         tpl = eval.call(global, tpl_string)
         should.match_expected(@handlebars, tpl, lpath, done)
 
+  it 'should correctly handle errors', (done) ->
+    @handlebars.render("{{# !@{!# }}")
+      .done(should.not.exist, (-> done()))
+
 describe 'scss', ->
 
   before ->
@@ -600,6 +643,10 @@ describe 'scss', ->
   it 'should not be able to compile', (done) ->
     @scss.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @scss.render("!@##%#$#^$")
+      .done(should.not.exist, (-> done()))
 
 describe 'less', ->
 
@@ -634,6 +681,10 @@ describe 'less', ->
     @less.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
+  it 'should correctly handle errors', (done) ->
+    @less.render("!@##%#$#^$")
+      .done(should.not.exist, (-> done()))
+
 describe 'coco', ->
 
   before ->
@@ -660,6 +711,10 @@ describe 'coco', ->
   it 'should not be able to compile', (done) ->
     @coco.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @coco.render("!! ---  )I%$_(I(YRTO")
+      .done(should.not.exist, (-> done()))
 
 describe 'livescript', ->
 
@@ -688,6 +743,10 @@ describe 'livescript', ->
     @livescript.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
+  it 'should correctly handle errors', (done) ->
+    @livescript.render("!! ---  )I%$_(I(YRTO")
+      .done(should.not.exist, (-> done()))
+
 describe 'myth', ->
 
   before ->
@@ -714,6 +773,10 @@ describe 'myth', ->
   it 'should not be able to compile', (done) ->
     @myth.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @myth.render("!! ---  )I%$_(I(YRTO")
+      .done(should.not.exist, (-> done()))
 
 describe 'haml', ->
 
@@ -752,3 +815,7 @@ describe 'haml', ->
   it 'should not support client compiles', (done) ->
     @haml.compileClient("%p= 'Here comes the ' + thing")
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @haml.render("%p= wow()")
+      .done(should.not.exist, (-> done()))
