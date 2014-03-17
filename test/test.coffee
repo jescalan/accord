@@ -8,6 +8,8 @@ describe 'base functions', ->
 
   it 'supports should work', ->
     accord.supports('jade').should.be.ok
+    accord.supports('markdown').should.be.ok
+    accord.supports('marked').should.be.ok
     accord.supports('blargh').should.not.be.ok
 
   it 'load should work', ->

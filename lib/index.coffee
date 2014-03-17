@@ -7,15 +7,7 @@ exports.load = (name, custom_path) ->
   cpath = path.join(__dirname, 'adapters', name)
 
   # compiler-specific overrides
-  lib_name = switch name
-    when 'markdown' then 'marked'
-    when 'minify-js' then 'uglify-js'
-    when 'minify-css' then 'clean-css'
-    when 'minify-html' then 'html-minifier'
-    when 'mustache' then 'hogan.js'
-    when 'scss' then 'node-sass'
-    when 'haml' then 'hamljs'
-    else name
+  lib_name = name_to_adapter(name)
 
   # ensure compiler is supported
   if !glob.sync("#{cpath}.*").length then throw new Error('compiler not supported')
@@ -37,6 +29,7 @@ exports.load = (name, custom_path) ->
 
 
 exports.supports = (name) ->
+  name = adapter_to_name(name)
   !!glob.sync("#{path.join(__dirname, 'adapters', name)}.*").length
 
 # @api private
@@ -49,3 +42,30 @@ resolve_path = (name) ->
   for p, i in _path
     if _path[i-1] == name && p == 'node_modules' then break
   _.first(_path.reverse(), _path.length - i+1).join(path.sep)
+
+# Responsible for mapping between adapters where the language name
+# does not match the node module name. direction can be "left" or "right",
+# "left" being lang name -> adapter name and right being the opposite.
+abstract_mapper = (name, direction) ->
+  name_maps = [
+      ['markdown', 'marked']
+      ['minify-js', 'uglify-js']
+      ['minify-css', 'clean-css']
+      ['minify-html', 'html-minifier']
+      ['mustache', 'hogan.js']
+      ['scss', 'node-sass']
+      ['haml', 'hamljs']
+    ]
+
+  res = null
+  name_maps.forEach (n) ->
+    if direction is 'left' and n[0] is name then res = n[1]
+    if direction is 'right' and n[1] is name then res = n[0]
+  
+  return res or name
+
+name_to_adapter = (name) ->
+  abstract_mapper(name, 'left')
+
+adapter_to_name = (name) ->
+  abstract_mapper(name, 'right')
