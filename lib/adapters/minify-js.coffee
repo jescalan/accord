@@ -10,6 +10,13 @@ class MinifyJS extends Adapter
     @output = 'js'
 
   _render: (str, options) ->
-    W.resolve @compiler.minify(str, _.extend(options, { fromString: true })).code
+    compile => @compiler.minify(str, _.extend(options, { fromString: true })).code
+
+  # private
+  
+  compile = (fn) ->
+    try res = fn()
+    catch err then return W.reject(err)
+    W.resolve(res)
 
 module.exports = MinifyJS

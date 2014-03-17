@@ -14,17 +14,17 @@ class Handlebars extends Adapter
   _render: (str, options) ->
     compiler = _.clone(@compiler)
     register_helpers(compiler, options)
-    W.resolve compiler.compile(str)(options)
+    compile => compiler.compile(str)(options)
 
   _compile: (str, options) ->
     compiler = _.clone(@compiler)
     register_helpers(compiler, options)
-    W.resolve compiler.compile(str)
+    compile => compiler.compile(str)
 
   _compileClient: (str, options) ->
     compiler = _.clone(@compiler)
     register_helpers(compiler, options)
-    W.resolve "Handlebars.template(#{compiler.precompile(str)});"
+    compile => "Handlebars.template(#{compiler.precompile(str)});"
 
   clientHelpers: ->
     runtime_path = path.join(@compiler.__accord_path, 'dist/handlebars.runtime.min.js')
@@ -35,5 +35,10 @@ class Handlebars extends Adapter
   register_helpers = (compiler, opts) ->
     compiler.helpers = _.merge(compiler.helpers, opts.helpers) if opts.helpers
     compiler.partials = _.merge(compiler.partials, opts.partials) if opts.partials
+
+  compile = (fn) ->
+    try res = fn()
+    catch err then return W.reject(err)
+    W.resolve(res)
 
 module.exports = Handlebars
