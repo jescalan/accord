@@ -66,7 +66,7 @@ Docs below should explain the methods executed in the example above.
 
 - `accord.load(string, object)` - loads the compiler named in the first param, npm package with the name must be installed locally, or the optional second param must be the compiler you are after. The second param allows you to load the compiler from elsewhere or load an alternate version if you want, but be careful.
 
-- `accord.supports(string)` - quick test to see if accord supports a certain compiler. accepts a string (name of compiler), returns a boolean.
+- `accord.supports(string)` - quick test to see if accord supports a certain compiler. accepts a string, which is the name of language (like markdown) or a compiler (like marked), returns a boolean.
 
 ##### Accord Adapter Methods
 
