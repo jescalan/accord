@@ -96,6 +96,7 @@ Docs below should explain the methods executed in the example above.
 - underscore _(pending)_
 - swig _(pending)_
 - toffee _(pending)_
+- marc _(pending)_
 
 ##### CSS
 - [stylus](http://learnboost.github.io/stylus/)
