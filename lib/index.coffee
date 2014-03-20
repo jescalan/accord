@@ -3,14 +3,16 @@ path = require 'path'
 glob = require 'glob'
 _    = require 'lodash'
 
-exports.load = (name, custom_path) ->
-  cpath = path.join(__dirname, 'adapters', name)
+exports.supports = supports = (name) ->
+  name = adapter_to_name(name)
+  !!glob.sync("#{path.join(__dirname, 'adapters', name)}.*").length
 
-  # compiler-specific overrides
-  lib_name = name_to_adapter(name)
+exports.load = (name, custom_path) ->
+  pkg = name_to_adapter(name)
+  name = adapter_to_name(name)
 
   # ensure compiler is supported
-  if !glob.sync("#{cpath}.*").length then throw new Error('compiler not supported')
+  if not supports(name) then throw new Error("compiler '#{name}' not supported")
 
   # get the compiler
   if custom_path
@@ -18,19 +20,15 @@ exports.load = (name, custom_path) ->
     compiler.__accord_path = custom_path
   else
     try
-      compiler = require(lib_name)
-      compiler.__accord_path = resolve_path(lib_name)
+      compiler = require(pkg)
+      compiler.__accord_path = resolve_path(pkg)
     catch err
-      throw new Error("'#{lib_name}' not found. make sure it has been installed!")
+      throw new Error("'#{name}' not found. make sure it has been installed!")
 
   # return the adapter with bound compiler
-  adapter = new (require(cpath))(compiler)
+  adapter = new (require(path.join(__dirname, 'adapters', name)))(compiler)
   return adapter
 
-
-exports.supports = (name) ->
-  name = adapter_to_name(name)
-  !!glob.sync("#{path.join(__dirname, 'adapters', name)}.*").length
 
 # @api private
 
