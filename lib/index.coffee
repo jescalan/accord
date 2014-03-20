@@ -1,4 +1,3 @@
-W    = require 'when'
 path = require 'path'
 glob = require 'glob'
 _    = require 'lodash'

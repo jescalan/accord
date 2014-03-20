@@ -12,10 +12,10 @@
   "dependencies": {
     "coffee-script": "1.7.x",
     "colors": "0.6.x",
-    "when": "2.x.x",
-    "lodash": "2.x.x",
-    "glob": "3.x.x",
-    "uglify-js": "2.x.x"
+    "when": "3.x",
+    "lodash": "2.x",
+    "glob": "3.x",
+    "uglify-js": "2.x"
   },
   "devDependencies": {
     "mocha": "*",
@@ -40,7 +40,7 @@
     "acorn": "*",
     "css-parse": "*",
     "parse5": "*",
-    "coveralls": "2.x.x",
+    "coveralls": "2.x",
     "mocha-lcov-reporter": "0.0.1",
     "istanbul": "0.2.x"
   },
