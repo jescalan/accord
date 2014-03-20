@@ -6,7 +6,7 @@ A unified interface for compiled languages and templates in javascript.
 [![npm](https://badge.fury.io/js/accord.png)](http://badge.fury.io/js/accord)
 [![tests](https://travis-ci.org/jenius/accord.png?branch=master)](https://travis-ci.org/jenius/accord)
 [![coverage](https://coveralls.io/repos/jenius/accord/badge.png?branch=master)](https://coveralls.io/r/jenius/accord?branch=master)
-[![dependencies](https://david-dm.org/jenius/accord.png)](https://david-dm.org/jenius/accord)
+[![dependencies](https://david-dm.org/jenius/accord.png?theme=shields.io)](https://david-dm.org/jenius/accord)
 
 ### Why should you care?
 
