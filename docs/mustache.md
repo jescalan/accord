@@ -1,7 +1,5 @@
-Mustache
-========
-
-Mustache files are compiled with twitter's wonderful [hogan.js](https://github.com/twitter/hogan.js). This is a fantastic compiler that easily supports client-side templates and has very straightforward options and good compile speed.
+# Mustache
+Mustache files are compiled with Twitter's wonderful [hogan.js](https://github.com/twitter/hogan.js). This is a fantastic compiler that easily supports client-side templates and has very straightforward options and good compile speed.
 
 The options you can pass can be [found here](https://github.com/twitter/hogan.js#compilation-options) and exactly mirror hogan's docs, other than `asString`, which is not necessary as this is covered by accord's adapter API.
 
