@@ -26,6 +26,7 @@
     "hogan.js": "*",
     "handlebars": "*",
     "hamljs": "*",
+    "nunjucks": "*",
     "stylus": "*",
     "node-sass": "*",
     "less": "*",
