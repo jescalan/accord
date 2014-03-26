@@ -1,0 +1,2 @@
+{% extends "_parent.html" %}
+{% block header %}Accord{% endblock %}

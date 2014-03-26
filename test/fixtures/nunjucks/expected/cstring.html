@@ -1,0 +1,19 @@
+(function() {(window.nunjucksPrecompiled = window.nunjucksPrecompiled || {})["Test"] = (function() {function root(env, context, frame, runtime, cb) {
+var lineno = null;
+var colno = null;
+var output = "";
+try {
+output += "<h1>";
+output += runtime.suppressValue(runtime.contextOrFrameLookup(context, frame, "foo"), env.autoesc);
+output += "</h1>";
+cb(null, output);
+;
+} catch (e) {
+  cb(runtime.handleError(e, lineno, colno));
+}
+}
+return {
+root: root
+};
+})();
+return function(ctx, cb) { return nunjucks.render("Test", ctx, cb); }})();
