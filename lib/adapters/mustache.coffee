@@ -5,7 +5,6 @@ fs = require 'fs'
 path = require 'path'
 
 class Mustache extends Adapter
-
   constructor: (@compiler) ->
     @name = 'mustache'
     @extensions = ['mustache', 'hogan']

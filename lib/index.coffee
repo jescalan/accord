@@ -1,6 +1,6 @@
 path = require 'path'
 glob = require 'glob'
-_    = require 'lodash'
+_ = require 'lodash'
 
 exports.supports = supports = (name) ->
   name = adapter_to_name(name)
@@ -28,17 +28,19 @@ exports.load = (name, custom_path) ->
   adapter = new (require(path.join(__dirname, 'adapters', name)))(compiler)
   return adapter
 
-
-# @api private
-
-# While almost certainly one of the ugliest functions I have written in my time,
-# this little utility will get the exact path to the root folder of a node module
-# from wherever it would be required from given it's name as a string.
+###*
+ * While almost certainly one of the ugliest functions I have written in my
+   time, this little utility will get the exact path to the root folder of a
+   node module from wherever it would be required from given it's name.
+ * @param  {String} name The name of the node module you want the path to.
+ * @return {String} The root folder of node module `name`.
+ * @private
+###
 resolve_path = (name) ->
   _path = require.resolve(name).split(path.sep).reverse()
   for p, i in _path
-    if _path[i-1] == name && p == 'node_modules' then break
-  _.first(_path.reverse(), _path.length - i+1).join(path.sep)
+    if _path[i - 1] is name and p is 'node_modules' then break
+  _.first(_path.reverse(), _path.length - i + 1).join(path.sep)
 
 # Responsible for mapping between adapters where the language name
 # does not match the node module name. direction can be "left" or "right",

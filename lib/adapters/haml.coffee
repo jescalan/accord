@@ -8,7 +8,6 @@ UglifyJS = require 'uglify-js'
 # https://github.com/visionmedia/haml.js#extending-haml
 
 class HAML extends Adapter
-
   constructor: (@compiler) ->
     @name = 'haml'
     @extensions = ['haml']

@@ -4,7 +4,6 @@ fs = require 'fs'
 W = require 'when'
 
 class EJS extends Adapter
-
   constructor: (@compiler) ->
     @name = 'ejs'
     @extensions = ['ejs']

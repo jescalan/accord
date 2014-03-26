@@ -3,7 +3,6 @@ nodefn = require 'when/node/function'
 _ = require 'lodash'
 
 class Stylus extends Adapter
-
   constructor: (@compiler) ->
     @name = 'stylus'
     @extensions = ['styl']
