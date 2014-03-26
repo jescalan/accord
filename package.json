@@ -25,6 +25,7 @@
     "jade": "*",
     "ejs": "*",
     "marked": "*",
+    "marc": "*",
     "hogan.js": "*",
     "handlebars": "*",
     "hamljs": "*",
