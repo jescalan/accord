@@ -32,13 +32,13 @@ describe 'nunjucks', ->
     @nunjucks.name.should.be.ok
 
   it 'should render a string', (done) ->
-    @nunjucks.render('<p>{{foo}}</p>\n', { locals: { foo: 'bar' } })
+    @nunjucks.render('<p>{{foo}}</p>\n', { foo: 'bar' })
       .catch(should.not.exist)
       .done((res) => should.match_expected(@nunjucks, res, path.join(@path, 'rstring.nunjucks'), done))
 
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.nunjucks')
-    @nunjucks.renderFile(lpath, { locals: { foo: 'bar' } })
+    @nunjucks.renderFile(lpath, { foo: 'bar' })
       .catch(should.not.exist)
       .done((res) => should.match_expected(@nunjucks, res, lpath, done))
 

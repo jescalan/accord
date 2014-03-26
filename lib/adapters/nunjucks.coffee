@@ -13,8 +13,8 @@ class Nunjucks extends Adapter
 
   _render: (str, options) ->
     compiler = _.clone(@compiler)
-    compiler.configure(path.dirname(options.filename), options)
-    compile => compiler.renderString(str, options.locals)
+    compiler.configure(path.dirname(options.filename), options.configure)
+    compile => compiler.renderString(str, options)
 
   _compile: (str, options) ->
     compiler = _.clone(@compiler)
