@@ -4,11 +4,11 @@ fs = require 'fs'
 W = require 'when'
 UglifyJS = require 'uglify-js'
 
-class Jade extends Adapter
+class Swig extends Adapter
 
   constructor: (@compiler) ->
-    @name = 'jade'
-    @extensions = ['jade']
+    @name = 'swig'
+    @extensions = ['swig']
     @output = 'html'
 
   _render: (str, options) ->
@@ -18,12 +18,17 @@ class Jade extends Adapter
     compile => @compiler.compile(str, options)
 
   _compileClient: (str, options) ->
-    compile => @compiler.compileClient(str, options)
+    compile => @compiler.precompile(str, options).tpl.toString()
+
+  renderFile: (path, options = {}) ->
+    compile => @compiler.renderFile(path, options.locals)
+
+  compileFile: (path, options = {}) ->
+    compile => @compiler.compileFile(path, options)
 
   clientHelpers: ->
-    runtime_path = path.join(@compiler.__accord_path, 'runtime.js')
-    runtime = fs.readFileSync(runtime_path, 'utf8')
-    return UglifyJS.minify(runtime, { fromString: true }).code
+    runtime_path = path.join(@compiler.__accord_path, 'dist/swig.min.js')
+    return fs.readFileSync(runtime_path, 'utf8')
 
   # private
 
@@ -32,4 +37,4 @@ class Jade extends Adapter
     catch err then return W.reject(err)
     W.resolve(res)
 
-module.exports = Jade
+module.exports = Swig

@@ -83,6 +83,65 @@ describe 'jade', ->
     @jade.render("!= nonexistantfunction()")
       .done(should.not.exist, (-> done()))
 
+describe 'swig', ->
+
+  before ->
+    @swig = accord.load('swig')
+    @path = path.join(__dirname, 'fixtures', 'swig')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @swig.extensions.should.be.an.instanceOf(Array)
+    @swig.output.should.be.type('string')
+    @swig.compiler.should.be.ok
+    @swig.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @swig.render('<h1>{% if foo %}Bar{% endif %}</h1>', { locals: { foo: true } })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@swig, res, path.join(@path, 'string.swig'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.swig')
+    @swig.renderFile(lpath, { locals: { author: "Jeff Escalante" } })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@swig, res, lpath, done))
+
+  it 'should compile a string', (done) ->
+    @swig.compile("<h1>{{ title }}</h1>")
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@swig, res({title: 'Hello!'}), path.join(@path, 'pstring.swig'), done))
+
+  it 'should compile a file', (done) ->
+    lpath = path.join(@path, 'precompile.swig')
+    @swig.compileFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@swig, res({title: 'Hello!'}), lpath, done))
+
+  it 'should client-compile a string', (done) ->
+    @swig.compileClient("<h1>{% if foo %}Bar{% endif %}</h1>", {foo: true})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@swig, res, path.join(@path, 'cstring.swig'), done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(@path, 'client.swig')
+    @swig.compileFileClient(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@swig, res, lpath, done))
+
+  it 'should handle external file requests', (done) ->
+    lpath = path.join(@path, 'partial.swig')
+    @swig.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@swig, res, lpath, done))
+
+  it 'should render with client side helpers', (done) ->
+    lpath = path.join(@path, 'client-complex.swig')
+    @swig.compileFileClient(lpath)
+      .catch(should.not.exist)
+      .done (res) =>
+        tpl_string =  "window = {}; #{@swig.clientHelpers()};\n var tpl = (#{res});"
+        should.match_expected(@swig, tpl_string, lpath, done)
+
 describe 'coffeescript', ->
 
   before ->
