@@ -90,11 +90,11 @@ Docs below should explain the methods executed in the example above.
 - [mustache/hogan](https://github.com/twitter/hogan.js)
 - [handlebars](https://github.com/wycats/handlebars.js)
 - [haml](https://github.com/visionmedia/haml.js)
+- [swig](http://paularmstrong.github.io/swig)
 - haml-coffee _(pending)_
 - dust _(pending)_
 - nunjucks _(pending)_
 - underscore _(pending)_
-- swig _(pending)_
 - toffee _(pending)_
 - marc _(pending)_
 
