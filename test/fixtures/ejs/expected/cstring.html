@@ -1,7 +1,7 @@
 function anonymous(locals, filters, escape, rethrow) {
 escape = escape || function (html){
   return String(html)
-    .replace(/&(?!#?[a-zA-Z0-9]+;)/g, '&amp;')
+    .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/'/g, '&#39;')
@@ -28,7 +28,7 @@ function rethrow(err, str, filename, lineno){
     + lineno + '\n'
     + context + '\n\n'
     + err.message;
-  
+
   throw err;
 }
 try {
