@@ -91,12 +91,12 @@ Docs below should explain the methods executed in the example above.
 - [handlebars](https://github.com/wycats/handlebars.js)
 - [haml](https://github.com/visionmedia/haml.js)
 - [swig](http://paularmstrong.github.io/swig)
+- [marc](https://github.com/bredele/marc)
+- nunjucks _(pending)_
 - haml-coffee _(pending)_
 - dust _(pending)_
-- nunjucks _(pending)_
 - underscore _(pending)_
 - toffee _(pending)_
-- marc _(pending)_
 
 ##### CSS
 - [stylus](http://learnboost.github.io/stylus/)
