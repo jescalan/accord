@@ -19,6 +19,9 @@ describe 'base functions', ->
   it 'load should accept a custom path', ->
     (-> accord.load('jade', path.join(__dirname, '../node_modules/jade'))).should.not.throw()
 
+  it 'all should return all adapters', ->
+    accord.all().should.be.type('object')
+
 describe 'jade', ->
 
   before ->

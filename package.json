@@ -15,7 +15,7 @@
     "lodash": "2.x",
     "glob": "3.x",
     "uglify-js": "2.x",
-    "swig": "^1.3.2"
+    "indx": "0.1.x"
   },
   "devDependencies": {
     "coffee-script": "1.7.x",
