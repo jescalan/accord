@@ -1,6 +1,7 @@
 path = require 'path'
 glob = require 'glob'
-_ = require 'lodash'
+_    = require 'lodash'
+indx = require 'indx'
 
 exports.supports = supports = (name) ->
   name = adapter_to_name(name)
@@ -22,11 +23,14 @@ exports.load = (name, custom_path) ->
       compiler = require(pkg)
       compiler.__accord_path = resolve_path(pkg)
     catch err
-      throw new Error("'#{name}' not found. make sure it has been installed!")
+      throw new Error("'#{pkg}' not found. make sure it has been installed!")
 
   # return the adapter with bound compiler
   adapter = new (require(path.join(__dirname, 'adapters', name)))(compiler)
   return adapter
+
+exports.all = ->
+  indx(path.join(__dirname, 'adapters'))
 
 ###*
  * While almost certainly one of the ugliest functions I have written in my
@@ -36,6 +40,7 @@ exports.load = (name, custom_path) ->
  * @return {String} The root folder of node module `name`.
  * @private
 ###
+
 resolve_path = (name) ->
   _path = require.resolve(name).split(path.sep).reverse()
   for p, i in _path
@@ -45,6 +50,7 @@ resolve_path = (name) ->
 # Responsible for mapping between adapters where the language name
 # does not match the node module name. direction can be "left" or "right",
 # "left" being lang name -> adapter name and right being the opposite.
+# 
 abstract_mapper = (name, direction) ->
   name_maps = [
       ['markdown', 'marked']
