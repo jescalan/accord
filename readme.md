@@ -20,7 +20,9 @@ Compiling many different languages is a central component of [roots](http://root
 
 ### Usage
 
-Although we are planning a CLI interface which will be awesome, right now accord exposes only a javascript API. Since some templating engines are async and others are not, accord keeps things consistent by returning a promise for any compilation task (using [when.js](https://github.com/cujojs/when)). Here's an example in coffeescript:
+Accord itself exposes only a javascript API. If you are interested in using this library from the command line, check out the [accord-cli](https://github.com/carrot/accord-cli) project.
+
+Since some templating engines are async and others are not, accord keeps things consistent by returning a promise for any compilation task (using [when.js](https://github.com/cujojs/when)). Here's an example in coffeescript:
 
 ```coffee
 fs = require 'fs'
