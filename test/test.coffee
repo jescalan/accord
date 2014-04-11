@@ -213,6 +213,15 @@ describe 'stylus', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, lpath, done))
 
+  it 'should correctly import css files', (done) ->
+    opts =
+      "include css": true
+
+    lpath = path.join(@path, 'include_css.styl')
+    @stylus.renderFile(lpath, opts)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
+
   it 'should set defines', (done) ->
     opts =
       define: { foo: 'bar', baz: 'quux' }
