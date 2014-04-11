@@ -222,6 +222,27 @@ describe 'stylus', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@stylus, res, lpath, done))
 
+  it 'should set vanilla url function', (done) ->
+    opts =
+      url: 'embedurl'
+
+    lpath = path.join(@path, 'embedurl.styl')
+    @stylus.renderFile(lpath, opts)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@stylus, res, lpath, done))
+
+  it 'should set url function with options', (done) ->
+    opts =
+      url:
+        name: 'embedurl'
+        limit: 10
+
+    lpath = path.join(@path, 'embedurl.styl')
+    epath = path.join(@path, 'embedurl-opts.styl')
+    @stylus.renderFile(lpath, opts)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@stylus, res, epath, done))
+
   it 'should set defines', (done) ->
     opts =
       define: { foo: 'bar', baz: 'quux' }
