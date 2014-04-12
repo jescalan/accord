@@ -4,6 +4,7 @@ The Stylus compiler interface is one of the most abnormal and has gone through h
 ## Additional Options
 
 ### [Define](http://learnboost.github.io/stylus/docs/js.html#definename-node)
+
  - key: `define`
  - type: `Object`
  - default: `{}`
@@ -27,6 +28,7 @@ styl.render(
 You can pass as many key/value pairs as you want in the object, and each one will be defined.
 
 ### [Include](http://learnboost.github.io/stylus/docs/js.html#includepath)
+
  - key: `include`
  - type: `(String|String[])`
  - default: `[]`
@@ -35,7 +37,7 @@ You can pass as many key/value pairs as you want in the object, and each one wil
 
 ```coffee
 styl = accord.load('stylus')
-styl.render('@import foobar', include: __dirname + 'foobar')
+styl.render('@import foobar', { include: __dirname + 'foobar' })
   .catch((err) -> console.error(err))
   .done((css) -> console.log(css))
 ```
@@ -44,12 +46,13 @@ As indicated by the type `String[]`, if you want to include multiple paths, you 
 
 ```coffee
 styl = accord.load('stylus')
-styl.render('@import baz', include: [__dirname + 'foobar', __dirname + baz])
+styl.render('@import baz', { include: [__dirname + 'foobar', __dirname + baz] })
   .catch((err) -> console.error err)
   .done((css) -> console.log css)
 ```
 
 ### [Import](http://learnboost.github.io/stylus/docs/js.html#importpath)
+
  - key: `import`
  - type: `(String|String[])`
  - default: `[]`
@@ -60,17 +63,18 @@ styl.render('@import baz', include: [__dirname + 'foobar', __dirname + baz])
 styl = accord.load('stylus')
 
 # single import
-styl.render('mixin_from_foobar()', import: __dirname + 'foobar')
+styl.render('mixin_from_foobar()', { import: __dirname + 'foobar' })
   .catch((err) -> console.error err)
   .done((css) -> console.log css)
 
 # multiple imports
-styl.render('mixin_from_baz()', import: [__dirname + 'foobar', __dirname + baz])
+styl.render('mixin_from_baz()', { import: [__dirname + 'foobar', __dirname + baz] })
   .catch((err) -> console.error err)
   .done((css) -> console.log css)
 ```
 
 ### [Use](http://learnboost.github.io/stylus/docs/js.html#usefn)
+
  - key: `use`
  - type: `(Function|Function[])`
  - default: `[]`
@@ -83,22 +87,52 @@ second_plugin = require('second_plugin')
 styl = accord.load('stylus')
 
 # single plugin
-styl.render('plugin()', use: some_plugin())
+styl.render('plugin()', { use: some_plugin() })
   .catch((err) -> console.error err)
   .done((css) -> console.log css)
 
 # multiple plugins
-styl.render('plugin()', use: [some_plugin, second_plugin])
+styl.render('plugin()', { use: [some_plugin, second_plugin] })
   .catch((err) -> console.error err)
   .done((css) -> console.log css)
 ```
 
 ## [Set](http://learnboost.github.io/stylus/docs/js.html#setsetting-value)
+
 In Stylus, you can use `set()` to set options directly on the compiler. Accord lets you do this by dropping the key/value pairs directly into the options object.
 
 ```coffee
 styl = accord.load('stylus')
-styl.render('.test\n  foo: bar', foo: 'bar', filename: 'none')
+styl.render('.test\n  foo: bar', { foo: 'bar', filename: 'none' })
   .catch((err) -> console.error err)
   .done((css) -> console.log css)
 ```
+
+## [URL](http://learnboost.github.io/stylus/docs/functions.url.html)
+
+If you want a custom URL function, you can pass an object to the `url` key in your options containing the `name` of your function, along with optionally `paths` or `limit` which function as they do in the stylus docs linked above. For example:
+
+```coffee
+styl = accord.load('stylus')
+
+options =
+  url:
+    name: 'embedurl'
+    paths: [__dirname + '/img']
+    limit: false
+
+styl.render('.test\n  background: url(wow.png)', options)
+  .catch((err) -> console.error err)
+  .done((css) -> console.log css)
+```
+
+Or if you'd just like to take advantage of the default inlining (any image below 30k will be base64'd), just pass a string to `url` that you want to name your custom url function.
+
+```coffee
+styl = accord.load('stylus')
+styl.render('.test\n  background: url(wow.png)', { url: 'embedurl' })
+  .catch((err) -> console.error err)
+  .done((css) -> console.log css)
+```
+
+Please note that this functionality will not work if stylus cannot find your image file.

@@ -21,6 +21,17 @@ class Stylus extends Adapter
         when 'include' then includes.push(v)
         when 'import' then imports.push(v)
         when 'use' then plugins.push(v)
+        when 'url'
+          if typeof v  == 'string'
+            obj = {}
+            obj[v] = @compiler.url()
+            _.extend(defines, obj)
+          else
+            obj = {}
+            obj[v.name] = @compiler.url
+              limit: if v.limit? then v.limit else 30000
+              paths: v.paths || []
+            _.extend(defines, obj)
         else sets[k] = v
 
     includes = _.flatten(includes)
