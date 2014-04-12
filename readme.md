@@ -3,10 +3,10 @@ accord
 
 A unified interface for compiled languages and templates in javascript.
 
-[![npm](https://badge.fury.io/js/accord.png)](http://badge.fury.io/js/accord)
-[![tests](https://travis-ci.org/jenius/accord.png?branch=master)](https://travis-ci.org/jenius/accord)
-[![coverage](https://coveralls.io/repos/jenius/accord/badge.png?branch=master)](https://coveralls.io/r/jenius/accord?branch=master)
-[![dependencies](https://david-dm.org/jenius/accord.png?theme=shields.io)](https://david-dm.org/jenius/accord)
+[![npm](https://badge.fury.io/js/accord.svg)](http://badge.fury.io/js/accord)
+[![tests](https://travis-ci.org/jenius/accord.svg?branch=master)](https://travis-ci.org/jenius/accord)
+[![coverage](http://img.shields.io/coveralls/jenius/accord.svg)](https://coveralls.io/r/jenius/accord?branch=master)
+[![dependencies](https://david-dm.org/jenius/accord.svg)](https://david-dm.org/jenius/accord)
 
 ### Why should you care?
 
