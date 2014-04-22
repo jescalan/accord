@@ -1,7 +1,8 @@
-path = require 'path'
-glob = require 'glob'
-_    = require 'lodash'
-indx = require 'indx'
+path    = require 'path'
+glob    = require 'glob'
+_       = require 'lodash'
+indx    = require 'indx'
+resolve = require 'resolve'
 
 exports.supports = supports = (name) ->
   name = adapter_to_name(name)
@@ -16,7 +17,7 @@ exports.load = (name, custom_path) ->
 
   # get the compiler
   if custom_path
-    compiler = require(custom_path)
+    compiler = require(resolve.sync(path.basename(custom_path), {basedir: custom_path}))
     compiler.__accord_path = custom_path
   else
     try
