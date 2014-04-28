@@ -1,6 +1,8 @@
-fs = require 'fs'
-W = require 'when'
-_ = require 'lodash'
+fs        = require 'fs'
+W         = require 'when'
+_         = require 'lodash'
+nodefn    = require 'when/node'
+readFile  = _.partialRight(nodefn.lift(fs.readFile), 'utf8')
 
 class Adapter
   render: (str, opts = {}) ->
@@ -9,7 +11,7 @@ class Adapter
     @_render(str, opts)
 
   renderFile: (file, opts = {}) ->
-    @render(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
+    readFile(file).then _.partialRight(@render, _.extend(opts, {filename: file})).bind(@)
 
   compile: (str, opts = {}) ->
     if not @_compile
@@ -17,7 +19,7 @@ class Adapter
     @_compile(str, opts)
 
   compileFile: (file, opts = {}) ->
-    @compile(fs.readFileSync(file, 'utf8'), _.extend(opts, {filename: file}))
+    readFile(file).then _.partialRight(@compile, _.extend(opts, {filename: file})).bind(@)
 
   compileClient: (str, opts = {}) ->
     if not @_compileClient
@@ -25,9 +27,6 @@ class Adapter
     @_compileClient(str, opts)
 
   compileFileClient: (file, opts = {}) ->
-    @compileClient(
-      fs.readFileSync(file, 'utf8'),
-      _.extend(opts, {filename: file})
-    )
+    readFile(file).then _.partialRight(@compileClient, _.extend(opts, {filename: file})).bind(@)
 
 module.exports = Adapter
