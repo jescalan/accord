@@ -1,7 +1,7 @@
 :root {
-  var-purple: #847AD1;
+  --purple: #847AD1;
 }
 
 a {
-  color: var(purple);
+  color: var(--purple);
 }
