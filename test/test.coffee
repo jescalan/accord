@@ -507,7 +507,7 @@ describe 'minify-html', ->
   it 'should minify a file', (done) ->
     lpath = path.join(@path, 'basic.html')
     @minifyhtml.renderFile(lpath)
-      .catch(should.not.exist)
+      .catch((err) -> console.log err.stack)
       .done((res) => should.match_expected(@minifyhtml, res, lpath, done))
 
   it 'should minify with options', (done) ->
