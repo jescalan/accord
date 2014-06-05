@@ -11,12 +11,13 @@
   },
   "dependencies": {
     "colors": "0.6.x",
-    "when": "3.x",
-    "lodash": "2.x",
+    "fobject": "0.0.0",
     "glob": "4.x",
-    "uglify-js": "2.x",
     "indx": "0.1.x",
-    "resolve": "0.7.x"
+    "lodash": "2.x",
+    "resolve": "0.7.x",
+    "uglify-js": "2.x",
+    "when": "3.x"
   },
   "devDependencies": {
     "coffee-script": "1.7.x",
