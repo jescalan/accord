@@ -13,7 +13,10 @@ class Less extends Adapter
     parser = new @compiler.Parser(options)
     parser.parse str, (err, tree) ->
       if err then return deferred.reject(err)
-      deferred.resolve(tree.toCSS())
+      try
+        deferred.resolve(tree.toCSS())
+      catch err
+        deferred.reject(err)
 
     return deferred.promise
 

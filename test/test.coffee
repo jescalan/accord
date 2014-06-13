@@ -778,8 +778,16 @@ describe 'less', ->
     @less.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle parse errors', (done) ->
     @less.render("!@##%#$#^$")
+      .done(should.not.exist, (-> done()))
+
+  it 'should correctly handle toCSS() errors', (done) ->
+    @less.render('''
+    .foo {
+      .notFound()
+    }
+    ''')
       .done(should.not.exist, (-> done()))
 
 describe 'coco', ->
