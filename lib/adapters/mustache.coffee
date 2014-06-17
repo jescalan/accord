@@ -21,11 +21,15 @@ class Mustache extends Adapter
     @_compile(str, options).then((o) -> "new Hogan.Template(#{o.toString()});")
 
   clientHelpers: ->
-    runtime_path = path.join(@compiler.__accord_path, 'web/builds/2.0.0/hogan-2.0.0.min.js')
+    version = require(path.join(@compiler.__accord_path, 'package')).version
+    runtime_path = path.join(
+      @compiler.__accord_path
+      "web/builds/#{version}/hogan-#{version}.min.js"
+    )
     return fs.readFileSync(runtime_path, 'utf8')
 
   # private
-  
+
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)
