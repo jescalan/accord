@@ -20,7 +20,7 @@ Accord adapters are different because they use standard JavaScript inheritance (
 
 ### Usage
 
-Accord itself exposes only a javascript API. If you are interested in using this library from the command line, check out the [accord-cli](https://github.com/carrot/accord-cli) project.
+Accord itself exposes only a JavaScript API. If you are interested in using this library from the command line, check out the [accord-cli](https://github.com/carrot/accord-cli) project.
 
 Since some templating engines are async and others are not, accord keeps things consistent by returning a promise for any task (using [when.js](https://github.com/cujojs/when)). Here's an example in CoffeeScript:
 
@@ -72,6 +72,7 @@ Docs below should explain the methods executed in the example above.
 
 ### Accord Adapter Methods
 
+- `adapter.name`
 - `adapter.render(string, options)` - render a string to a compiled string
 - `adapter.renderFile(path, options)` - render a file to a compiled string
 - `adapter.compile(string, options)` - compile a string to a function
