@@ -8,19 +8,19 @@ UglifyJS = require 'uglify-js'
 # https://github.com/visionmedia/haml.js#extending-haml
 
 class HAML extends Adapter
-  constructor: (@compiler) ->
-    @name = 'haml'
-    @extensions = ['haml']
-    @output = 'html'
+  name: 'haml'
+  extensions: ['haml']
+  output: 'html'
+  supportedEngines: ['hamljs']
 
   _render: (str, options) ->
-    compile => @compiler.compile(str)(options)
+    compile => @engine.compile(str)(options)
 
   _compile: (str, options) ->
-    compile => @compiler.compile(str, options)
+    compile => @engine.compile(str, options)
 
   # clientHelpers: ->
-  #   runtime_path = path.join(@compiler.__accord_path, 'haml.js')
+  #   runtime_path = path.join(@engine.__accord_path, 'haml.js')
   #   runtime = fs.readFileSync(runtime_path, 'utf8')
   #   return UglifyJS.minify(runtime, { fromString: true }).code
 

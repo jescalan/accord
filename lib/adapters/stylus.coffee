@@ -3,10 +3,9 @@ nodefn  = require 'when/node/function'
 _       = require 'lodash'
 
 class Stylus extends Adapter
-  constructor: (@compiler) ->
-    @name = 'stylus'
-    @extensions = ['styl']
-    @output = 'css'
+  name: 'stylus'
+  extensions: ['styl']
+  output: 'css'
 
   _render: (str, options) ->
     sets = {}
@@ -24,11 +23,11 @@ class Stylus extends Adapter
         when 'url'
           if typeof v  == 'string'
             obj = {}
-            obj[v] = @compiler.url()
+            obj[v] = @engine.url()
             _.extend(defines, obj)
           else
             obj = {}
-            obj[v.name] = @compiler.url
+            obj[v.name] = @engine.url
               limit: if v.limit? then v.limit else 30000
               paths: v.paths || []
             _.extend(defines, obj)
@@ -38,7 +37,7 @@ class Stylus extends Adapter
     imports = _.flatten(imports)
     plugins = _.flatten(plugins)
 
-    base = @compiler(str)
+    base = @engine(str)
 
     base.set(k, v) for k, v of sets
     base.define(k, v) for k, v of defines

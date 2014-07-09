@@ -2,10 +2,10 @@ Adapter = require '../adapter_base'
 W       = require 'when'
 
 class SCSS extends Adapter
-  constructor: (@compiler) ->
-    @name = 'css'
-    @extensions = ['scss']
-    @output = 'css'
+  name: 'css'
+  extensions: ['scss']
+  output: 'css'
+  supportedEngines: ['node-sass']
 
   _render: (str, options) ->
     deferred = W.defer()
@@ -14,7 +14,7 @@ class SCSS extends Adapter
     options.success = deferred.resolve
     options.error = deferred.reject
 
-    @compiler.render(options)
+    @engine.render(options)
 
     return deferred.promise
 

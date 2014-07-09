@@ -2,13 +2,12 @@ Adapter = require '../adapter_base'
 W       = require 'when'
 
 class CoffeeScript extends Adapter
-  constructor: (@compiler) ->
-    @name = 'coffee-script'
-    @extensions = ['coffee']
-    @output = 'js'
+  name: 'coffee-script'
+  extensions: ['coffee']
+  output: 'js'
 
   _render: (str, options) ->
-    compile => @compiler.compile(str, options)
+    compile => @engine.compile(str, options)
 
   # private
 

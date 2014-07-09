@@ -2,13 +2,12 @@ Adapter = require '../adapter_base'
 W       = require 'when'
 
 class Myth extends Adapter
-  constructor: (@compiler) ->
-    @name = 'myth'
-    @extensions = ['myth', 'mcss']
-    @output = 'css'
+  name: 'myth'
+  extensions: ['myth', 'mcss']
+  output: 'css'
 
   _render: (str, options) ->
-    compile => @compiler(str)
+    compile => @engine(str)
 
   # private
 

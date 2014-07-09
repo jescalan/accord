@@ -3,10 +3,10 @@ W       = require 'when'
 _       = require 'lodash'
 
 class MinifyHTML extends Adapter
-  constructor: (@compiler) ->
-    @name = 'minify-html'
-    @extensions = ['html']
-    @output = 'html'
+  name: 'minify-html'
+  extensions: ['html']
+  output: 'html'
+  supportedEngines: ['html-minifier']
 
   _render: (str, options) ->
     options = _.defaults options,
@@ -14,7 +14,7 @@ class MinifyHTML extends Adapter
       collapseWhitespace: true
       removeEmptyAttributes: true
 
-    compile => @compiler.minify(str, options)
+    compile => @engine.minify(str, options)
 
   # private
 

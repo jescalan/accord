@@ -2,13 +2,13 @@ Adapter = require '../adapter_base'
 W       = require 'when'
 
 class MinifyCSS extends Adapter
-  constructor: (@compiler) ->
-    @name = 'minify-css'
-    @extensions = ['css']
-    @output = 'css'
+  name: 'minify-css'
+  extensions: ['css']
+  output: 'css'
+  supportedEngines: ['clean-css']
 
   _render: (str, options) ->
-    compile => (new @compiler(options)).minify(str)
+    compile => (new @engine(options)).minify(str)
 
   # private
 

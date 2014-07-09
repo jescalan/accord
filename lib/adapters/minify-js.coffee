@@ -3,13 +3,13 @@ W       = require 'when'
 _       = require 'lodash'
 
 class MinifyJS extends Adapter
-  constructor: (@compiler) ->
-    @name = 'minify-js'
-    @extensions = ['js']
-    @output = 'js'
+  name: 'minify-js'
+  extensions: ['js']
+  output: 'js'
+  supportedEngines: ['uglify-js']
 
   _render: (str, options) ->
-    compile => @compiler.minify(str, _.extend(options, { fromString: true })).code
+    compile => @engine.minify(str, _.extend(options, fromString: true)).code
 
   # private
 
