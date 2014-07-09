@@ -8,6 +8,7 @@ class Jade extends Adapter
   name: 'jade'
   extensions: ['jade']
   output: 'html'
+  supportedEngines: ['yade', 'jade']
 
   _render: (str, options) ->
     compile => @engine.render(str, options)
