@@ -11,4 +11,4 @@ Hogan also has an interesting way of handling partials -- rather than being able
 accord.render("{{> title }}", { partials: { title: 'hello world!'} })
 ```
 
-Mustache also fully supports client-side compiles through `compileClient` and `compileFileClient`, both of which return anonymous stringified functions, and does as usual have a `clientHelpers` function, which returns a string of javascript necessary to render the templates.
+Mustache also fully supports client-side compiles through `compileClient` and `compileFileClient`, both of which return anonymous stringified functions, and does as usual have a `clientHelpers` function, which returns a string of JavaScript necessary to render the templates.
