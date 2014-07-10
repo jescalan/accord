@@ -1,8 +1,16 @@
 # Base Adapter
 All accord adapters inherit from a base adapter. So, the options documented here will work with all the other adapters (unless otherwise noted).
 
-## Options
+## Supported Methods
+Not all compilers implement the full list of methods, but these are the ones they _can_ support. Check the docs for the specific adapter to find out what methods it supports.
+ - `render`
+ - `compile`
+ - `compileClient`
+ - `clientHelpers`
 
+In addition, anything that supports a particular method (other than `clientHelpers`) will automatically support the "file" version of that method. For example, if it supports `render`, it will support `renderFile`.
+
+## Options
 ### Filename
  - key: `filename`
  - type: `String`

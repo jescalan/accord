@@ -1,6 +1,9 @@
 # LiveScript
 LiveScript is a fork of Coco, which is a fork of CoffeeScript. More info on changes and additons can be found [here](http://livescript.net/).
 
+## Supported Methods
+ - render
+
 ## Additional Options
 Its compiler is unsurprisingly very similar to both CoffeeScript and Coco, and has only 2 unique options, explained below.
 

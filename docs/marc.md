@@ -1,5 +1,8 @@
 # Marc
-[Marc](https://github.com/bredele/marc) allows you to use markdown as a simple templating langauge.
+[Marc](https://github.com/bredele/marc) allows you to use markdown as a simple templating language.
+
+## Supported Methods
+ - render
 
 ## Additional Options
 Marc uses [marked](https://github.com/chjj/marked) in the compilation process, so all the options from marked will work here.
@@ -71,5 +74,5 @@ marc.render(
 ```
 
 ```html
-<h1>hello world!.</h1>
+<h1>hello world!</h1>
 ```

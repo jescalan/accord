@@ -7,3 +7,6 @@ Full options in an example:
 dogescript = accord.load('dogescript');
 dogescript.render('wow', { beauty: true, trueDoge: true })
 ```
+
+## Supported Methods
+ - render

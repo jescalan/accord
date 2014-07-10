@@ -8,3 +8,6 @@ less.render('some less code', {
   filename: 'foo.less'
 });
 ```
+
+## Supported Methods
+ - render
