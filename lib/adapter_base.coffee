@@ -3,6 +3,7 @@ W       = require 'when'
 _       = require 'lodash'
 resolve = require 'resolve'
 path    = require 'path'
+fs      = require 'fs'
 
 
 class Adapter
@@ -85,18 +86,20 @@ requireEngine = (engineName, customPath) ->
 
 
 ###*
- * While almost certainly one of the ugliest functions I have written in my
-   time, this little utility will get the exact path to the root folder of a
-   node module from wherever it would be required from given it's name.
+ * Get the path to the root folder of a node module, given its name.
  * @param  {String} name The name of the node module you want the path to.
  * @return {String} The root folder of node module `name`.
  * @private
 ###
 resolvePath = (name) ->
-  _path = require.resolve(name).split(path.sep).reverse()
-  for p, i in _path
-    if _path[i - 1] is name and p is 'node_modules' then break
-  _.first(_path.reverse(), _path.length - i + 1).join(path.sep)
-
+  filepath = require.resolve(name)
+  loop
+    if path is '/'
+      throw new Error("cannot resolve root of node module #{name}")
+    filepath = path.dirname(filepath) # cut off the last part of the path
+    if fs.existsSync(path.join filepath, 'package.json')
+      # if there's a package.json directly under it, we've found the root of the
+      # module
+      return filepath
 
 module.exports = Adapter
