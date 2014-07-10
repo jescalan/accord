@@ -1,5 +1,4 @@
 Adapter = require '../adapter_base'
-_ = require 'lodash'
 W = require 'when'
 fs = require 'fs'
 
@@ -11,17 +10,16 @@ class Toffee extends Adapter
     @output = 'html'
 
   _render: (str, options) ->
-    compiler = _.clone(@compiler)
-    compile =>
-      compiler.str_render(str, options, (err, res) -> return res)
+    compile => @compiler.str_render(str, options, (err, res) -> res)
 
   _compile: (str, options) ->
-    compiler = _.clone(@compiler)
-    compile =>
-      return compiler.compileStr(str).toString()
+    compile => @compiler.compileStr(str).toString()
+
+  _compileClient: (str, options) ->
+    compile => @compiler.configurable_compile(str, options)
 
   # private
- 
+
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)
