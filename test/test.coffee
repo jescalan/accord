@@ -886,7 +886,7 @@ describe 'marc', ->
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
 describe 'toffee', ->
-  
+
   before ->
     @toffee = accord.load('toffee')
     @path = path.join(__dirname, 'fixtures', 'toffee')
@@ -899,7 +899,7 @@ describe 'toffee', ->
 
   it 'should render a string', (done) ->
     @toffee.render('''
-      {# 
+      {#
         for supply in supplies {:<li>#{supply}</li>:}
       #}
       ''',
@@ -915,7 +915,7 @@ describe 'toffee', ->
 
   it 'should compile a string', (done) ->
     @toffee.compile('''
-      {# 
+      {#
         for supply in supplies {:<li>#{supply}</li>:}
       #}
       ''',
@@ -928,3 +928,36 @@ describe 'toffee', ->
     @toffee.compileFile(lpath, {supplies: ['mop', 'trash bin', 'flashlight']})
       .catch(should.not.exist)
       .done((res) => should.match_expected(@toffee, res, lpath, done))
+
+  it 'should client-compile a string', (done) ->
+    @toffee.compileClient('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>:}
+      #}
+      ''', {})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@toffee, res, path.join(@path, 'my_templates.toffee'), done))
+
+  it 'should client-compile a string without headers', (done) ->
+    @toffee.compileClient('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>:}
+      #}
+      ''',
+      headers: false
+      ).catch(should.not.exist)
+      .done((res) => should.match_expected(@toffee, res, path.join(@path, 'no-header-templ.toffee'), done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(path.relative(process.cwd(), @path), 'my_templates-2.toffee')
+    @toffee.compileFileClient(lpath, {})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@toffee, res, lpath, done))
+
+  it 'should handle errors', (done) ->
+    @toffee.render('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>
+      #}
+      ''', {})
+      .done(should.not.exist, (-> done()))
