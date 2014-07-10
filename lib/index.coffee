@@ -1,7 +1,8 @@
-path    = require 'path'
-glob    = require 'glob'
-_       = require 'lodash'
-indx    = require 'indx'
+path = require 'path'
+glob = require 'glob'
+_ = require 'lodash'
+indx = require 'indx'
+EventEmitter = require('events').EventEmitter
 
 exports.supports = supports = (name) ->
   name = adapter_to_name(name)
@@ -13,7 +14,6 @@ exports.load = (name, enginePath, engineName) ->
 
 exports.all = ->
   indx(path.join(__dirname, 'adapters'))
-
 
 # Responsible for mapping between adapters where the language name
 # does not match the node module name. direction can be "left" or "right",
@@ -43,3 +43,19 @@ name_to_adapter = (name) ->
 
 adapter_to_name = (name) ->
   abstract_mapper(name, 'right')
+
+###*
+ * Data about all the jobs that accord runs. Each "jobFinished" event has the
+ * properties:
+ *
+ * filename: filename
+ * engineName: ""
+ * method: <render/renderFile/compile...>
+ * duration: <in ms>
+ * deps: ["<filepath of dep>"]
+ * isolated: <Boolean>
+ * time: <unix time of when job finished>
+ *
+ * @type {EventEmitter}
+###
+exports.jobLog = new EventEmitter()
