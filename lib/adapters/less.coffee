@@ -6,6 +6,11 @@ class Less extends Adapter
   extensions: ['less']
   output: 'css'
 
+  ###*
+   * LESS has import rules for other LESS stylesheets
+  ###
+  isolated: false
+
   _render: (str, options) ->
     deferred = W.defer()
 

@@ -6,6 +6,7 @@ class Markdown extends Adapter
   extensions: ['md', 'mdown', 'markdown']
   output: 'html'
   supportedEngines: ['marked']
+  isolated: true
 
   _render: (str, options) ->
     nodefn.call(@engine.bind(@engine), str, options)

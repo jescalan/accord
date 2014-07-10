@@ -5,6 +5,7 @@ class CSSO extends Adapter
   name: 'csso'
   extensions: ['css']
   output: 'css'
+  isolated: true
 
   _render: (str, options) ->
     options.noRestructure ?= false

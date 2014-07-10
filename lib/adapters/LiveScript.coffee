@@ -5,6 +5,7 @@ class LiveScript extends Adapter
   name: 'LiveScript'
   extensions: ['ls']
   output: 'js'
+  isolated: true
 
   _render: (str, options) ->
     compile => @engine.compile(str, options)

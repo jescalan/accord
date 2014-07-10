@@ -8,6 +8,13 @@ class MinifyHTML extends Adapter
   output: 'html'
   supportedEngines: ['html-minifier']
 
+  ###*
+   * I think that you could cause this to not be isolated by using the minifyCSS
+     option and then making that import stylesheets, but I'm not even sure if
+     MinifyHTML would support that...
+  ###
+  isolated: true
+
   _render: (str, options) ->
     options = _.defaults options,
       removeComments: true
