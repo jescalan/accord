@@ -82,7 +82,7 @@ Docs below should explain the methods executed in the example above.
 - `adapter.clientHelpers()` - some adapters that compile for client also need helpers, this method returns a string of minfied JavaScript with all of them
 - `adapter.extensions` - array of all file extensions the compiler should match
 - `adapter.output` - string, expected output extension
-- `adapter.compiler` - the actual compiler, no adapter wrapper, if you need it
+- `adapter.engine` - the actual compiler, no adapter wrapper, if you need it
 
 ### Supported Languages
 
