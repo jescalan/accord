@@ -15,9 +15,35 @@ class Adapter
   supportedEngines: undefined
 
   ###*
-   * @param {String} engine The engine to use. Defaults to
-     Adapter.supportedEngines[0]
-   * @return {[type]} [description]
+   * The name of the engine in-use. Generally this is the name of the package on
+     npm.
+   * @type {String}
+  ###
+  engineName: ''
+
+  ###*
+   * The actual engine, no adapter wrapper. Defaults to the engine that we
+     recommend for compiling that particular language (if it is installed).
+     Otherwise, whatever engine we support that is installed.
+  ###
+  engine: undefined
+
+  ###*
+   * Array of all file extensions the compiler should match
+   * @type {String[]}
+  ###
+  extensions: undefined
+
+  ###*
+   * Expected output extension
+   * @type {String}
+  ###
+  output: ''
+
+  ###*
+   * @param {String} [engine=Adapter.supportedEngines[0]] If you need to use a
+     particular engine to compile/render with, then specify it here. Otherwise
+     we use whatever engine you have installed.
   ###
   constructor: (@engineName, customPath) ->
     if not @supportedEngines or @supportedEngines.length is 0
@@ -40,36 +66,79 @@ class Adapter
         None found. Make sure one has been installed!
       """)
 
+  ###*
+   * Render a string to a compiled string
+   * @param {String} str
+   * @param {Object} [opts = {}]
+   * @return {Promise}
+  ###
   render: (str, opts = {}) ->
     if not @_render
       return W.reject new Error('render not supported')
     @_render(str, opts)
 
+  ###*
+   * Render a file to a compiled string
+   * @param {String} file The path to the file
+   * @param {Object} [opts = {}]
+   * @return {Promise}
+  ###
   renderFile: (file, opts = {}) ->
     opts = _.clone(opts, true)
     (new File(file))
       .read(encoding: 'utf8')
       .then _.partialRight(@render, _.extend(opts, {filename: file})).bind(@)
 
+  ###*
+   * Compile a string to a function
+   * @param {String} str
+   * @param {Object} [opts = {}]
+   * @return {Promise}
+  ###
   compile: (str, opts = {}) ->
     if not @_compile
       return W.reject new Error('compile not supported')
     @_compile(str, opts)
 
+  ###*
+   * Compile a file to a function
+   * @param {String} file The path to the file
+   * @param {Object} [opts = {}]
+   * @return {Promise}
+  ###
   compileFile: (file, opts = {}) ->
     (new File(file))
       .read(encoding: 'utf8')
       .then _.partialRight(@compile, _.extend(opts, {filename: file})).bind(@)
 
+  ###*
+   * Compile a string to a client-side-ready function
+   * @param {String} str
+   * @param {Object} [opts = {}]
+   * @return {Promise}
+  ###
   compileClient: (str, opts = {}) ->
     if not @_compileClient
       return W.reject new Error('client-side compile not supported')
     @_compileClient(str, opts)
 
+  ###*
+   * Compile a file to a client-side-ready function
+   * @param {String} file The path to the file
+   * @param {Object} [opts = {}]
+   * @return {Promise}
+  ###
   compileFileClient: (file, opts = {}) ->
     (new File(file))
       .read(encoding: 'utf8')
       .then _.partialRight(@compileClient, _.extend(opts, {filename: file})).bind(@)
+
+  ###*
+   * Some adapters that compile for client also need helpers, this method
+     returns a string of minfied JavaScript with all of them
+   * @return {Promise} A promise for the client-side helpers.
+  ###
+  clientHelpers: undefined
 
 
 requireEngine = (engineName, customPath) ->
