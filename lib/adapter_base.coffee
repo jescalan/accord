@@ -194,8 +194,8 @@ class Adapter
       deps: deps
       isolated: isolated
       time: Date.now()
+      pid: process.pid # TODO: move this into accord-parallel
     )
-
 
   _requireEngine: ->
     if @enginePath?
