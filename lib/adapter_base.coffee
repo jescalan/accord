@@ -189,7 +189,7 @@ class Adapter
       'jobFinished'
       filename: filename
       engineName: @engineName
-      customPath: @customPath
+      enginePath: @enginePath
       method: method
       duration: endTime[0] + endTime[1] / 1e9
       deps: deps
