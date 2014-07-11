@@ -7,9 +7,9 @@ exports.supports = supports = (name) ->
   name = adapter_to_name(name)
   !!glob.sync("#{path.join(__dirname, 'adapters', name)}.*").length
 
-exports.load = (name, custom_path, engineName) ->
+exports.load = (name, enginePath, engineName) ->
   name = adapter_to_name(name)
-  return new (require(path.join(__dirname, 'adapters', name)))(engineName, custom_path)
+  return new (require(path.join(__dirname, 'adapters', name)))(engineName, enginePath)
 
 exports.all = ->
   indx(path.join(__dirname, 'adapters'))

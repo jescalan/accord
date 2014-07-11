@@ -26,7 +26,7 @@ class Handlebars extends Adapter
 
   clientHelpers: ->
     runtime_path = path.join(
-      @engine.__accord_path,
+      @enginePath,
       'dist/handlebars.runtime.min.js'
     )
     return fs.readFileSync(runtime_path, 'utf8')
