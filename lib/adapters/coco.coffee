@@ -7,7 +7,14 @@ class Coco extends Adapter
   output: 'js'
   isolated: true
 
+  constructor: (args...) ->
+    super(args...)
+    @options.schema.bare =
+      type: 'boolean'
+      default: false
+
   _render: (str, options) ->
+    options = @options.validate(options)
     compile => @engine.compile(str, options)
 
   # private

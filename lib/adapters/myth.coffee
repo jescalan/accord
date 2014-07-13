@@ -7,6 +7,7 @@ class Myth extends Adapter
   output: 'css'
 
   _render: (str, options) ->
+    options = @options.validate(options)
     compile => @engine(str)
 
   # private

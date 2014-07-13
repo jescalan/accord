@@ -4,6 +4,7 @@ _ = require 'lodash'
 resolve = require 'resolve'
 path = require 'path'
 fs = require 'fs'
+ConfigSchema = require 'config-schema'
 accord = require './'
 
 
@@ -59,6 +60,13 @@ class Adapter
   isolated: false
 
   ###*
+   * The schema for options being passed to accord. Making use of this is
+     optional, and it assumes that you have basically the same options being
+     passed to each function.
+  ###
+  options: undefined
+
+  ###*
    * @param {String} [engineName=Adapter.supportedEngines[0]] If you need to use a
      particular engine to compile/render with, then specify it here. Otherwise
      we use whatever engine you have installed.
@@ -67,6 +75,10 @@ class Adapter
      then pass the path to it here.
   ###
   constructor: (@engineName, @enginePath) ->
+    @options = new ConfigSchema()
+    @options.schema.filename =
+      type: 'string'
+
     if not @supportedEngines or @supportedEngines.length is 0
       @supportedEngines = [@name]
     if @engineName?
