@@ -38,9 +38,6 @@ abstract_mapper = (name, direction) ->
 
   return res or name
 
-name_to_adapter = (name) ->
-  abstract_mapper(name, 'left')
-
 adapter_to_name = (name) ->
   abstract_mapper(name, 'right')
 
