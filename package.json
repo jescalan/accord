@@ -12,7 +12,7 @@
   "dependencies": {
     "fobject": "0.x",
     "glob": "4.x",
-    "indx": "0.1.x",
+    "indx": "0.2.x",
     "lodash": "2.x",
     "resolve": "0.7.x",
     "uglify-js": "2.x",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "coffee-script": "1.7.x",
-    "mocha": "*",
+    "mocha": "1.x",
     "should": "*",
     "swig": "*",
     "jade": "*",
@@ -46,7 +46,7 @@
     "parse5": "*",
     "coveralls": "2.x",
     "mocha-lcov-reporter": "0.0.1",
-    "istanbul": "0.2.x"
+    "istanbul": "0.3.x"
   },
   "scripts": {
     "test": "mocha",
