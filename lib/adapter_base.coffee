@@ -9,6 +9,7 @@ class Adapter
     @_render(str, opts)
 
   renderFile: (file, opts = {}) ->
+    opts = _.clone(opts, true)
     (new File(file))
       .read(encoding: 'utf8')
       .then _.partialRight(@render, _.extend(opts, {filename: file})).bind(@)
