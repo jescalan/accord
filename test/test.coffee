@@ -1,5 +1,7 @@
 should = require 'should'
-path = require 'path'
+path   = require 'path'
+W      = require 'when'
+_      = require 'lodash'
 accord = require '../'
 
 require('./helpers')(should)
@@ -88,6 +90,17 @@ describe 'jade', ->
   it 'should correctly handle errors', (done) ->
     @jade.render("!= nonexistantfunction()")
       .done(should.not.exist, (-> done()))
+
+  it "should handle rapid async calls with different deeply nested locals correctly", (done) ->
+    lpath = path.join(@path, 'async.jade')
+    opts  = {wow: {such: 'test'}}
+    W.map [1..100], (i) =>
+      opts.wow = {such: i}
+      @jade.renderFile(lpath, opts).catch(should.not.exist)
+    .then (res) ->
+      _.uniq(res).length.should.equal(res.length)
+      done()
+    .catch(done)
 
 describe 'swig', ->
 
