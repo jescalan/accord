@@ -125,7 +125,6 @@ describe 'swig', ->
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.swig')
     @swig.renderFile(lpath, locals: {author: "Jeff Escalante"}).done((res) =>
-      console.log '"', res, '"'
       should.match_expected(@swig, res, lpath, done)
     )
 
@@ -175,7 +174,16 @@ describe 'swig', ->
     @swig.compileFileClient(lpath).done (resTemplate) =>
       @swig.clientHelpers().done (resHelpers) =>
         text =  "window = {}; #{resHelpers};\n var tpl = (#{resTemplate.trim()});\n"
-        should.match_expected(@swig, text, lpath, done)
+        partOfClientHelpers1 = 'https://paularmstrong.github.com/swig'
+        partOfClientHelpers2 = 'var tpl ='
+        partOfClientHelpers3 = 'anonymous(_swig,_ctx,_filters,_utils,_fn) {'
+        partOfClientHelpers4 = 'var _ext = _swig.extensions,'
+
+        text.should.containEql partOfClientHelpers1
+        text.should.containEql partOfClientHelpers2
+        text.should.containEql partOfClientHelpers3
+        text.should.containEql partOfClientHelpers4
+        done()
 
 describe 'coffeescript', ->
 
@@ -610,9 +618,9 @@ describe 'mustache', ->
 
   it 'client compile should work', (done) ->
     lpath = path.join(@path, 'client-complex.mustache')
-    @mustache.compileFileClient(lpath)
-      .done (res) =>
-        tpl_string =  "#{@mustache.clientHelpers()}; var tpl = #{res} tpl.render({ wow: 'local' })"
+    @mustache.compileFileClient(lpath).done (res) =>
+      @mustache.clientHelpers().done (clientHelpers) =>
+        tpl_string =  "#{clientHelpers}; var tpl = #{res} tpl.render({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
         should.match_expected(@mustache, tpl, lpath, done)
 
@@ -712,9 +720,10 @@ describe 'handlebars', ->
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.hbs')
     @handlebars.compileFileClient(lpath).done (res) =>
-      tpl_string = "#{@handlebars.clientHelpers()}; var tpl = #{res}; tpl({ wow: 'local' })"
-      tpl = eval.call(global, tpl_string).trim() + '\n'
-      should.match_expected(@handlebars, tpl, lpath, done)
+      @handlebars.clientHelpers().done (clientHelpers) =>
+        tpl_string = "#{clientHelpers}; var tpl = #{res}; tpl({ wow: 'local' })"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@handlebars, tpl, lpath, done)
 
   it 'should correctly handle errors', (done) ->
     @handlebars.render("{{# !@{!# }}")
