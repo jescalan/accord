@@ -1,8 +1,10 @@
 # CoffeeScript
 The CoffeeScript adapter API is almost exactly the same as the CoffeeScript JS API, making this an easy transition. The CoffeeScript JS API options are notoriously difficult to find anywhere online, so I've taken the liberty of listing out all the ones I could find here for you.
 
-## Additional Options
+## Supported Methods
+ - render
 
+## Additional Options
 ### Bare
  - key: `bare`
  - type: `Boolean`

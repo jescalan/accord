@@ -1,8 +1,10 @@
 # Markdown
 The markdown interface is very similar to the one [marked uses](https://github.com/chjj/marked#usage).
 
-## Additional Options
+## Supported Methods
+ - render
 
+## Additional Options
 ### GFM
  - key: `gfm`
  - type: `Boolean`

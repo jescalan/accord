@@ -1,8 +1,10 @@
 # Stylus
 The Stylus compiler interface is one of the most abnormal and has gone through heavy modification to fit to the the accord model.
 
-## Additional Options
+## Supported Methods
+ - render
 
+## Additional Options
 ### [Define](http://learnboost.github.io/stylus/docs/js.html#definename-node)
 
  - key: `define`

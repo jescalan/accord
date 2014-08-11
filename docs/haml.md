@@ -1,8 +1,11 @@
 # HAML
 The haml compiler is very simple and fairly weak in comparison to other JavaScript templating engines (like Jade). It does not support any sort of layout system or includes, and it does not support client-side templates (yet). Its compile options are not documented, but here's what I could find in the source:
 
-## Additional Options
+## Supported Methods
+ - render
+ - compile
 
+## Additional Options
 ### Cache
  - key: `no_restructure`
  - type: `Boolean`

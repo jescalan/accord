@@ -1,6 +1,4 @@
-Swig
-====
-
+# Swig
 The [Swig](http://paularmstrong.github.io/swig/) adapter is written with a few quirks to assure that it works similarly to the other template engines.
 
 There is no way to set a "base path" in Swig's `render` or `compile` methods, which means external file requests (see: [template inheritance](http://paularmstrong.github.io/swig/docs/#inheritance)) Swig's `renderFile` and `compileFile` methods both parse the file path through the first argument passed.  Thus, the Swig adapter overwrites the `Adapter` class's `renderFile` and `compileFile` methods.
@@ -19,4 +17,8 @@ swig.renderFile("index.swig", { locals: { title: "Hello" } });
 ```
 [See documentation for more information.](http://paularmstrong.github.io/swig/docs/api/#render)
 
-Swig does support client-side templates, meaning `compileClient` and `compileFileClient` both work, returning stringified anonymous functions, and `clientHelpers` returns a string of JavaScript that must be in place in order for client-side templates to render properly.
+## Supported Methods
+ - render
+ - compile
+ - compileClient
+ - clientHelpers
