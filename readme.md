@@ -104,12 +104,11 @@ jade.compileFileClient('./example.jade')
 Docs below should explain the methods executed in the example above.
 
 ## Accord Methods
-- `accord.load(string, object)`
-  Loads the compiler named in the first param, npm package with the name must be installed locally, or the optional second param must be the compiler you are after. The second param allows you to load the compiler from elsewhere or load an alternate version if you want, but be careful.
+- `accord.supports(adapterName)`
+  Quick test to see if accord supports a certain adapter. Accepts a string, which is the name of language (like `'markdown'`) or a compiler (like `'marked'`), returns a boolean.
 
-- `accord.supports(string)`
-  Quick test to see if accord supports a certain compiler. accepts a string, which is the name of language (like markdown) or a compiler (like marked), returns a boolean.
-
+- `accord.load(adapterName, [enginePath, engineName])`
+  Loads the adapter named by `adapterName` (which can be the same type of name you pass to `accord.supports`). The npm package for one of the supported engines must installed locally. If you need to load a particular copy of the engine (other than what would be resolved by `require`), then specify the `enginePath`. If you don't know the enginePath, but want to use a engine other than the default or the only one installed, then specify `engineName`. All args are strings.
 
 ## Accord Adapter Methods
 - `adapter.render(string, options)` - render a string to a compiled string
