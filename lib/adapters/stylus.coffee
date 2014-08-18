@@ -1,6 +1,6 @@
 Adapter = require '../adapter_base'
-nodefn = require 'when/node/function'
-_ = require 'lodash'
+nodefn  = require 'when/node/function'
+_       = require 'lodash'
 
 class Stylus extends Adapter
   constructor: (@compiler) ->

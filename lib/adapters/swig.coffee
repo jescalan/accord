@@ -1,7 +1,7 @@
-Adapter = require '../adapter_base'
-path = require 'path'
-fs = require 'fs'
-W = require 'when'
+Adapter  = require '../adapter_base'
+path     = require 'path'
+fs       = require 'fs'
+W        = require 'when'
 UglifyJS = require 'uglify-js'
 
 class Swig extends Adapter

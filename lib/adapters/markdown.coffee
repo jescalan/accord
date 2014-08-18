@@ -1,5 +1,5 @@
 Adapter = require '../adapter_base'
-nodefn = require 'when/node/function'
+nodefn  = require 'when/node/function'
 
 class Markdown extends Adapter
   constructor: (@compiler) ->

@@ -1,7 +1,7 @@
 Adapter = require '../adapter_base'
-path = require 'path'
-fs = require 'fs'
-W = require 'when'
+path    = require 'path'
+fs      = require 'fs'
+W       = require 'when'
 
 class EJS extends Adapter
   constructor: (@compiler) ->
@@ -24,7 +24,7 @@ class EJS extends Adapter
     return fs.readFileSync(runtime_path, 'utf8')
 
   # private
- 
+
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)

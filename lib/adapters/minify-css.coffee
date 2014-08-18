@@ -1,5 +1,5 @@
 Adapter = require '../adapter_base'
-W = require 'when'
+W       = require 'when'
 
 class MinifyCSS extends Adapter
   constructor: (@compiler) ->
@@ -11,7 +11,7 @@ class MinifyCSS extends Adapter
     compile => (new @compiler(options)).minify(str)
 
   # private
-  
+
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)

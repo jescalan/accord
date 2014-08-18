@@ -1,8 +1,8 @@
 Adapter = require '../adapter_base'
-_ = require 'lodash'
-path = require 'path'
-fs = require 'fs'
-W = require 'when'
+_       = require 'lodash'
+path    = require 'path'
+fs      = require 'fs'
+W       = require 'when'
 
 class Handlebars extends Adapter
   constructor: (@compiler) ->

@@ -1,6 +1,6 @@
 Adapter = require '../adapter_base'
-W = require 'when'
-_ = require 'lodash'
+W       = require 'when'
+_       = require 'lodash'
 
 class MinifyJS extends Adapter
   constructor: (@compiler) ->
@@ -12,7 +12,7 @@ class MinifyJS extends Adapter
     compile => @compiler.minify(str, _.extend(options, { fromString: true })).code
 
   # private
-  
+
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)

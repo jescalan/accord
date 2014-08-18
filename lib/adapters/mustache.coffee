@@ -1,8 +1,8 @@
 Adapter = require '../adapter_base'
-W = require 'when'
-util = require 'util'
-fs = require 'fs'
-path = require 'path'
+W       = require 'when'
+util    = require 'util'
+fs      = require 'fs'
+path    = require 'path'
 
 class Mustache extends Adapter
   constructor: (@compiler) ->
