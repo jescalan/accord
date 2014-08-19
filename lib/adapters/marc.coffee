@@ -2,14 +2,13 @@ Adapter = require '../adapter_base'
 W       = require 'when'
 
 class Marc extends Adapter
-  constructor: (@compiler) ->
-    @name = 'marc'
-    @extensions = ['md']
-    @output = 'html'
+  name: 'marc'
+  extensions: ['md']
+  output: 'html'
 
   _render: (str, options) ->
     # marc mutates the compiler, so we need to keep the original fresh
-    base = @compiler()
+    base = @engine()
 
     # use marc's functions to configure the compiler
     base.set(k, v) for k, v of options['data']

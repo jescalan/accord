@@ -2,13 +2,12 @@ Adapter = require '../adapter_base'
 W       = require 'when'
 
 class Coco extends Adapter
-  constructor: (@compiler) ->
-    @name = 'coco'
-    @extensions = ['co']
-    @output = 'js'
+  name: 'coco'
+  extensions: ['co']
+  output: 'js'
 
   _render: (str, options) ->
-    compile => @compiler.compile(str, options)
+    compile => @engine.compile(str, options)
 
   # private
 

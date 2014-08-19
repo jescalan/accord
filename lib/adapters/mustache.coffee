@@ -5,25 +5,25 @@ fs      = require 'fs'
 path    = require 'path'
 
 class Mustache extends Adapter
-  constructor: (@compiler) ->
-    @name = 'mustache'
-    @extensions = ['mustache', 'hogan']
-    @output = 'html'
+  name: 'mustache'
+  extensions: ['mustache', 'hogan']
+  output: 'html'
+  supportedEngines: ['hogan.js']
 
   _render: (str, options) ->
-    compile => @compiler.compile(str, options).render(options, options.partials)
+    compile => @engine.compile(str, options).render(options, options.partials)
 
   _compile: (str, options) ->
-    compile => @compiler.compile(str, options)
+    compile => @engine.compile(str, options)
 
   _compileClient: (str, options) ->
     options.asString = true
     @_compile(str, options).then((o) -> "new Hogan.Template(#{o.toString()});")
 
   clientHelpers: ->
-    version = require(path.join(@compiler.__accord_path, 'package')).version
+    version = require(path.join(@engine.__accord_path, 'package')).version
     runtime_path = path.join(
-      @compiler.__accord_path
+      @engine.__accord_path
       "web/builds/#{version}/hogan-#{version}.min.js"
     )
     return fs.readFileSync(runtime_path, 'utf8')
