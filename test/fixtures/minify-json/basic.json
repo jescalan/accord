@@ -1,0 +1,21 @@
+{
+  "version": "0.11.1",
+  "main": "lib",
+  "license": "MIT",
+  "repository": {
+    "type": "git"
+  },
+  "dependencies": {
+    "config-schema": "0.0.3",
+    "fobject": "0.x",
+    "glob": "4.x",
+    "indx": "0.2.x"
+  },
+  "devDependencies": {
+    "coffee-script": "1.7.x"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "an array": [1, 2, 3, 4, 5]
+}

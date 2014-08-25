@@ -11,7 +11,11 @@ module.exports = (should) ->
       when 'css' then require ('css-parse')
       when 'js' then (require('acorn')).parse
 
-    expected_path = path.join(path.dirname(epath), 'expected', "#{path.basename(epath, compiler.extensions[0])}#{compiler.output}")
+    expected_path = path.join(
+      path.dirname(epath),
+      'expected',
+      "#{path.basename(epath, compiler.extensions[0])}#{compiler.output}"
+    )
     fs.existsSync(expected_path).should.be.ok
     expected = parser(fs.readFileSync(expected_path, 'utf8'))
     results = parser(content)
