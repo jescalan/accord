@@ -8,6 +8,7 @@ class Handlebars extends Adapter
   name: 'handlebars'
   extensions: ['hbs', 'handlebars']
   output: 'html'
+  supportedEngines: ['handlebars']
 
   _render: (str, options) ->
     compiler = _.clone(@engine)

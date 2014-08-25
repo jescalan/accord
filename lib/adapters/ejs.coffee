@@ -7,6 +7,7 @@ class EJS extends Adapter
   name: 'ejs'
   extensions: ['ejs']
   output: 'html'
+  supportedEngines: ['ejs']
 
   _render: (str, options) ->
     compile => @engine.render(str, options)

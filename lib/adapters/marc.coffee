@@ -5,6 +5,7 @@ class Marc extends Adapter
   name: 'marc'
   extensions: ['md']
   output: 'html'
+  supportedEngines: ['marc']
 
   _render: (str, options) ->
     # marc mutates the compiler, so we need to keep the original fresh

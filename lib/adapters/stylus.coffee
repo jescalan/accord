@@ -6,6 +6,7 @@ class Stylus extends Adapter
   name: 'stylus'
   extensions: ['styl']
   output: 'css'
+  supportedEngines: ['stylus']
 
   _render: (str, options) ->
     sets = {}

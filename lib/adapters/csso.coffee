@@ -6,6 +6,7 @@ class CSSO extends Adapter
   extensions: ['css']
   output: 'css'
   isolated: true
+  supportedEngines: ['csso']
 
   _render: (str, options) ->
     options.noRestructure ?= false

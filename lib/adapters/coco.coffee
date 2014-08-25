@@ -6,6 +6,7 @@ class Coco extends Adapter
   extensions: ['co']
   output: 'js'
   isolated: true
+  supportedEngines: ['coco']
 
   constructor: (args...) ->
     super(args...)

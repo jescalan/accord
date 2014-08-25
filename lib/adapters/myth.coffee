@@ -5,6 +5,7 @@ class Myth extends Adapter
   name: 'myth'
   extensions: ['myth', 'mcss']
   output: 'css'
+  supportedEngines: ['myth']
 
   _render: (str, options) ->
     options = @options.validate(options)

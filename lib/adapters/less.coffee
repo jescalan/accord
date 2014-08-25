@@ -5,6 +5,7 @@ class Less extends Adapter
   name: 'less'
   extensions: ['less']
   output: 'css'
+  supportedEngines: ['less']
 
   ###*
    * LESS has import rules for other LESS stylesheets

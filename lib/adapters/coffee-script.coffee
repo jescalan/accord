@@ -6,6 +6,7 @@ class CoffeeScript extends Adapter
   extensions: ['coffee']
   output: 'js'
   isolated: true
+  supportedEngines: ['coffee-script']
 
   _render: (str, options) ->
     compile => @engine.compile(str, options)

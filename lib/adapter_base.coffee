@@ -79,8 +79,9 @@ class Adapter
     @options.schema.filename =
       type: 'string'
 
-    if not @supportedEngines or @supportedEngines.length is 0
-      @supportedEngines = [@name]
+    # if the adapter doesn't need an engine
+    if not @supportedEngines? then return
+
     if @engineName?
       # a specific engine is required by user
       if @engineName not in @supportedEngines

@@ -7,6 +7,7 @@ class Swig extends Adapter
   name: 'swig'
   extensions: ['swig']
   output: 'html'
+  supportedEngines: ['swig']
 
   _render: (str, options) ->
     compile => @engine.render(str, options)
