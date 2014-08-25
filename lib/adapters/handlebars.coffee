@@ -11,18 +11,18 @@ class Handlebars extends Adapter
 
   _render: (str, options) ->
     compiler = _.clone(@engine)
-    register_helpers(compiler, options)
-    compile => compiler.compile(str)(options)
+    registerHelpers(compiler, options)
+    compile -> compiler.compile(str)(options)
 
   _compile: (str, options) ->
     compiler = _.clone(@engine)
-    register_helpers(compiler, options)
-    compile => compiler.compile(str)
+    registerHelpers(compiler, options)
+    compile -> compiler.compile(str)
 
   _compileClient: (str, options) ->
     compiler = _.clone(@engine)
-    register_helpers(compiler, options)
-    compile => "Handlebars.template(#{compiler.precompile(str)});"
+    registerHelpers(compiler, options)
+    compile -> "Handlebars.template(#{compiler.precompile(str)});"
 
   clientHelpers: ->
     runtime_path = path.join(
@@ -34,7 +34,7 @@ class Handlebars extends Adapter
   ###*
    * @private
   ###
-  register_helpers = (compiler, opts) ->
+  registerHelpers = (compiler, opts) ->
     if opts.helpers
       compiler.helpers = _.merge(compiler.helpers, opts.helpers)
     if opts.partials
