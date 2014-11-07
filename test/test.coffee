@@ -41,41 +41,41 @@ describe 'jade', ->
 
   it 'should render a string', (done) ->
     @jade.render('p BLAHHHHH\np= foo', { foo: 'such options' })
-      .done((res) => should.match_expected(@jade, res, path.join(@path, 'rstring.jade'), done))
+      .done((res) => should.match_expected(@jade, res.compiled, path.join(@path, 'rstring.jade'), done))
 
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.jade')
     @jade.renderFile(lpath, { foo: 'such options' })
-      .done((res) => should.match_expected(@jade, res, lpath, done))
+      .done((res) => should.match_expected(@jade, res.compiled, lpath, done))
 
   it 'should compile a string', (done) ->
     @jade.compile("p why cant I shot web?\np= foo")
-      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), path.join(@path, 'pstring.jade'), done))
+      .done((res) => should.match_expected(@jade, res.compiled({foo: 'such options'}), path.join(@path, 'pstring.jade'), done))
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.jade')
     @jade.compileFile(lpath)
-      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), lpath, done))
+      .done((res) => should.match_expected(@jade, res.compiled({foo: 'such options'}), lpath, done))
 
   it 'should client-compile a string', (done) ->
     @jade.compileClient("p imma firin mah lazer!\np= foo", {foo: 'such options'})
-      .done((res) => should.match_expected(@jade, res, path.join(@path, 'cstring.jade'), done))
+      .done((res) => should.match_expected(@jade, res.compiled, path.join(@path, 'cstring.jade'), done))
 
   it 'should client-compile a file', (done) ->
     lpath = path.join(@path, 'client.jade')
     @jade.compileFileClient(lpath, {foo: 'such options'})
-      .done((res) => should.match_expected(@jade, res, lpath, done))
+      .done((res) => should.match_expected(@jade, res.compiled, lpath, done))
 
   it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.jade')
     @jade.renderFile(lpath)
-      .done((res) => should.match_expected(@jade, res, lpath, done))
+      .done((res) => should.match_expected(@jade, res.compiled, lpath, done))
 
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.jade')
     @jade.compileFileClient(lpath)
       .done (res) =>
-        tpl_string =  "#{@jade.clientHelpers()}#{res}; template({ wow: 'local' })"
+        tpl_string =  "#{@jade.clientHelpers()}#{res.compiled}; template({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
         should.match_expected(@jade, tpl, lpath, done)
 
@@ -188,12 +188,12 @@ describe 'stylus', ->
 
   it 'should render a string', (done) ->
     @stylus.render('.test\n  foo: bar')
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'string.styl'), done))
+      .done((res) => should.match_expected(@stylus, res.compiled, path.join(@path, 'string.styl'), done))
 
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.styl')
     @stylus.renderFile(lpath)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should not be able to compile', (done) ->
     @stylus.compile()
@@ -206,7 +206,7 @@ describe 'stylus', ->
 
     lpath = path.join(@path, 'include1.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should correctly import css files', (done) ->
     opts =
@@ -214,7 +214,7 @@ describe 'stylus', ->
 
     lpath = path.join(@path, 'include_css.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should set vanilla url function', (done) ->
     opts =
@@ -222,7 +222,7 @@ describe 'stylus', ->
 
     lpath = path.join(@path, 'embedurl.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should set url function with options', (done) ->
     opts =
@@ -233,14 +233,14 @@ describe 'stylus', ->
     lpath = path.join(@path, 'embedurl.styl')
     epath = path.join(@path, 'embedurl-opts.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, epath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, epath, done))
 
   it 'should set defines', (done) ->
     opts =
       define: { foo: 'bar', baz: 'quux' }
 
     @stylus.render('.test\n  test: foo', opts)
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'defines.styl'), done))
+      .done((res) => should.match_expected(@stylus, res.compiled, path.join(@path, 'defines.styl'), done))
 
   it 'should set includes', (done) ->
     opts =
@@ -248,7 +248,7 @@ describe 'stylus', ->
 
     lpath = path.join(@path, 'include1.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should set multiple includes', (done) ->
     opts =
@@ -256,7 +256,7 @@ describe 'stylus', ->
 
     lpath = path.join(@path, 'include2.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should set imports', (done) ->
     opts =
@@ -264,7 +264,7 @@ describe 'stylus', ->
 
     lpath = path.join(@path, 'import1.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should set multiple imports', (done) ->
     opts =
@@ -272,7 +272,7 @@ describe 'stylus', ->
 
     lpath = path.join(@path, 'import2.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res, lpath, done))
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
   it 'should set plugins', (done) ->
     opts =
@@ -280,7 +280,7 @@ describe 'stylus', ->
         style.define('main-width', 500)
 
     @stylus.render('.test\n  foo: main-width', opts)
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins1.styl'), done))
+      .done((res) => should.match_expected(@stylus, res.compiled, path.join(@path, 'plugins1.styl'), done))
 
   it 'should set multiple plugins', (done) ->
     opts =
@@ -290,11 +290,19 @@ describe 'stylus', ->
       ]
 
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
-      .done((res) => should.match_expected(@stylus, res, path.join(@path, 'plugins2.styl'), done))
+      .done((res) => should.match_expected(@stylus, res.compiled, path.join(@path, 'plugins2.styl'), done))
 
   it 'should correctly handle errors', (done) ->
     @stylus.render("214m2/3l")
       .done(should.not.exist, (-> done()))
+
+  it 'should expose sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.styl')
+    opts = { sourcemap: { comment: false } }
+
+    @stylus.renderFile(lpath, opts)
+      .tap (res) -> res.sourcemap.should.exist
+      .done((res) => should.match_expected(@stylus, res.compiled, lpath, done))
 
 describe 'ejs', ->
 
