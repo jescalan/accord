@@ -1,9 +1,9 @@
-File    = require 'fobject'
-W       = require 'when'
-_       = require 'lodash'
+File = require 'fobject'
+W = require 'when'
+_ = require 'lodash'
 resolve = require 'resolve'
-path    = require 'path'
-fs      = require 'fs'
+path = require 'path'
+fs = require 'fs'
 
 
 class Adapter
@@ -20,6 +20,11 @@ class Adapter
    * @type {String}
   ###
   engineName: ''
+
+  ###*
+   * The path to the root directory of the engine that's in use.
+  ###
+  enginePath: ''
 
   ###*
    * The actual engine, no adapter wrapper. Defaults to the engine that we
@@ -52,11 +57,14 @@ class Adapter
   isolated: false
 
   ###*
-   * @param {String} [engine=Adapter.supportedEngines[0]] If you need to use a
+   * @param {String} [engineName=Adapter.supportedEngines[0]] If you need to use a
      particular engine to compile/render with, then specify it here. Otherwise
      we use whatever engine you have installed.
+   * @param {String} [enginePath] If you need to use a particular installation
+     of an engine (rather than the one that `require` resolves to automatically)
+     then pass the path to it here.
   ###
-  constructor: (@engineName, @customPath) ->
+  constructor: (@engineName, @enginePath) ->
     if not @supportedEngines or @supportedEngines.length is 0
       @supportedEngines = [@name]
     if @engineName?
@@ -151,12 +159,12 @@ class Adapter
 
 
   _requireEngine: ->
-    if @customPath?
-      @engine = require(resolve.sync(path.basename(@customPath), basedir: @customPath))
-      @engine.__accord_path = @customPath
+    if @enginePath?
+      @engine = require(resolve.sync(path.basename(@enginePath), basedir: @enginePath))
+      @engine.__accord_path = @enginePath
     else
       @engine = require(@engineName)
-      @engine.__accord_path = resolvePath(@engineName)
+      @enginePath = @engine.__accord_path = resolvePath(@engineName)
 
 
 ###*
