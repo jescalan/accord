@@ -9,13 +9,9 @@ class Less extends Adapter
   _render: (str, options) ->
     deferred = W.defer()
 
-    parser = new @engine.Parser(options)
-    parser.parse str, (err, tree) ->
+    @engine.render str, options, (err, res) ->
       if err then return deferred.reject(err)
-      try
-        deferred.resolve(tree.toCSS())
-      catch err
-        deferred.reject(err)
+      deferred.resolve(res.css)
 
     return deferred.promise
 

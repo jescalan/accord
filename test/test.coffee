@@ -720,7 +720,7 @@ describe 'less', ->
     @less.render("!@##%#$#^$")
       .done(should.not.exist, (-> done()))
 
-  it 'should correctly handle toCSS() errors', (done) ->
+  it 'should correctly handle tree resolution errors', (done) ->
     @less.render('''
     .foo {
       .notFound()
