@@ -11,8 +11,8 @@ class SCSS extends Adapter
     deferred = W.defer()
 
     options.data = str
-    options.success = deferred.resolve
-    options.error = deferred.reject
+    options.success = (res) -> deferred.resolve(compiled: res)
+    options.error = (res) -> deferred.reject(compiled: res)
 
     @engine.render(options)
 

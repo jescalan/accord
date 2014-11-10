@@ -16,7 +16,7 @@ class Less extends Adapter
 
     @engine.render str, options, (err, res) ->
       if err then return deferred.reject(err)
-      deferred.resolve(res.css)
+      deferred.resolve(compiled: res.css)
 
     return deferred.promise
 

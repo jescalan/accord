@@ -8,6 +8,6 @@ class DogeScript extends Adapter
   isolated: true
 
   _render: (str, options) ->
-    W.resolve @engine(str, options.beauty, options.trueDoge)
+    W.resolve(compiled: @engine(str, options.beauty, options.trueDoge))
 
 module.exports = DogeScript

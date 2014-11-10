@@ -46,6 +46,9 @@ class Stylus extends Adapter
     base.use(i) for i in plugins
 
     nodefn.call(base.render.bind(base))
-      .then (res) -> { compiled: res, sourcemap: base.sourcemap }
+      .then (res) ->
+        obj = { compiled: res }
+        if base.sourcemap then obj.sourcemap = base.sourcemap
+        return obj
 
 module.exports = Stylus
