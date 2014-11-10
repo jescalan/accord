@@ -56,18 +56,18 @@ class Adapter
      particular engine to compile/render with, then specify it here. Otherwise
      we use whatever engine you have installed.
   ###
-  constructor: (@engineName, customPath) ->
+  constructor: (@engineName, @customPath) ->
     if not @supportedEngines or @supportedEngines.length is 0
       @supportedEngines = [@name]
     if @engineName?
       # a specific engine is required by user
       if @engineName not in @supportedEngines
         throw new Error("engine '#{@engineName}' not supported")
-      @engine = requireEngine(@engineName, customPath)
+      @_requireEngine()
     else
       for @engineName in @supportedEngines
         try
-          @engine = requireEngine(@engineName, customPath)
+          @_requireEngine()
         catch
           continue # try the next one
         return # it worked, we're done
@@ -150,17 +150,13 @@ class Adapter
   clientHelpers: undefined
 
 
-requireEngine = (engineName, customPath) ->
-  if customPath?
-    engine = require(resolve.sync(path.basename(customPath), basedir: customPath))
-    engine.__accord_path = customPath
-  else
-    try
-      engine = require(engineName)
-      engine.__accord_path = resolvePath(engineName)
-    catch err
-      throw new Error("'#{engineName}' not found. make sure it has been installed!")
-  return engine
+  _requireEngine: ->
+    if @customPath?
+      @engine = require(resolve.sync(path.basename(@customPath), basedir: @customPath))
+      @engine.__accord_path = @customPath
+    else
+      @engine = require(@engineName)
+      @engine.__accord_path = resolvePath(@engineName)
 
 
 ###*
