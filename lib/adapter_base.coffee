@@ -95,7 +95,8 @@ class Adapter
   render: (str, opts = {}) ->
     if not @_render
       return W.reject new Error('render not supported')
-    @_render(str, opts)
+    @_render(str, opts).then (res) ->
+      res.trim() + '\n'
 
   ###*
    * Render a file to a compiled string
@@ -140,7 +141,8 @@ class Adapter
   compileClient: (str, opts = {}) ->
     if not @_compileClient
       return W.reject new Error('client-side compile not supported')
-    @_compileClient(str, opts)
+    @_compileClient(str, opts).then (res) ->
+      res.trim() + '\n'
 
   ###*
    * Compile a file to a client-side-ready function

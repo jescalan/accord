@@ -19,9 +19,10 @@ class Swig extends Adapter
 
   renderFile: (path, options = {}) ->
     compile => @engine.renderFile(path, options.locals)
+      .then((res) -> res.trim() + '\n')
 
   compileFile: (path, options = {}) ->
-    compile => @engine.compileFile(path, options)
+    compile(=> @engine.compileFile(path, options))
 
   clientHelpers: ->
     runtime_path = path.join(@enginePath, 'dist/swig.min.js')

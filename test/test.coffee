@@ -49,16 +49,26 @@ describe 'jade', ->
       .done((res) => should.match_expected(@jade, res, lpath, done))
 
   it 'should compile a string', (done) ->
-    @jade.compile("p why cant I shot web?\np= foo")
-      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), path.join(@path, 'pstring.jade'), done))
+    @jade.compile("p why cant I shot web?\np= foo").done (res) =>
+      should.match_expected(
+        @jade
+        res(foo: 'such options').trim() + '\n'
+        path.join(@path, 'pstring.jade')
+        done
+      )
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.jade')
-    @jade.compileFile(lpath)
-      .done((res) => should.match_expected(@jade, res({foo: 'such options'}), lpath, done))
+    @jade.compileFile(lpath).done (res) =>
+      should.match_expected(
+        @jade
+        res(foo: 'such options').trim() + '\n'
+        lpath
+        done
+      )
 
   it 'should client-compile a string', (done) ->
-    @jade.compileClient("p imma firin mah lazer!\np= foo", {foo: 'such options'})
+    @jade.compileClient("p imma firin mah lazer!\np= foo", foo: 'such options')
       .done((res) => should.match_expected(@jade, res, path.join(@path, 'cstring.jade'), done))
 
   it 'should client-compile a file', (done) ->
@@ -76,7 +86,7 @@ describe 'jade', ->
     @jade.compileFileClient(lpath).done (resTemplate) =>
       @jade.clientHelpers().done (resHelpers) =>
         text = "#{resHelpers}#{resTemplate}; template({ wow: 'local' })"
-        tpl = eval.call(global, text)
+        tpl = eval.call(global, text).trim() + '\n'
         should.match_expected(@jade, tpl, lpath, done)
 
   it 'should correctly handle errors', (done) ->
@@ -107,26 +117,48 @@ describe 'swig', ->
     @swig.name.should.be.ok
 
   it 'should render a string', (done) ->
-    @swig.render('<h1>{% if foo %}Bar{% endif %}</h1>', { locals: { foo: true } })
-      .done((res) => should.match_expected(@swig, res, path.join(@path, 'string.swig'), done))
+    text = '<h1>{% if foo %}Bar{% endif %}</h1>'
+    @swig.render(text, locals: {foo: true}).done((res) =>
+      should.match_expected(@swig, res, path.join(@path, 'string.swig'), done)
+    )
 
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.swig')
-    @swig.renderFile(lpath, { locals: { author: "Jeff Escalante" } })
-      .done((res) => should.match_expected(@swig, res, lpath, done))
+    @swig.renderFile(lpath, locals: {author: "Jeff Escalante"}).done((res) =>
+      console.log '"', res, '"'
+      should.match_expected(@swig, res, lpath, done)
+    )
 
   it 'should compile a string', (done) ->
-    @swig.compile("<h1>{{ title }}</h1>")
-      .done((res) => should.match_expected(@swig, res({title: 'Hello!'}), path.join(@path, 'pstring.swig'), done))
+    @swig.compile("<h1>{{ title }}</h1>").done((res) =>
+      should.match_expected(
+        @swig
+        res(title: 'Hello!').trim() + '\n'
+        path.join(@path, 'pstring.swig')
+        done
+      )
+    )
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.swig')
-    @swig.compileFile(lpath)
-      .done((res) => should.match_expected(@swig, res({title: 'Hello!'}), lpath, done))
+    @swig.compileFile(lpath).done((res) =>
+      should.match_expected(
+        @swig
+        res(title: 'Hello!').trim() + '\n'
+        lpath
+        done
+      )
+    )
 
   it 'should client-compile a string', (done) ->
-    @swig.compileClient("<h1>{% if foo %}Bar{% endif %}</h1>", {foo: true})
-      .done((res) => should.match_expected(@swig, res, path.join(@path, 'cstring.swig'), done))
+    text = "<h1>{% if foo %}Bar{% endif %}</h1>"
+    @swig.compileClient(text, foo: true).done((res) =>
+      should.match_expected(
+        @swig
+        res
+        path.join(@path, 'cstring.swig'), done
+      )
+    )
 
   it 'should client-compile a file', (done) ->
     lpath = path.join(@path, 'client.swig')
@@ -142,7 +174,7 @@ describe 'swig', ->
     lpath = path.join(@path, 'client-complex.swig')
     @swig.compileFileClient(lpath).done (resTemplate) =>
       @swig.clientHelpers().done (resHelpers) =>
-        text =  "window = {}; #{resHelpers};\n var tpl = (#{resTemplate});"
+        text =  "window = {}; #{resHelpers};\n var tpl = (#{resTemplate.trim()});\n"
         should.match_expected(@swig, text, lpath, done)
 
 describe 'coffeescript', ->
@@ -318,13 +350,25 @@ describe 'ejs', ->
       .done((res) => should.match_expected(@ejs, res, lpath, done))
 
   it 'should compile a string', (done) ->
-    @ejs.compile("<p>precompilez</p><p><%= foo %></p>")
-      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), path.join(@path, 'pstring.ejs'), done))
+    @ejs.compile("<p>precompilez</p><p><%= foo %></p>").done((res) =>
+      should.match_expected(
+        @ejs
+        res(foo: 'wow opts').trim() + '\n'
+        path.join(@path, 'pstring.ejs')
+        done
+      )
+    )
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.ejs')
-    @ejs.compileFile(lpath)
-      .done((res) => should.match_expected(@ejs, res({foo: 'wow opts'}), lpath, done))
+    @ejs.compileFile(lpath).done((res) =>
+      should.match_expected(
+        @ejs
+        res(foo: 'wow opts').trim() + '\n'
+        lpath
+        done
+      )
+    )
 
   it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.ejs')
@@ -332,8 +376,9 @@ describe 'ejs', ->
       .done((res) => should.match_expected(@ejs, res, lpath, done))
 
   it 'should client-compile a string', (done) ->
-    @ejs.compileClient("Woah look, a <%= thing %>")
-      .done((res) => should.match_expected(@ejs, res, path.join(@path, 'cstring.ejs'), done))
+    @ejs.compileClient("Woah look, a <%= thing %>").done((res) =>
+      should.match_expected(@ejs, res, path.join(@path, 'cstring.ejs'), done)
+    )
 
   # ejs writes the filename to the function, which makes this
   # not work cross-system as expected
@@ -543,13 +588,25 @@ describe 'mustache', ->
       .done((res) => should.match_expected(@mustache, res, lpath, done))
 
   it 'should compile a string', (done) ->
-    @mustache.compile("Wow, such {{ noun }}")
-      .done((res) => should.match_expected(@mustache, res.render({noun: 'compile'}), path.join(@path, 'pstring.mustache'), done))
+    @mustache.compile("Wow, such {{ noun }}").done((res) =>
+      should.match_expected(
+        @mustache
+        res.render(noun: 'compile').trim() + '\n'
+        path.join(@path, 'pstring.mustache')
+        done
+      )
+    )
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.mustache')
-    @mustache.compileFile(lpath)
-      .done((res) => should.match_expected(@mustache, res.render({name: 'foo'}), lpath, done))
+    @mustache.compileFile(lpath).done((res) =>
+      should.match_expected(
+        @mustache
+        res.render(name: 'foo').trim() + '\n'
+        lpath
+        done
+      )
+    )
 
   it 'client compile should work', (done) ->
     lpath = path.join(@path, 'client-complex.mustache')
@@ -618,13 +675,25 @@ describe 'handlebars', ->
       .done((res) => should.match_expected(@handlebars, res, lpath, done))
 
   it 'should compile a string', (done) ->
-    @handlebars.compile('Hello there {{ name }}')
-      .done((res) => should.match_expected(@handlebars, res({ name: 'my friend' }), path.join(@path, 'pstring.hbs'), done))
+    @handlebars.compile('Hello there {{ name }}').done((res) =>
+      should.match_expected(
+        @handlebars
+        res(name: 'my friend').trim() + '\n'
+        path.join(@path, 'pstring.hbs')
+        done
+      )
+    )
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.hbs')
-    @handlebars.compileFile(lpath)
-      .done((res) => should.match_expected(@handlebars, res({ friend: 'r kelly' }), lpath, done))
+    @handlebars.compileFile(lpath).done((res) =>
+      should.match_expected(
+        @handlebars
+        res(friend: 'r kelly').trim() + '\n'
+        lpath
+        done
+      )
+    )
 
   it 'should client-compile a string', (done) ->
     @handlebars.compileClient("Here comes the {{ thing }}")
@@ -642,11 +711,10 @@ describe 'handlebars', ->
 
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.hbs')
-    @handlebars.compileFileClient(lpath)
-      .done (res) =>
-        tpl_string =  "#{@handlebars.clientHelpers()}; var tpl = #{res}; tpl({ wow: 'local' })"
-        tpl = eval.call(global, tpl_string)
-        should.match_expected(@handlebars, tpl, lpath, done)
+    @handlebars.compileFileClient(lpath).done (res) =>
+      tpl_string = "#{@handlebars.clientHelpers()}; var tpl = #{res}; tpl({ wow: 'local' })"
+      tpl = eval.call(global, tpl_string).trim() + '\n'
+      should.match_expected(@handlebars, tpl, lpath, done)
 
   it 'should correctly handle errors', (done) ->
     @handlebars.render("{{# !@{!# }}")
@@ -837,13 +905,25 @@ describe 'haml', ->
       .done((res) => should.match_expected(@haml, res, lpath, done))
 
   it 'should compile a string', (done) ->
-    @haml.compile('%p= "Hello there " + name')
-      .done((res) => should.match_expected(@haml, res({ name: 'my friend' }), path.join(@path, 'pstring.haml'), done))
+    @haml.compile('%p= "Hello there " + name').done((res) =>
+      should.match_expected(
+        @haml
+        res(name: 'my friend').trim() + '\n'
+        path.join(@path, 'pstring.haml')
+        done
+      )
+    )
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.haml')
-    @haml.compileFile(lpath)
-      .done((res) => should.match_expected(@haml, res({ friend: 'doge' }), lpath, done))
+    @haml.compileFile(lpath).done((res) =>
+      should.match_expected(
+        @haml
+        res(friend: 'doge').trim() + '\n'
+        lpath
+        done
+      )
+    )
 
   it 'should not support client compiles', (done) ->
     @haml.compileClient("%p= 'Here comes the ' + thing")
