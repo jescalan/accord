@@ -12,7 +12,7 @@ class MinifyJS extends Adapter
   _render: (str, options) ->
     compile =>
       res = @engine.minify(str, _.extend(options, fromString: true))
-      obj = { compiled: res.code }
+      obj = { result: res.code }
       if options.sourceMap then obj.sourcemap = res.map
       obj
 

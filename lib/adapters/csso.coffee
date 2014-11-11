@@ -16,6 +16,6 @@ class CSSO extends Adapter
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)
-    W.resolve(compiled: res)
+    W.resolve(result: res)
 
 module.exports = CSSO

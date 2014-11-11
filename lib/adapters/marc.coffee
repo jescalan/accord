@@ -20,6 +20,6 @@ class Marc extends Adapter
 
     # all the remaining options are options for marked
     base.config options
-    W.resolve(compiled: base(str, true))
+    W.resolve(result: base(str, true))
 
 module.exports = Marc

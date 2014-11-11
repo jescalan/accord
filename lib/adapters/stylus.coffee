@@ -47,7 +47,7 @@ class Stylus extends Adapter
 
     nodefn.call(base.render.bind(base))
       .then (res) ->
-        obj = { compiled: res }
+        obj = { result: res }
         if base.sourcemap then obj.sourcemap = base.sourcemap
         return obj
 
