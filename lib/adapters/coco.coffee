@@ -5,6 +5,7 @@ class Coco extends Adapter
   name: 'coco'
   extensions: ['co']
   output: 'js'
+  isolated: true
 
   _render: (str, options) ->
     compile => @engine.compile(str, options)

@@ -41,6 +41,17 @@ class Adapter
   output: ''
 
   ###*
+   * Specify if the output of the language is independent of other files or the
+     evaluation of potentially stateful functions. This means that the only
+     information passed into the engine is what gets passed to Accord's
+     compile/render function, and whenever that same input is given, the output
+     will always be the same.
+   * @type {Boolean}
+   * @todo Add detection for when a particular job qualifies as isolated
+  ###
+  isolated: false
+
+  ###*
    * @param {String} [engine=Adapter.supportedEngines[0]] If you need to use a
      particular engine to compile/render with, then specify it here. Otherwise
      we use whatever engine you have installed.

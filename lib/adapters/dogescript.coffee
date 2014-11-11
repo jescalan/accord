@@ -5,6 +5,7 @@ class DogeScript extends Adapter
   name: 'dogescript'
   extensions: ['djs']
   output: 'js'
+  isolated: true
 
   _render: (str, options) ->
     W.resolve @engine(str, options.beauty, options.trueDoge)
