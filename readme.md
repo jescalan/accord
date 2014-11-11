@@ -31,35 +31,28 @@ jade = accord.load('jade')
 
 # render a string
 jade.render('body\n  .test')
-  .catch(console.error.bind(console))
   .done(console.log.bind(console))
 
 # or a file
 jade.renderFile('./example.jade')
-  .catch(console.error.bind(console))
   .done(console.log.bind(console))
 
 # or compile a string to a function
 # (only some to-html compilers support this, see below)
-jade.compile('body\n  .test')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
+jade.compile('body\n  .test').done (res) ->
+  console.log(res())
 
 # or a file
-jade.compileFile('./example.jade')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
+jade.compileFile('./example.jade').done (res) ->
+  console.log(res())
 
 # compile a client-side js template
 jade.compileClient('body\n  .test')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
+  .done(console.log.bind(console))
 
 # or a file
 jade.compileFileClient('./example.jade')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
-
+  .done(console.log.bind(console))
 ```
 
 Docs below should explain the methods executed in the example above.
