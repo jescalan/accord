@@ -7,7 +7,9 @@ class Myth extends Adapter
   output: 'css'
 
   _render: (str, options) ->
-    compile => @engine(str)
+    options.source = options.filename
+    delete options.filename
+    compile => @engine(str, options)
 
   # private
 

@@ -18,3 +18,7 @@ hbs.render("hello there {{ name }}", {
  - compile
  - compileClient
  - clientHelpers
+
+## Source Maps
+
+Handlebars [does support source maps](https://github.com/wycats/handlebars.js/pull/902), but the functionality is brand new (at the time of writing), and is still undocumented. We will add this feature to accord once it's documented in handlebars if there's any demand for it.

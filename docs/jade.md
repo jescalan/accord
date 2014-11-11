@@ -6,3 +6,7 @@ The jade adapter is used in just about the exact same as the jade public api, ma
  - compile
  - compileClient
  - clientHelpers
+
+## Source Maps
+
+Jade does not support source maps and has no plans of doing so in the near future. See [this issue](https://github.com/jadejs/jade/issues/941) for discussion.

@@ -11,3 +11,7 @@ less.render('some less code', {
 
 ## Supported Methods
  - render
+
+## Source Maps
+
+The less adapter does have support for sourcemaps. You can pass in `sourceMap: true` as an option and receive a map back on the response object as `sourcemap`.

@@ -174,6 +174,13 @@ describe 'coffeescript', ->
     @coffee.render("!   ---@#$$@%#$")
       .done(should.not.exist, (-> done()))
 
+  it 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.coffee')
+    @coffee.renderFile(lpath, sourceMap: true ).done (res) =>
+      res.sourcemap.should.exist
+      res.v3sourcemap.should.exist
+      should.match_expected(@coffee, res.compiled, lpath, done)
+
 describe 'stylus', ->
 
   before ->
@@ -425,6 +432,13 @@ describe 'minify-js', ->
   it 'should correctly handle errors', (done) ->
     @minifyjs.render("@#$%#I$$N%NI#$%I$PQ")
       .done(should.not.exist, (-> done()))
+
+  it.skip 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.js')
+    @minifyjs.renderFile(lpath, sourceMap: true).done (res) =>
+      res.sourcemap.should.exist
+      res.sourcemap.should.not.equal('null')
+      should.match_expected(@minifyjs, res.compiled, lpath, done)
 
 describe 'minify-css', ->
 
@@ -736,6 +750,12 @@ describe 'less', ->
     ''')
       .done(should.not.exist, (-> done()))
 
+  it 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.less')
+    @less.renderFile(lpath, sourceMap: true).done (res) =>
+      res.sourcemap.should.exist
+      should.match_expected(@less, res.compiled, lpath, done)
+
 describe 'coco', ->
 
   before ->
@@ -822,6 +842,11 @@ describe 'myth', ->
   it 'should correctly handle errors', (done) ->
     @myth.render("!! ---  )I%$_(I(YRTO")
       .done(should.not.exist, (-> done()))
+
+  it 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'import.myth')
+    @myth.renderFile(lpath, sourcemap: true).done (res) =>
+      should.match_expected(@myth, res.compiled, lpath, done)
 
 describe 'haml', ->
 

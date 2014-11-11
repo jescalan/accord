@@ -4,6 +4,10 @@ CSSO is a great tool for optimizing CSS. It's public API is very simple, sometim
 ## Supported Methods
  - render
 
+## Source Maps
+
+CSSO does not have support for source maps, unfortunately. There is an open issue for it [here](https://github.com/css/csso/issues/173). If they do add support we'd be happy to integrate it with accord.
+
 ## Additional Options
 ### No Restructure
  - key: `no_restructure`

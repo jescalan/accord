@@ -4,6 +4,10 @@ This adapter uses [node-sass](https://github.com/andrew/node-sass), an incredibl
 ## Supported Methods
  - render
 
+## Source Maps
+
+Libsass does not yet support source maps, although at the time of writing there is [an open pull request](https://github.com/sass/libsass/pull/591) to work on this.
+
 ## Additional Options
 It has a pretty standard API, and uses the [options documented here](https://github.com/andrew/node-sass#options). Do not pass through `data` or `file`, as this will be overridden by accord's wrapper - everything else is fair game.
 

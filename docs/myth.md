@@ -3,3 +3,7 @@ Essentially a polyfill for the css future spec. Check the [features](https://git
 
 ## Supported Methods
  - render
+
+## Source Maps
+
+Myth does support sourcemaps, but automatically inlines them. If call the adapter with `sourcemap: true` as an option, it will return a compiled result with an inline sourcemap.

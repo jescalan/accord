@@ -4,6 +4,10 @@ The Stylus compiler interface is one of the most abnormal and has gone through h
 ## Supported Methods
  - render
 
+## Source Maps
+
+Source maps are supported by the stylus adapter. Just pass in a `sourcemap` option [as described in the docs](http://learnboost.github.io/stylus/docs/sourcemaps.html), and it will come back as `sourcemap` on the response object.
+
 ## Additional Options
 ### [Define](http://learnboost.github.io/stylus/docs/js.html#definename-node)
 
