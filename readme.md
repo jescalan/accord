@@ -31,38 +31,32 @@ jade = accord.load('jade')
 
 # render a string
 jade.render('body\n  .test')
-  .catch(console.error.bind(console))
   .done(console.log.bind(console))
 
 # or a file
 jade.renderFile('./example.jade')
-  .catch(console.error.bind(console))
   .done(console.log.bind(console))
 
 # or compile a string to a function
 # (only some to-html compilers support this, see below)
 jade.compile('body\n  .test')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
+  .done(console.log.bind(console))
 
 # or a file
 jade.compileFile('./example.jade')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
+  .done(console.log.bind(console))
 
 # compile a client-side js template
 jade.compileClient('body\n  .test')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
+  .done (res) -> console.log(res.result.toString())
 
 # or a file
 jade.compileFileClient('./example.jade')
-  .catch(console.error.bind(console))
-  .done (res) -> console.log(res.toString())
+  .done (res) -> console.log(res.result.toString())
 
 ```
 
-Docs below should explain the methods executed in the example above.
+It's also important to note that accord returns an object rather than a string from each of these methods. You can access the compiled result on the `result` property of this object. If the adapter supports source maps, the source map will also be on this object if you have passed in the correct options. Docs below should explain the methods executed in the example above.
 
 ### Accord Methods
 
