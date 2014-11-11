@@ -1,6 +1,5 @@
 path = require 'path'
 fs = require 'fs'
-util = require 'util'
 
 module.exports = (should) ->
 
@@ -16,5 +15,5 @@ module.exports = (should) ->
     fs.existsSync(expected_path).should.be.ok
     expected = parser(fs.readFileSync(expected_path, 'utf8'))
     results = parser(content)
-    util.inspect(expected).should.eql(util.inspect(results))
+    expected.should.eql(results)
     done()
