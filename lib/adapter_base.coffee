@@ -106,7 +106,7 @@ class Adapter
    * @param {Object} [opts = {}]
    * @return {Promise}
   ###
-  render: (str, opts = {}) ->
+  render: (str, opts = {}) =>
     startTime = process.hrtime()
     if not @_render
       return W.reject new Error('render not supported')
@@ -120,7 +120,7 @@ class Adapter
    * @param {Object} [opts = {}]
    * @return {Promise}
   ###
-  renderFile: (file, opts = {}) ->
+  renderFile: (file, opts = {}) =>
     opts = _.clone(opts, true)
     startTime = process.hrtime()
     (new File(file))
@@ -134,7 +134,7 @@ class Adapter
    * @param {Object} [opts = {}]
    * @return {Promise}
   ###
-  compile: (str, opts = {}) ->
+  compile: (str, opts = {}) =>
     startTime = process.hrtime()
     if not @_compile
       return W.reject new Error('compile not supported')
@@ -147,7 +147,7 @@ class Adapter
    * @param {Object} [opts = {}]
    * @return {Promise}
   ###
-  compileFile: (file, opts = {}) ->
+  compileFile: (file, opts = {}) =>
     startTime = process.hrtime()
     (new File(file))
       .read(encoding: 'utf8')
@@ -160,7 +160,7 @@ class Adapter
    * @param {Object} [opts = {}]
    * @return {Promise}
   ###
-  compileClient: (str, opts = {}) ->
+  compileClient: (str, opts = {}) =>
     startTime = process.hrtime()
     if not @_compileClient
       return W.reject new Error('client-side compile not supported')
@@ -174,7 +174,7 @@ class Adapter
    * @param {Object} [opts = {}]
    * @return {Promise}
   ###
-  compileFileClient: (file, opts = {}) ->
+  compileFileClient: (file, opts = {}) =>
     startTime = process.hrtime()
     (new File(file))
       .read(encoding: 'utf8')
