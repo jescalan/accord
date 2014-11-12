@@ -1,8 +1,9 @@
 Adapter = require '../adapter_base'
-_       = require 'lodash'
-path    = require 'path'
-fs      = require 'fs'
-W       = require 'when'
+_ = require 'lodash'
+path = require 'path'
+fs = require 'fs'
+W = require 'when'
+File = require 'fobject'
 
 class Handlebars extends Adapter
   name: 'handlebars'
@@ -26,11 +27,12 @@ class Handlebars extends Adapter
     compile -> "Handlebars.template(#{compiler.precompile(str)});"
 
   clientHelpers: ->
-    runtime_path = path.join(
+    runtimePath = path.join(
       @enginePath,
       'dist/handlebars.runtime.min.js'
     )
-    return fs.readFileSync(runtime_path, 'utf8')
+    (new File(runtimePath)).read(encoding: 'utf8').then (res) ->
+      res.trim() + '\n'
 
   ###*
    * @private

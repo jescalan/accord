@@ -70,13 +70,14 @@ describe 'jade', ->
       )
 
   it 'should client-compile a string', (done) ->
-    @jade.compileClient("p imma firin mah lazer!\np= foo", foo: 'such options')
-      .done((res) => should.match_expected(@jade, res, path.join(@path, 'cstring.jade'), done))
+    text = "p imma firin mah lazer!\np= foo"
+    @jade.compileClient(text, foo: 'such options').done((res) =>
+      should.match_expected(@jade, res, path.join(@path, 'cstring.jade'), done))
 
   it 'should client-compile a file', (done) ->
     lpath = path.join(@path, 'client.jade')
-    @jade.compileFileClient(lpath, {foo: 'such options'})
-      .done((res) => should.match_expected(@jade, res, lpath, done))
+    @jade.compileFileClient(lpath, foo: 'such options').done((res) =>
+      should.match_expected(@jade, res, lpath, done))
 
   it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.jade')
@@ -721,12 +722,12 @@ describe 'handlebars', ->
     @handlebars.name.should.be.ok
 
   it 'should render a string', (done) ->
-    @handlebars.render('Hello there {{ name }}', { name: 'homie' })
+    @handlebars.render('Hello there {{ name }}', name: 'homie')
       .done((res) => should.match_expected(@handlebars, res, path.join(@path, 'rstring.hbs'), done))
 
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.hbs')
-    @handlebars.renderFile(lpath, { compiler: 'handlebars' })
+    @handlebars.renderFile(lpath, compiler: 'handlebars')
       .done((res) => should.match_expected(@handlebars, res, lpath, done))
 
   it 'should compile a string', (done) ->
@@ -770,7 +771,7 @@ describe 'handlebars', ->
       @handlebars.clientHelpers().done (clientHelpers) =>
         tpl_string = "#{clientHelpers}; var tpl = #{res}; tpl({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
-        should.match_expected(@handlebars, tpl, lpath, done)
+        should.match_expected(@handlebars, tpl.trim() + '\n', lpath, done)
 
   it 'should correctly handle errors', (done) ->
     @handlebars.render("{{# !@{!# }}")

@@ -1,8 +1,9 @@
 Adapter = require '../adapter_base'
-W       = require 'when'
-util    = require 'util'
-fs      = require 'fs'
-path    = require 'path'
+W = require 'when'
+util = require 'util'
+fs = require 'fs'
+path = require 'path'
+File = require 'fobject'
 
 class Mustache extends Adapter
   name: 'mustache'
@@ -22,11 +23,12 @@ class Mustache extends Adapter
 
   clientHelpers: ->
     version = require(path.join(@enginePath, 'package')).version
-    runtime_path = path.join(
+    runtimePath = path.join(
       @enginePath
       "web/builds/#{version}/hogan-#{version}.min.js"
     )
-    return fs.readFileSync(runtime_path, 'utf8')
+    (new File(runtimePath)).read(encoding: 'utf8').then (res) ->
+      res.trim() + '\n'
 
   # private
 
