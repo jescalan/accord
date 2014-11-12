@@ -473,7 +473,7 @@ describe 'minify-js', ->
     @minifyjs.render("@#$%#I$$N%NI#$%I$PQ")
       .done(should.not.exist, (-> done()))
 
-describe 'minify-js', ->
+describe 'minify-json', ->
   before ->
     @minifyjson = accord.load('minify-json')
     @path = path.join(__dirname, 'fixtures', 'minify-json')
@@ -486,16 +486,16 @@ describe 'minify-js', ->
 
   it 'should minify a string', (done) ->
     file = new File(path.join(@path, 'basic.json'))
-    file.read(encoding: 'utf8').done((str) =>
-      @minifyjson.render(str).done((res) =>
+    file.read(encoding: 'utf8')
+      .then @minifyjson.render
+      .done((res) =>
         expected = fs.readFileSync(
           path.join(@path, 'expected', 'basic.json'),
           encoding: 'utf8'
         )
-        res.should.equal(expected.trim())
+        res.should.equal(expected)
         done()
       )
-    )
 
   it 'should minify a file', (done) ->
     lpath = path.join(@path, 'basic.json')
@@ -504,7 +504,7 @@ describe 'minify-js', ->
         path.join(@path, 'expected', 'basic.json'),
         encoding: 'utf8'
       )
-      res.should.equal(expected.trim())
+      res.should.equal(expected)
       done()
     )
 
