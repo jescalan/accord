@@ -11,20 +11,20 @@ class Handlebars extends Adapter
   output: 'html'
   supportedEngines: ['handlebars']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     compiler = _.clone(@engine)
     registerHelpers(compiler, options)
-    compile -> compiler.compile(str)(options)
+    compile -> compiler.compile(job.text)(options)
 
-  _compile: (str, options) ->
+  _compile: (job, options) ->
     compiler = _.clone(@engine)
     registerHelpers(compiler, options)
-    compile -> compiler.compile(str)
+    compile -> compiler.compile(job.text)
 
-  _compileClient: (str, options) ->
+  _compileClient: (job, options) ->
     compiler = _.clone(@engine)
     registerHelpers(compiler, options)
-    compile -> "Handlebars.template(#{compiler.precompile(str)});"
+    compile -> "Handlebars.template(#{compiler.precompile(job.text)});"
 
   clientHelpers: ->
     runtimePath = path.join(

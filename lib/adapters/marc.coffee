@@ -7,7 +7,7 @@ class Marc extends Adapter
   output: 'html'
   supportedEngines: ['marc']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     # marc mutates the compiler, so we need to keep the original fresh
     base = @engine()
 
@@ -21,6 +21,6 @@ class Marc extends Adapter
 
     # all the remaining options are options for marked
     base.config options
-    W.resolve base(str, true)
+    W.resolve base(job.text, true)
 
 module.exports = Marc

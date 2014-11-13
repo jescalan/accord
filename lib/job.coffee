@@ -25,28 +25,28 @@ class Job
   sourceMap: undefined
 
   ###*
-   * @param {Object|String} options
+   * @param {Object|String|Job} job
    * @param {Object|Boolean} [options.sourceMap] A sourcemap object, according
      to version 3 of the spec.
   ###
-  constructor: (options) ->
-    if typeof options is 'string'
+  constructor: (job) ->
+    if typeof job is 'string'
       # if we are just passed a string, make it into a proper job object
-      options = text: options
+      job = text: job
 
-    if options.sourceMap?
-      @sourceMap = options.sourceMap
+    if job.sourceMap?
+      @sourceMap = job.sourceMap
 
-    if not @sourceMap.sourcesContent?
-      @sourceMap.sourcesContent = options.text
+    if @sourceMap? and not @sourceMap.sourcesContent?
+      @sourceMap.sourcesContent = job.text
 
       # if the text is new, then we cannot have pre-existing mappings
       @sourceMap.mappings = null
 
-    if options.filename? and not @sourceMap.sources?
-      @sourceMap.sources = [options.filename]
+    if job.filename? and not @sourceMap.sources?
+      @sourceMap.sources = [job.filename]
 
-    @text = options.text
+    @text = job.text
 
   ###*
    * Add a SourceMap to the object
@@ -72,5 +72,7 @@ class Job
     @text = text
 
   toString: => @text
+
+  isJob: -> true
 
 module.exports = Job

@@ -8,8 +8,8 @@ class CoffeeScript extends Adapter
   isolated: true
   supportedEngines: ['coffee-script']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str, options)
+  _render: (job, options) ->
+    compile => @engine.compile(job.text, options)
 
   # private
 

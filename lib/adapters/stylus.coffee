@@ -8,7 +8,7 @@ class Stylus extends Adapter
   output: 'css'
   supportedEngines: ['stylus']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     sets = {}
     defines = {}
     includes = []
@@ -38,7 +38,7 @@ class Stylus extends Adapter
     imports = _.flatten(imports)
     plugins = _.flatten(plugins)
 
-    base = @engine(str)
+    base = @engine(job.text)
 
     base.set(k, v) for k, v of sets
     base.define(k, v) for k, v of defines

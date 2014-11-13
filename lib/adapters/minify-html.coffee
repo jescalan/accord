@@ -15,13 +15,13 @@ class MinifyHTML extends Adapter
   ###
   isolated: true
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     options = _.defaults options,
       removeComments: true
       collapseWhitespace: true
       removeEmptyAttributes: true
 
-    compile => @engine.minify(str, options)
+    compile => @engine.minify(job.text, options)
 
   # private
 

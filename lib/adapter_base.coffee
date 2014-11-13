@@ -6,6 +6,7 @@ path = require 'path'
 fs = require 'fs'
 ConfigSchema = require 'config-schema'
 accord = require './'
+Job = require './job'
 
 
 class Adapter
@@ -135,7 +136,8 @@ class Adapter
     startTime = process.hrtime()
     if not @_render
       return W.reject new Error('render not supported')
-    @_render(str, opts)
+
+    @_render(new Job(str), opts)
       .tap( => @emitJobStats(opts.filename, 'render', startTime))
       .then (res) -> res.trim() + '\n'
 
@@ -163,7 +165,7 @@ class Adapter
     startTime = process.hrtime()
     if not @_compile
       return W.reject new Error('compile not supported')
-    @_compile(str, opts)
+    @_compile(new Job(str), opts)
       .tap( => @emitJobStats(opts.filename, 'compile', startTime))
 
   ###*
@@ -189,7 +191,7 @@ class Adapter
     startTime = process.hrtime()
     if not @_compileClient
       return W.reject new Error('client-side compile not supported')
-    @_compileClient(str, opts)
+    @_compileClient(new Job(str), opts)
       .tap( => @emitJobStats(opts.filename, 'compileClient', startTime))
       .then (res) -> res.trim() + '\n'
 

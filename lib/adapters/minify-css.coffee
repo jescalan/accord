@@ -13,8 +13,8 @@ class MinifyCSS extends Adapter
   ###
   isolated: false
 
-  _render: (str, options) ->
-    compile => (new @engine(options)).minify(str)
+  _render: (job, options) ->
+    compile => (new @engine(options)).minify(job.text)
 
   # private
 

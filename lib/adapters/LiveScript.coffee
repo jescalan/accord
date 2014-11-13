@@ -8,8 +8,8 @@ class LiveScript extends Adapter
   isolated: true
   supportedEngines: ['LiveScript']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str, options)
+  _render: (job, options) ->
+    compile => @engine.compile(job.text, options)
 
   # private
 

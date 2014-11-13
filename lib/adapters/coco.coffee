@@ -14,9 +14,9 @@ class Coco extends Adapter
       type: 'boolean'
       default: false
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     options = @options.validate(options)
-    compile => @engine.compile(str, options)
+    compile => @engine.compile(job.text, options)
 
   # private
 

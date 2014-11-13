@@ -11,15 +11,18 @@ class Mustache extends Adapter
   output: 'html'
   supportedEngines: ['hogan.js']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str, options).render(options, options.partials)
+  _render: (job, options) ->
+    compile =>
+      @engine.compile(job.text, options).render(options, options.partials)
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    compile => @engine.compile(job.text, options)
 
-  _compileClient: (str, options) ->
+  _compileClient: (job, options) ->
     options.asString = true
-    @_compile(str, options).then((o) -> "new Hogan.Template(#{o.toString()});")
+    @_compile(job, options).then((o) ->
+      "new Hogan.Template(#{o.toString()});"
+    )
 
   clientHelpers: ->
     version = require(path.join(@enginePath, 'package')).version

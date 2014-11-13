@@ -9,14 +9,14 @@ class Swig extends Adapter
   output: 'html'
   supportedEngines: ['swig']
 
-  _render: (str, options) ->
-    compile => @engine.render(str, options)
+  _render: (job, options) ->
+    compile => @engine.render(job.text, options)
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    compile => @engine.compile(job.text, options)
 
-  _compileClient: (str, options) ->
-    compile => @engine.precompile(str, options).tpl.toString()
+  _compileClient: (job, options) ->
+    compile => @engine.precompile(job.text, options).tpl.toString()
 
   renderFile: (path, options = {}) ->
     compile => @engine.renderFile(path, options.locals)

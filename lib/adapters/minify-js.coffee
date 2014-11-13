@@ -9,8 +9,9 @@ class MinifyJS extends Adapter
   supportedEngines: ['uglify-js']
   isolated: true
 
-  _render: (str, options) ->
-    compile => @engine.minify(str, _.extend(options, fromString: true)).code
+  _render: (job, options) ->
+    compile =>
+      @engine.minify(job.text, _.extend(options, fromString: true)).code
 
   # private
 

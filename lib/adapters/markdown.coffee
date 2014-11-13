@@ -8,7 +8,7 @@ class Markdown extends Adapter
   supportedEngines: ['marked']
   isolated: true
 
-  _render: (str, options) ->
-    nodefn.call(@engine.bind(@engine), str, options)
+  _render: (job, options) ->
+    nodefn.call(@engine.bind(@engine), job.text, options)
 
 module.exports = Markdown

@@ -12,10 +12,10 @@ class Less extends Adapter
   ###
   isolated: false
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     deferred = W.defer()
 
-    @engine.render str, options, (err, res) ->
+    @engine.render job.text, options, (err, res) ->
       if err then return deferred.reject(err)
       deferred.resolve(res.css)
 

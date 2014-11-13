@@ -8,9 +8,9 @@ class CSSO extends Adapter
   isolated: true
   supportedEngines: ['csso']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     options.noRestructure ?= false
-    compile => @engine.justDoIt(str, options.noRestructure)
+    compile => @engine.justDoIt(job.text, options.noRestructure)
 
   # private
 

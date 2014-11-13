@@ -9,15 +9,15 @@ class EJS extends Adapter
   output: 'html'
   supportedEngines: ['ejs']
 
-  _render: (str, options) ->
-    compile => @engine.render(str, options)
+  _render: (job, options) ->
+    compile => @engine.render(job.text, options)
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    compile => @engine.compile(job.text, options)
 
-  _compileClient: (str, options) ->
+  _compileClient: (job, options) ->
     options.client = true
-    compile => @engine.compile(str, options).toString()
+    compile => @engine.compile(job.text, options).toString()
 
   clientHelpers: ->
     new File(path.join(@enginePath, 'ejs.min.js')).read()
