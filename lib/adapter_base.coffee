@@ -66,14 +66,40 @@ class Adapter
   options: undefined
 
   ###*
+   * If the instance of the adapter is tracking dependencies using a
+     duck-punched fs instance. This is false if the engine has its own
+     dependency tracking or if it's isolated (because isolated adapters cannot
+     have deps). Also, this must be enabled when the adapter is initalized. By
+     default this is disabled because users that don't need this feature
+     shouldn't take a performance hit for it.
+   * @type {Boolean}
+   * @private
+  ###
+  _manualDepTrackingEnabled: undefined
+
+  ###*
+   * If the engine has builtin dep tracking.
+   * @type {Boolean}
+   * @private
+  ###
+  _engineSupportsDepTracking: false
+
+  ###*
    * @param {String} [engineName=Adapter.supportedEngines[0]] If you need to use a
      particular engine to compile/render with, then specify it here. Otherwise
      we use whatever engine you have installed.
    * @param {String} [enginePath] If you need to use a particular installation
      of an engine (rather than the one that `require` resolves to automatically)
      then pass the path to it here.
+   * @param {Boolean} [shouldTrackDeps = false] If manual dependency tracking
+     should be enabled for adapters that wouldn't otherwise report deps.
   ###
-  constructor: (@engineName, @enginePath) ->
+  constructor: (@engineName, @enginePath, shouldTrackDeps = false) ->
+    if @isolated or @_engineSupportsDepTracking
+      @isTrackingDeps = false
+    else
+      @isTrackingDeps = shouldTrackDeps
+
     @options = new ConfigSchema()
     @options.schema.filename =
       type: 'string'
