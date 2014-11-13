@@ -85,8 +85,8 @@ class Adapter
   _engineSupportsDepTracking: false
 
   ###*
-   * @param {String} [engineName=Adapter.supportedEngines[0]] If you need to use a
-     particular engine to compile/render with, then specify it here. Otherwise
+   * @param {String} [engineName=Adapter.supportedEngines[0]] If you need to use
+     a particular engine to compile/render with, then specify it here. Otherwise
      we use whatever engine you have installed.
    * @param {String} [enginePath] If you need to use a particular installation
      of an engine (rather than the one that `require` resolves to automatically)
