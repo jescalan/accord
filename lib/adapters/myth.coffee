@@ -9,6 +9,6 @@ class Myth extends Adapter
 
   _render: (job, options) ->
     options = @options.validate(options)
-    W.try(@engine, job.text)
+    W.try => job.setText(@engine(job.text))
 
 module.exports = Myth

@@ -11,6 +11,6 @@ class MinifyJS extends Adapter
 
   _render: (job, options) ->
     W.try(@engine.minify, job.text, _.extend(options, fromString: true))
-      .then (res) -> res.code
+      .then (res) -> job.setText(res.code)
 
 module.exports = MinifyJS

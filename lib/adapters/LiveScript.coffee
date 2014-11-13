@@ -9,6 +9,6 @@ class LiveScript extends Adapter
   supportedEngines: ['LiveScript']
 
   _render: (job, options) ->
-    W.try(@engine.compile, job.text, options)
+    W.try(@engine.compile, job.text, options).then(job.setText)
 
 module.exports = LiveScript

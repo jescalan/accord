@@ -10,14 +10,15 @@ class EJS extends Adapter
   supportedEngines: ['ejs']
 
   _render: (job, options) ->
-    W.try(@engine.render, job.text, options)
+    W.try(@engine.render, job.text, options).then(job.setText)
 
   _compile: (job, options) ->
     W.try(@engine.compile, job.text, options)
 
   _compileClient: (job, options) ->
     options.client = true
-    W.try(@engine.compile,job.text, options).then (res) -> res.toString()
+    W.try(@engine.compile,job.text, options).then (res) ->
+      job.setText(res.toString())
 
   clientHelpers: ->
     new File(path.join(@enginePath, 'ejs.min.js')).read()

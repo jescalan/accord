@@ -57,7 +57,7 @@ class Job
      previous operation could be erroneously associated with the new text (if
      the adapter adapter producing the new text doesn't support sourcemaps).
   ###
-  setText: (text, sourceMap) ->
+  setText: (text, sourceMap) =>
     if sourceMap?
       if @sourceMap?
         @sourceMap = transferSourceMap(
@@ -70,6 +70,7 @@ class Job
       delete @sourceMap
 
     @text = text
+    return this
 
   toString: => @text
 

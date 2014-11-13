@@ -14,15 +14,15 @@ Compile without function closure
 
 ### Header
  - key: `header`
- - type: ``
- - default: ``
+ - type: `Boolean`
+ - default: `false`
 
 Inject a comment with the CoffeeScript version into all compiled files
 
 ### SourceMap
  - key: `sourceMap`
- - type: ``
- - default: ``
+ - type: `Boolean`
+ - default: `true`
 
 Generate a sourcemap on compile. requires `filename`
 

@@ -16,6 +16,6 @@ class SCSS extends Adapter
 
     @engine.render(options)
 
-    return deferred.promise
+    deferred.promise.then(job.setText)
 
 module.exports = SCSS

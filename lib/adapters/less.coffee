@@ -1,5 +1,5 @@
 Adapter = require '../adapter_base'
-W       = require 'when'
+nodefn = require 'when/node/function'
 
 class Less extends Adapter
   name: 'less'
@@ -13,12 +13,7 @@ class Less extends Adapter
   isolated: false
 
   _render: (job, options) ->
-    deferred = W.defer()
-
-    @engine.render job.text, options, (err, res) ->
-      if err then return deferred.reject(err)
-      deferred.resolve(res.css)
-
-    return deferred.promise
+    nodefn.call(@engine.render, job.text, options).then (res) ->
+      job.setText(res.css)
 
 module.exports = Less

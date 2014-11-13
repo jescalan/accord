@@ -13,16 +13,17 @@ class Mustache extends Adapter
 
   _render: (job, options) ->
     W.try =>
-      @engine.compile(job.text, options).render(options, options.partials)
+      job.setText(
+        @engine.compile(job.text, options).render(options, options.partials)
+      )
 
   _compile: (job, options) ->
     W.try => @engine.compile(job.text, options)
 
   _compileClient: (job, options) ->
     options.asString = true
-    @_compile(job, options).then((o) ->
-      "new Hogan.Template(#{o.toString()});"
-    )
+    @_compile(job, options).then (res) ->
+      job.setText("new Hogan.Template(#{res.toString()});")
 
   clientHelpers: ->
     version = require(path.join(@enginePath, 'package')).version

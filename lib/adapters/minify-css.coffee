@@ -14,6 +14,7 @@ class MinifyCSS extends Adapter
   isolated: false
 
   _render: (job, options) ->
-    W.try => (new @engine(options)).minify(job.text)
+    W.try =>
+      job.setText((new @engine(options)).minify(job.text))
 
 module.exports = MinifyCSS

@@ -2,6 +2,7 @@ path = require 'path'
 File = require 'fobject'
 W = require 'when'
 Adapter = require '../adapter_base'
+Job = require '../job'
 
 class Swig extends Adapter
   name: 'swig'
@@ -11,16 +12,19 @@ class Swig extends Adapter
 
   _render: (job, options) ->
     W.try(@engine.render, job.text, options)
+      .then(job.setText)
 
   _compile: (job, options) ->
     W.try( => @engine.compile(job.text, options))
 
   _compileClient: (job, options) ->
     W.try( => @engine.precompile(job.text, options).tpl.toString())
+      .then(job.setText)
 
   renderFile: (path, options = {}) ->
     W.try(@engine.renderFile, path, options.locals)
-      .then((res) -> res.trim() + '\n')
+      .then (res) -> new Job(res)
+      .then (res) -> res.text.trim() + '\n'
 
   compileFile: (path, options = {}) ->
     W.try(@engine.compileFile, path, options)

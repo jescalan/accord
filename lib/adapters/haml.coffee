@@ -13,7 +13,9 @@ class HAML extends Adapter
   supportedEngines: ['hamljs']
 
   _render: (job, options) ->
-    W.try(@engine.compile, job.text).then (res) -> res(options)
+    W.try =>
+      job.setText(@engine.compile(job.text)(options))
+
 
   _compile: (job, options) ->
     W.try(@engine.compile, job.text, options)

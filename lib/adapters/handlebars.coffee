@@ -14,7 +14,8 @@ class Handlebars extends Adapter
   _render: (job, options) ->
     compiler = _.clone(@engine)
     registerHelpers(compiler, options)
-    W.try(compiler.compile, job.text).then (res) -> res(options)
+    W.try(compiler.compile, job.text).then (res) ->
+      job.setText(res(options))
 
   _compile: (job, options) ->
     compiler = _.clone(@engine)
@@ -24,7 +25,8 @@ class Handlebars extends Adapter
   _compileClient: (job, options) ->
     compiler = _.clone(@engine)
     registerHelpers(compiler, options)
-    W.try(-> "Handlebars.template(#{compiler.precompile(job.text)});")
+    W.try ->
+      job.setText("Handlebars.template(#{compiler.precompile(job.text)});")
 
   clientHelpers: ->
     runtimePath = path.join(

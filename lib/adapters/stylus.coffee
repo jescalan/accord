@@ -46,6 +46,6 @@ class Stylus extends Adapter
     base.import(i) for i in imports
     base.use(i) for i in plugins
 
-    nodefn.call(base.render.bind(base))
+    nodefn.call(base.render.bind(base)).then(job.setText)
 
 module.exports = Stylus
