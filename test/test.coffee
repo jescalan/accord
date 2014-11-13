@@ -175,8 +175,8 @@ describe 'swig', ->
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.swig')
     @swig.compileFileClient(lpath).done (resTemplate) =>
-      @swig.clientHelpers().done (resHelpers) =>
-        text =  "window = {}; #{resHelpers};\n var tpl = (#{resTemplate.trim()});\n"
+      @swig.clientHelpers().done (resHelpers) ->
+        text =  "window = {}; #{resHelpers};\n var tpl = (#{(String resTemplate).trim()});\n"
         partOfClientHelpers1 = 'https://paularmstrong.github.com/swig'
         partOfClientHelpers2 = 'var tpl ='
         partOfClientHelpers3 = 'anonymous(_swig,_ctx,_filters,_utils,_fn) {'
@@ -494,7 +494,7 @@ describe 'minify-json', ->
           path.join(@path, 'expected', 'basic.json'),
           encoding: 'utf8'
         )
-        res.should.equal(expected)
+        (String res).should.equal(expected)
         done()
       )
 
@@ -505,7 +505,7 @@ describe 'minify-json', ->
         path.join(@path, 'expected', 'basic.json'),
         encoding: 'utf8'
       )
-      res.should.equal(expected)
+      (String res).should.equal(expected)
       done()
     )
 

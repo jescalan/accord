@@ -18,6 +18,6 @@ module.exports = (should) ->
     )
     fs.existsSync(expected_path).should.be.ok
     expected = parser(fs.readFileSync(expected_path, 'utf8'))
-    results = parser(content)
+    results = parser(String content)
     expected.should.eql(results)
     done()
