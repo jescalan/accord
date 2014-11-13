@@ -55,7 +55,6 @@ class Adapter
      compile/render function, and whenever that same input is given, the output
      will always be the same.
    * @type {Boolean}
-   * @todo Add detection for when a particular job qualifies as isolated
   ###
   isolated: false
 
@@ -193,10 +192,13 @@ class Adapter
    * @param {[type]} filename [description]
    * @param {[type]} method [description]
    * @param {[type]} startTime [description]
-   * @param {[type]} deps = [] [description]
-   * @param {[type]} isolated = this.isolated [description]
+   * @param {Array} [deps = []] [description]
+   * @param {Boolean} [isolated = Adapter.isolated] [description]
   ###
   emitJobStats: (filename, method, startTime, deps = [], isolated = @isolated) ->
+    if isolated is true and deps.length isnt 0
+      throw new Error('Isolated compilers cannot have deps.')
+
     endTime = process.hrtime(startTime)
     accord.jobLog.emit(
       'jobFinished'
