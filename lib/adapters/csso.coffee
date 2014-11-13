@@ -10,13 +10,6 @@ class CSSO extends Adapter
 
   _render: (job, options) ->
     options.noRestructure ?= false
-    compile => @engine.justDoIt(job.text, options.noRestructure)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    W.try(@engine.justDoIt, job.text, options.noRestructure)
 
 module.exports = CSSO

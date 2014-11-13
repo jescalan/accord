@@ -9,6 +9,6 @@ class DogeScript extends Adapter
   supportedEngines: ['dogescript']
 
   _render: (job, options) ->
-    W.resolve @engine(job.text, options.beauty, options.trueDoge)
+    W.try(@engine, job.text, options.beauty, options.trueDoge)
 
 module.exports = DogeScript

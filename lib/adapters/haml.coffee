@@ -12,23 +12,16 @@ class HAML extends Adapter
   output: 'html'
   supportedEngines: ['hamljs']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str)(options)
+  _render: (job, options) ->
+    W.try(@engine.compile, job.text).then (res) -> res(options)
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    W.try(@engine.compile, job.text, options)
 
   # client compile not yet supported, but when it is, this will be the path to
   # the right info
   # clientHelpers: ->
   #   runtime_path = path.join(@enginePath, 'haml.js')
   #   accord.load('minify-js').renderFile(runtime_path)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
 
 module.exports = HAML

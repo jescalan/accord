@@ -12,11 +12,11 @@ class Mustache extends Adapter
   supportedEngines: ['hogan.js']
 
   _render: (job, options) ->
-    compile =>
+    W.try =>
       @engine.compile(job.text, options).render(options, options.partials)
 
   _compile: (job, options) ->
-    compile => @engine.compile(job.text, options)
+    W.try => @engine.compile(job.text, options)
 
   _compileClient: (job, options) ->
     options.asString = true
@@ -32,12 +32,5 @@ class Mustache extends Adapter
     )
     (new File(runtimePath)).read(encoding: 'utf8').then (res) ->
       res.trim() + '\n'
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
 
 module.exports = Mustache

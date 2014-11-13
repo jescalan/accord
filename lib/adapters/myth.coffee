@@ -9,13 +9,6 @@ class Myth extends Adapter
 
   _render: (job, options) ->
     options = @options.validate(options)
-    compile => @engine(job.text)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    W.try(@engine, job.text)
 
 module.exports = Myth

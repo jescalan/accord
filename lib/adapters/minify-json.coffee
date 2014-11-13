@@ -8,10 +8,6 @@ class MinifyJS extends Adapter
   isolated: true
 
   _render: (job) ->
-    try
-      res = JSON.stringify(JSON.parse(job.text))
-    catch err
-      return W.reject(err)
-    W.resolve(res)
+    W.try(JSON.parse, job.text).then(JSON.stringify)
 
 module.exports = MinifyJS

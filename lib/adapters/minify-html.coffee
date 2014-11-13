@@ -21,13 +21,6 @@ class MinifyHTML extends Adapter
       collapseWhitespace: true
       removeEmptyAttributes: true
 
-    compile => @engine.minify(job.text, options)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    W.try(@engine.minify, job.text, options)
 
 module.exports = MinifyHTML

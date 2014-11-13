@@ -10,14 +10,7 @@ class MinifyJS extends Adapter
   isolated: true
 
   _render: (job, options) ->
-    compile =>
-      @engine.minify(job.text, _.extend(options, fromString: true)).code
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    W.try(@engine.minify, job.text, _.extend(options, fromString: true))
+      .then (res) -> res.code
 
 module.exports = MinifyJS

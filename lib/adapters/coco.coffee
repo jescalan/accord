@@ -16,13 +16,6 @@ class Coco extends Adapter
 
   _render: (job, options) ->
     options = @options.validate(options)
-    compile => @engine.compile(job.text, options)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    W.try(@engine.compile, job.text, options)
 
 module.exports = Coco
