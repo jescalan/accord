@@ -139,7 +139,6 @@ class Adapter
 
     @_render(new Job(str), opts)
       .tap( => @emitJobStats(opts.filename, 'render', startTime))
-      .then (job) -> job.setText(job.text.trim() + '\n')
 
   ###*
    * Render a file to a compiled string
@@ -193,7 +192,6 @@ class Adapter
       return W.reject new Error('client-side compile not supported')
     @_compileClient(new Job(str), opts)
       .tap( => @emitJobStats(opts.filename, 'compileClient', startTime))
-      .then (job) -> job.setText(job.text.trim() + '\n')
 
   ###*
    * Compile a file to a client-side-ready function

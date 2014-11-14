@@ -58,18 +58,22 @@ class Job
      the adapter adapter producing the new text doesn't support sourcemaps).
   ###
   setText: (text, sourceMap) =>
-    if sourceMap?
-      if @sourceMap?
-        @sourceMap = transferSourceMap(
-          fromSourceMap: @sourceMap
-          toSourceMap: sourceMap
-        )
+    # make sure we're actually changing the text
+    if text isnt @text
+      if sourceMap?
+        if @sourceMap?
+          @sourceMap = transferSourceMap(
+            fromSourceMap: @sourceMap
+            toSourceMap: sourceMap
+          )
+        else
+          @sourceMap = sourceMap
       else
-        @sourceMap = sourceMap
-    else
-      delete @sourceMap
+        delete @sourceMap
 
-    @text = text
+      # we can strip the trailing whitespace without changing the sourcemap
+      @text = text.replace(/\s*$/, '\n')
+      #console.log @sourceMap
     return this
 
   toString: => @text

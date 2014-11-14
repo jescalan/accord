@@ -14,8 +14,7 @@ class HAML extends Adapter
 
   _render: (job, options) ->
     W.try =>
-      job.setText(@engine.compile(job.text)(options))
-
+      job.setText(@engine.compile(job.text)(options).trim() + '\n')
 
   _compile: (job, options) ->
     W.try(@engine.compile, job.text, options)
