@@ -165,8 +165,8 @@ describe 'swig', ->
 
   it 'should client-compile a file', (done) ->
     lpath = path.join(@path, 'client.swig')
-    @swig.compileFileClient(lpath)
-      .done((res) => should.match_expected(@swig, res, lpath, done))
+    @swig.compileFileClient(lpath).done((res) =>
+      should.match_expected(@swig, res, lpath, done))
 
   it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.swig')
@@ -791,13 +791,13 @@ describe 'handlebars', ->
     )
 
   it 'should client-compile a string', (done) ->
-    @handlebars.compileClient("Here comes the {{ thing }}")
-      .done((res) => should.match_expected(@handlebars, res, path.join(@path, 'cstring.hbs'), done))
+    @handlebars.compileClient("Here comes the {{ thing }}").done((res) =>
+      should.match_expected(@handlebars, res, path.join(@path, 'cstring.hbs'), done))
 
   it 'should client-compile a file', (done) ->
     lpath = path.join(@path, 'client.hbs')
-    @handlebars.compileFileClient(lpath)
-      .done((res) => should.match_expected(@handlebars, res, lpath, done))
+    @handlebars.compileFileClient(lpath).done((res) =>
+      should.match_expected(@handlebars, res, lpath, done))
 
   it 'should handle external file requests', (done) ->
     lpath = path.join(@path, 'partial.hbs')
