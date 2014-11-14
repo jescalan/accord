@@ -7,7 +7,7 @@ escape = escape || function (html){
     .replace(/'/g, '&#39;')
     .replace(/"/g, '&quot;');
 };
-var __stack = { lineno: 1, input: "Woah look, a <%= thing %>", filename: undefined };
+var __stack = { lineno: 1, input: "Woah look, a <%= thing %>\n", filename: undefined };
 function rethrow(err, str, filename, lineno){
   var lines = str.split('\n')
     , start = Math.max(lineno - 3, 0)
@@ -34,7 +34,7 @@ function rethrow(err, str, filename, lineno){
 try {
 var buf = [];
 with (locals || {}) { (function(){ 
- buf.push('Woah look, a ', escape((__stack.lineno=1,  thing )), ''); })();
+ buf.push('Woah look, a ', escape((__stack.lineno=1,  thing )), '\n'); })();
 } 
 return buf.join('');
 } catch (err) {
