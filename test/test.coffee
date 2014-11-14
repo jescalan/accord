@@ -201,8 +201,8 @@ describe 'coffeescript', ->
     @coffee.name.should.be.ok
 
   it 'should render a string', (done) ->
-    @coffee.render('console.log "test"', { bare: true })
-      .done((res) => should.match_expected(@coffee, res, path.join(@path, 'string.coffee'), done))
+    @coffee.render('console.log "test"', bare: true).done((res) =>
+      should.match_expected(@coffee, res, path.join(@path, 'string.coffee'), done))
 
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.coffee')
@@ -210,8 +210,10 @@ describe 'coffeescript', ->
       .done((res) => should.match_expected(@coffee, res, lpath, done))
 
   it 'should not be able to compile', (done) ->
-    @coffee.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+    @coffee.compile().done(
+      ((r) -> should.not.exist(r); done())
+      ((r) -> should.exist(r); done())
+    )
 
   it 'should correctly handle errors', (done) ->
     @coffee.render("!   ---@#$$@%#$")

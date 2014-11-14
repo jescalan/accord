@@ -248,7 +248,6 @@ class Adapter
       @engine = require(@engineName)
       @enginePath = resolvePath(@engineName)
 
-
 ###*
  * Get the path to the root folder of a node module, given its name.
  * @param  {String} name The name of the node module you want the path to.

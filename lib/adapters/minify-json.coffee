@@ -1,7 +1,7 @@
 W = require 'when'
 Adapter = require '../adapter_base'
 
-class MinifyJS extends Adapter
+class MinifyJSON extends Adapter
   name: 'minify-json'
   extensions: ['json']
   output: 'json'
@@ -10,4 +10,4 @@ class MinifyJS extends Adapter
   _render: (job) ->
     W.try(JSON.parse, job.text).then(JSON.stringify).then(job.setText)
 
-module.exports = MinifyJS
+module.exports = MinifyJSON
