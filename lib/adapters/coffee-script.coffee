@@ -26,6 +26,6 @@ class CoffeeScript extends Adapter
       if typeof res is 'string'
         job.setText(res)
       else
-        job.setText(res.js, res.v3SourceMap)
+        job.setText(res.js, JSON.parse(res.v3SourceMap))
 
 module.exports = CoffeeScript

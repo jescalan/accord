@@ -219,6 +219,13 @@ describe 'coffeescript', ->
     @coffee.render("!   ---@#$$@%#$")
       .done(should.not.exist, (-> done()))
 
+  it 'should generate sourcemaps', (done) ->
+    @coffee.render('console.log "test"', bare: true).done (job) ->
+      job.sourceMap.mappings.should.eql(
+        "AAAA,OAAO,CAAC,GAAR,CAAY,MAAZ,CAAA,CAAA"
+      )
+      done()
+
 describe 'stylus', ->
 
   before ->
