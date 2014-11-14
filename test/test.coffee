@@ -350,6 +350,12 @@ describe 'stylus', ->
     @stylus.render("214m2/3l")
       .done(should.not.exist, (-> done()))
 
+  it 'should produce sourcemaps', (done) ->
+    @stylus.render('.test\n  test: foo').done (res) ->
+      res.sourceMap.mappings.should.eql('AAAA;EACE,MAAM,IAAN')
+      res.text.should.eql('.test {\n  test: foo;\n}\n')
+      done()
+
 describe 'ejs', ->
 
   before ->
