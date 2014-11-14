@@ -20,6 +20,6 @@ class Jade extends Adapter
 
   clientHelpers: =>
     runtime_path = path.join(@enginePath, 'runtime.js')
-    accord.load('minify-js').renderFile(runtime_path)
+    accord.load('minify-js').renderFile(runtime_path, sourceMap: false)
 
 module.exports = Jade

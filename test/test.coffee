@@ -1,10 +1,11 @@
 should = require 'should'
-path   = require 'path'
-W      = require 'when'
-_      = require 'lodash'
+path = require 'path'
+W = require 'when'
+_ = require 'lodash'
 accord = require '../'
-File   = require 'fobject'
-fs     = require 'fs'
+File = require 'fobject'
+fs = require 'fs'
+Job = require '../lib/job'
 
 require('./helpers')(should)
 
@@ -220,9 +221,10 @@ describe 'coffeescript', ->
       .done(should.not.exist, (-> done()))
 
   it 'should generate sourcemaps', (done) ->
-    @coffee.render('console.log "test"', bare: true).done (job) ->
+    @coffee.render('if true then console.log "test"', bare: true).done (job) ->
+      job.text.should.eql('if (true) {\n  console.log("test");\n}\n')
       job.sourceMap.mappings.should.eql(
-        "AAAA,OAAO,CAAC,GAAR,CAAY,MAAZ,CAAA,CAAA"
+        'AAAA,IAAG,IAAH;AAAa,EAAA,OAAO,CAAC,GAAR,CAAY,MAAZ,CAAA,CAAb;CAAA'
       )
       done()
 
@@ -482,6 +484,28 @@ describe 'minify-js', ->
   it 'should correctly handle errors', (done) ->
     @minifyjs.render("@#$%#I$$N%NI#$%I$PQ")
       .done(should.not.exist, (-> done()))
+
+  it 'should support sourcemaps', (done) ->
+    @minifyjs.render("if (true) {console.log()}").done (res) ->
+      res.text.should.eql('console.log();\n//# sourceMappingURL=out.js.map\n')
+      res.sourceMap.mappings.should.eql('AAAWA,QAAQC')
+      done()
+
+  it 'should compose with existing sourcemaps', (done) ->
+    job = new Job(
+      text: 'if (true) {\n  console.log("test");\n}\n'
+      sourceMap:
+        version: 3,
+        file: '',
+        sourceRoot: '',
+        sources: [ '' ],
+        names: [],
+        mappings: 'AAAA,IAAG,IAAH;AAAa,EAAA,OAAO,CAAC,GAAR,CAAY,MAAZ,CAAA,CAAb;CAAA'
+    )
+    @minifyjs.render(job).done (res) ->
+      res.text.should.eql('console.log("test");\n//# sourceMappingURL=out.js.map\n')
+      res.sourceMap.mappings.should.eql('AAAa,QAAQ,IAAI')
+      done()
 
 describe 'minify-json', ->
   before ->

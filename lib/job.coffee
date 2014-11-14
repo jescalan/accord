@@ -40,9 +40,6 @@ class Job
     if @sourceMap? and not @sourceMap.sourcesContent?
       @sourceMap.sourcesContent = job.text
 
-      # if the text is new, then we cannot have pre-existing mappings
-      @sourceMap.mappings = null
-
     if job.filename? and not @sourceMap.sources?
       @sourceMap.sources = [job.filename]
 
@@ -62,10 +59,10 @@ class Job
     if text isnt @text
       if sourceMap?
         if @sourceMap?
-          @sourceMap = transferSourceMap(
-            fromSourceMap: @sourceMap
-            toSourceMap: sourceMap
-          )
+          @sourceMap = JSON.parse(transferSourceMap(
+            fromSourceMap: sourceMap
+            toSourceMap: @sourceMap
+          ))
         else
           @sourceMap = sourceMap
       else
