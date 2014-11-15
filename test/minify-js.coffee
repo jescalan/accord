@@ -49,7 +49,8 @@ describe 'minify-js', ->
         version: 3,
         file: '',
         sourceRoot: '',
-        sources: [ '' ],
+        sources: [''],
+        sourcesContent: ['if true then console.log "test"\n']
         names: [],
         mappings: 'AAAA,IAAG,IAAH;AAAa,EAAA,OAAO,CAAC,GAAR,CAAY,MAAZ,CAAA,CAAb;CAAA'
     )

@@ -58,7 +58,7 @@ class Job
           ))
         else
           @sourceMap = sourceMap
-          @sourceMap.sourcesContent = [text]
+          @sourceMap.sourcesContent ?= [text]
       else
         @sourceMap.sourcesContent = [text]
         delete @sourceMap.mappings
