@@ -28,6 +28,7 @@ aliasMap =
   'node-sass': 'scss'
   'hamljs': 'haml'
   'yade': 'jade'
+  'coffee': 'coffee-script'
 
 adapter_to_name = (name) -> aliasMap[name] or name
 
