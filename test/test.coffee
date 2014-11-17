@@ -884,3 +884,76 @@ describe 'marc', ->
   it 'should not be able to compile', (done) ->
     @marc.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+describe 'toffee', ->
+
+  before ->
+    @toffee = accord.load('toffee')
+    @path = path.join(__dirname, 'fixtures', 'toffee')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @toffee.extensions.should.be.an.instanceOf(Array)
+    @toffee.output.should.be.type('string')
+    @toffee.engine.should.be.ok
+    @toffee.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @toffee.render('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>:}
+      #}
+      ''',
+        supplies: ['mop', 'trash bin', 'flashlight']
+      ).catch(should.not.exist)
+      .done((res) => should.match_expected(@toffee, res, path.join(@path, 'basic.toffee'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.toffee')
+    @toffee.renderFile(lpath, {supplies: ['mop', 'trash bin', 'flashlight']})
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@toffee, res, lpath, done))
+
+  it 'should compile a string', (done) ->
+    @toffee.compile('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>:}
+      #}
+      ''',
+        supplies: ['mop', 'trash bin', 'flashlight']
+      ).done((res) => should.match_expected(@toffee, res, path.join(@path, 'template.toffee'), done))
+
+  it 'should compile a file', (done) ->
+    lpath = path.join(@path, 'template.toffee')
+    @toffee.compileFile(lpath, {supplies: ['mop', 'trash bin', 'flashlight']})
+      .done((res) => should.match_expected(@toffee, res, lpath, done))
+
+  it 'should client-compile a string', (done) ->
+    @toffee.compileClient('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>:}
+      #}
+      ''', {})
+      .done((res) => should.match_expected(@toffee, res, path.join(@path, 'my_templates.toffee'), done))
+
+  it 'should client-compile a string without headers', (done) ->
+    @toffee.compileClient('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>:}
+      #}
+      ''',
+      headers: false
+      ).done((res) => should.match_expected(@toffee, res, path.join(@path, 'no-header-templ.toffee'), done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(path.relative(process.cwd(), @path), 'my_templates-2.toffee')
+    @toffee.compileFileClient(lpath, {})
+      .done((res) => should.match_expected(@toffee, res, lpath, done))
+
+  it 'should handle errors', (done) ->
+    @toffee.render('''
+      {#
+        for supply in supplies {:<li>#{supply}</li>
+      #}
+      ''', {})
+      .catch(should.exist)
+      .done((res) => should.exist; done())
