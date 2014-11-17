@@ -12,7 +12,7 @@ class Job
      change this property.
    * @readonly
   ###
-  text: ''
+  text: undefined
 
   ###*
    * The sourcemap that represents all transformations applied to the text. This
@@ -30,12 +30,16 @@ class Job
      to version 3 of the spec.
   ###
   constructor: (job) ->
-    @sourceMap = {}
     if typeof job is 'string'
       # if we are just passed a string, make it into a proper job object
       job = text: job
-
     job.text ?= ''
+
+    @sourceMap =
+      version: 3
+      sourcesContent: [job.text]
+      names: []
+
     @setText(job.text, job.sourceMap)
 
   ###*
@@ -51,21 +55,32 @@ class Job
     # make sure we're actually changing the text
     if text isnt @text
       if sourceMap?
-        if @sourceMap.mappings
-          @sourceMap = JSON.parse(transferSourceMap(
+        # merge the source maps
+        if sourceMap.sourcesContent
+          @sourceMap.sourcesContent = sourceMap.sourcesContent
+
+        if not @sourceMap.mappings
+          @sourceMap.mappings = sourceMap.mappings
+        else
+          sourceMap.sources = ['index'] #tmp
+          sourceMap.file = 'index' #tmp
+          @sourceMap.file = 'index' #tmp
+          @sourceMap.sources = ['index'] #tmp
+          newMap = JSON.parse(transferSourceMap(
             fromSourceMap: sourceMap
             toSourceMap: @sourceMap
           ))
-        else
-          @sourceMap = sourceMap
-          @sourceMap.sourcesContent ?= [text]
+          @sourceMap.mappings = newMap.mappings
+
+        @sourceMap.file = sourceMap.file
+        if sourceMap.sources
+          @sourceMap.sources = sourceMap.sources
       else
         @sourceMap.sourcesContent = [text]
         delete @sourceMap.mappings
 
       # we can strip the trailing whitespace without changing the sourcemap
       @text = text.replace(/\s*$/, '\n')
-      #console.log @sourceMap
     return this
 
   toString: => @text
