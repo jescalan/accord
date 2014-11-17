@@ -960,4 +960,5 @@ describe 'toffee', ->
         for supply in supplies {:<li>#{supply}</li>
       #}
       ''', {})
-      .done(should.not.exist, (-> done()))
+      .catch(should.exist)
+      .done((res) => should.exist; done())
