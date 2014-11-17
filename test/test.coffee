@@ -894,7 +894,7 @@ describe 'toffee', ->
   it 'should expose name, extensions, output, and compiler', ->
     @toffee.extensions.should.be.an.instanceOf(Array)
     @toffee.output.should.be.type('string')
-    @toffee.compiler.should.be.ok
+    @toffee.engine.should.be.ok
     @toffee.name.should.be.ok
 
   it 'should render a string', (done) ->
@@ -920,13 +920,11 @@ describe 'toffee', ->
       #}
       ''',
         supplies: ['mop', 'trash bin', 'flashlight']
-      ).catch(should.not.exist)
-      .done((res) => should.match_expected(@toffee, res, path.join(@path, 'template.toffee'), done))
+      ).done((res) => should.match_expected(@toffee, res, path.join(@path, 'template.toffee'), done))
 
   it 'should compile a file', (done) ->
     lpath = path.join(@path, 'template.toffee')
     @toffee.compileFile(lpath, {supplies: ['mop', 'trash bin', 'flashlight']})
-      .catch(should.not.exist)
       .done((res) => should.match_expected(@toffee, res, lpath, done))
 
   it 'should client-compile a string', (done) ->
@@ -935,7 +933,6 @@ describe 'toffee', ->
         for supply in supplies {:<li>#{supply}</li>:}
       #}
       ''', {})
-      .catch(should.not.exist)
       .done((res) => should.match_expected(@toffee, res, path.join(@path, 'my_templates.toffee'), done))
 
   it 'should client-compile a string without headers', (done) ->
@@ -945,13 +942,11 @@ describe 'toffee', ->
       #}
       ''',
       headers: false
-      ).catch(should.not.exist)
-      .done((res) => should.match_expected(@toffee, res, path.join(@path, 'no-header-templ.toffee'), done))
+      ).done((res) => should.match_expected(@toffee, res, path.join(@path, 'no-header-templ.toffee'), done))
 
   it 'should client-compile a file', (done) ->
     lpath = path.join(path.relative(process.cwd(), @path), 'my_templates-2.toffee')
     @toffee.compileFileClient(lpath, {})
-      .catch(should.not.exist)
       .done((res) => should.match_expected(@toffee, res, lpath, done))
 
   it 'should handle errors', (done) ->

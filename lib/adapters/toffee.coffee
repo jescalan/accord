@@ -4,23 +4,23 @@ fs = require 'fs'
 
 
 class Toffee extends Adapter
-  constructor: (@compiler) ->
-    @name = 'toffee'
-    @extensions = ['toffee']
-    @output = 'html'
+  name: 'toffee'
+  extensions: ['toffee']
+  output: 'html'
+  supportedEngines: ['toffee']
 
   _render: (str, options) ->
-    compile => @compiler.str_render(str, options, (err, res) ->
+    compile => @engine.str_render(str, options, (err, res) ->
       if res.indexOf("<div style=\"font-family:courier new;font-size:12px;color:#900;width:100%;\">") isnt -1
         throw res
       else res
       )
 
   _compile: (str, options) ->
-    compile => @compiler.compileStr(str).toString()
+    compile => @engine.compileStr(str).toString()
 
   _compileClient: (str, options) ->
-    compile => @compiler.configurable_compile(str, options)
+    compile => @engine.configurable_compile(str, options)
 
   # private
 
