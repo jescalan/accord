@@ -6,16 +6,10 @@ class CSSO extends Adapter
   extensions: ['css']
   output: 'css'
   isolated: true
+  supportedEngines: ['csso']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     options.noRestructure ?= false
-    compile => @engine.justDoIt(str, options.noRestructure)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    W.try(@engine.justDoIt, job.text, options.noRestructure).then(job.setText)
 
 module.exports = CSSO

@@ -7,15 +7,15 @@ class SCSS extends Adapter
   output: 'css'
   supportedEngines: ['node-sass']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     deferred = W.defer()
 
-    options.data = str
+    options.data = job.text
     options.success = deferred.resolve
     options.error = deferred.reject
 
     @engine.render(options)
 
-    return deferred.promise
+    deferred.promise.then(job.setText)
 
 module.exports = SCSS

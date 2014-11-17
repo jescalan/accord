@@ -6,15 +6,26 @@ class CoffeeScript extends Adapter
   extensions: ['coffee']
   output: 'js'
   isolated: true
+  supportedEngines: ['coffee-script']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str, options)
+  constructor: (args...) ->
+    super(args...)
+    @options.schema.bare =
+      type: 'boolean'
+      default: false
+    @options.schema.header =
+      type: 'boolean'
+      default: false
+    @options.schema.sourceMap =
+      type: 'boolean'
+      default: true
 
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+  _render: (job, options) ->
+    options = @options.validate(options)
+    W.try(@engine.compile.bind(@engine), job.text, options).then (res) ->
+      if typeof res is 'string'
+        job.setText(res)
+      else
+        job.setText(res.js, JSON.parse(res.v3SourceMap))
 
 module.exports = CoffeeScript

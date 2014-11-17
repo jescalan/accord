@@ -9,14 +9,31 @@ class MinifyJS extends Adapter
   supportedEngines: ['uglify-js']
   isolated: true
 
-  _render: (str, options) ->
-    compile => @engine.minify(str, _.extend(options, fromString: true)).code
+  # schema is disabled right now because it doesn't cover all the properties
+  #constructor: (args...) ->
+  #  super(args...)
+  #  @options.schema.sourceMap =
+  #    type: 'boolean'
+  #    default: true
 
-  # private
+  _render: (job, options) ->
+    options.sourceMap ?= true
+    origionalOptions = _.clone(options)
 
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    #options = @options.validate(options)
+    if options.sourceMap
+      options.outSourceMap = 'out.js.map'
+      delete options.sourceMap
+
+    W.try(@engine.minify, job.text, _.extend(options, fromString: true))
+      .then (res) ->
+        if origionalOptions.sourceMap
+          res.code = res.code.replace(
+            /\/\/# sourceMappingURL=out\.js\.map$/
+            ''
+          )
+          res.map = JSON.parse(res.map)
+          delete res.map.file
+        job.setText(res.code, res.map)
 
 module.exports = MinifyJS

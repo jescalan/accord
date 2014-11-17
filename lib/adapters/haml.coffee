@@ -1,8 +1,7 @@
-Adapter  = require '../adapter_base'
-path     = require 'path'
-fs       = require 'fs'
-W        = require 'when'
-UglifyJS = require 'uglify-js'
+path = require 'path'
+W = require 'when'
+# accord = require '../'
+Adapter = require '../adapter_base'
 
 # TODO: add doctype and filter opts
 # https://github.com/visionmedia/haml.js#extending-haml
@@ -13,22 +12,17 @@ class HAML extends Adapter
   output: 'html'
   supportedEngines: ['hamljs']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str)(options)
+  _render: (job, options) ->
+    W.try =>
+      job.setText(@engine.compile(job.text)(options).trim() + '\n')
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    W.try(@engine.compile, job.text, options)
 
+  # client compile not yet supported, but when it is, this will be the path to
+  # the right info
   # clientHelpers: ->
-  #   runtime_path = path.join(@engine.__accord_path, 'haml.js')
-  #   runtime = fs.readFileSync(runtime_path, 'utf8')
-  #   return UglifyJS.minify(runtime, { fromString: true }).code
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+  #   runtime_path = path.join(@enginePath, 'haml.js')
+  #   accord.load('minify-js').renderFile(runtime_path)
 
 module.exports = HAML

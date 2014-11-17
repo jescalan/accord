@@ -15,19 +15,12 @@ class MinifyHTML extends Adapter
   ###
   isolated: true
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     options = _.defaults options,
       removeComments: true
       collapseWhitespace: true
       removeEmptyAttributes: true
 
-    compile => @engine.minify(str, options)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    W.try(@engine.minify, job.text, options).then(job.setText)
 
 module.exports = MinifyHTML

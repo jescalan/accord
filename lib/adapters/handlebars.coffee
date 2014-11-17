@@ -1,48 +1,48 @@
 Adapter = require '../adapter_base'
-_       = require 'lodash'
-path    = require 'path'
-fs      = require 'fs'
-W       = require 'when'
+_ = require 'lodash'
+path = require 'path'
+fs = require 'fs'
+W = require 'when'
+File = require 'fobject'
 
 class Handlebars extends Adapter
   name: 'handlebars'
   extensions: ['hbs', 'handlebars']
   output: 'html'
+  supportedEngines: ['handlebars']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
     compiler = _.clone(@engine)
-    register_helpers(compiler, options)
-    compile => compiler.compile(str)(options)
+    registerHelpers(compiler, options)
+    W.try(compiler.compile, job.text).then (res) ->
+      job.setText(res(options))
 
-  _compile: (str, options) ->
+  _compile: (job, options) ->
     compiler = _.clone(@engine)
-    register_helpers(compiler, options)
-    compile => compiler.compile(str)
+    registerHelpers(compiler, options)
+    W.try(compiler.compile, job.text)
 
-  _compileClient: (str, options) ->
+  _compileClient: (job, options) ->
     compiler = _.clone(@engine)
-    register_helpers(compiler, options)
-    compile => "Handlebars.template(#{compiler.precompile(str)});"
+    registerHelpers(compiler, options)
+    W.try ->
+      job.setText("Handlebars.template(#{compiler.precompile(job.text)});")
 
   clientHelpers: ->
-    runtime_path = path.join(
-      @engine.__accord_path,
+    runtimePath = path.join(
+      @enginePath,
       'dist/handlebars.runtime.min.js'
     )
-    return fs.readFileSync(runtime_path, 'utf8')
+    (new File(runtimePath)).read(encoding: 'utf8').then (res) ->
+      res.trim() + '\n'
 
   ###*
    * @private
   ###
-  register_helpers = (compiler, opts) ->
+  registerHelpers = (compiler, opts) ->
     if opts.helpers
       compiler.helpers = _.merge(compiler.helpers, opts.helpers)
     if opts.partials
       compiler.partials = _.merge(compiler.partials, opts.partials)
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
 
 module.exports = Handlebars

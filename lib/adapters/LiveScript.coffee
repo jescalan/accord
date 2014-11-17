@@ -6,15 +6,9 @@ class LiveScript extends Adapter
   extensions: ['ls']
   output: 'js'
   isolated: true
+  supportedEngines: ['LiveScript']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str, options)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+  _render: (job, options) ->
+    W.try(@engine.compile, job.text, options).then(job.setText)
 
 module.exports = LiveScript

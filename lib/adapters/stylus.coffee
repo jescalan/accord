@@ -6,8 +6,18 @@ class Stylus extends Adapter
   name: 'stylus'
   extensions: ['styl']
   output: 'css'
+  supportedEngines: ['stylus']
 
-  _render: (str, options) ->
+  _render: (job, options) ->
+    options.sourceMap ?= true
+    origionalOptions = _.clone(options)
+    delete options.sourceMap
+    if origionalOptions.sourceMap
+      options.sourcemap =
+        comment: false
+        inline: false
+        sourceRoot: null
+
     sets = {}
     defines = {}
     includes = []
@@ -37,7 +47,7 @@ class Stylus extends Adapter
     imports = _.flatten(imports)
     plugins = _.flatten(plugins)
 
-    base = @engine(str)
+    base = @engine(job.text)
 
     base.set(k, v) for k, v of sets
     base.define(k, v) for k, v of defines
@@ -45,6 +55,7 @@ class Stylus extends Adapter
     base.import(i) for i in imports
     base.use(i) for i in plugins
 
-    nodefn.call(base.render.bind(base))
+    nodefn.call(base.render.bind(base)).then (res) ->
+      job.setText(res, base.sourcemap)
 
 module.exports = Stylus

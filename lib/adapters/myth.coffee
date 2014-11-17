@@ -5,15 +5,10 @@ class Myth extends Adapter
   name: 'myth'
   extensions: ['myth', 'mcss']
   output: 'css'
+  supportedEngines: ['myth']
 
-  _render: (str, options) ->
-    compile => @engine(str)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+  _render: (job, options) ->
+    options = @options.validate(options)
+    W.try => job.setText(@engine(job.text))
 
 module.exports = Myth

@@ -1,8 +1,9 @@
 Adapter = require '../adapter_base'
-W       = require 'when'
-util    = require 'util'
-fs      = require 'fs'
-path    = require 'path'
+W = require 'when'
+util = require 'util'
+fs = require 'fs'
+path = require 'path'
+File = require 'fobject'
 
 class Mustache extends Adapter
   name: 'mustache'
@@ -10,29 +11,27 @@ class Mustache extends Adapter
   output: 'html'
   supportedEngines: ['hogan.js']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str, options).render(options, options.partials)
+  _render: (job, options) ->
+    W.try =>
+      job.setText(
+        @engine.compile(job.text, options).render(options, options.partials)
+      )
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    W.try => @engine.compile(job.text, options)
 
-  _compileClient: (str, options) ->
+  _compileClient: (job, options) ->
     options.asString = true
-    @_compile(str, options).then((o) -> "new Hogan.Template(#{o.toString()});")
+    @_compile(job, options).then (res) ->
+      job.setText("new Hogan.Template(#{res.toString()});")
 
   clientHelpers: ->
-    version = require(path.join(@engine.__accord_path, 'package')).version
-    runtime_path = path.join(
-      @engine.__accord_path
+    version = require(path.join(@enginePath, 'package')).version
+    runtimePath = path.join(
+      @enginePath
       "web/builds/#{version}/hogan-#{version}.min.js"
     )
-    return fs.readFileSync(runtime_path, 'utf8')
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    (new File(runtimePath)).read(encoding: 'utf8').then (res) ->
+      res.trim() + '\n'
 
 module.exports = Mustache

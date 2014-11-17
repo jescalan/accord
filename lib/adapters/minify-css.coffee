@@ -13,14 +13,8 @@ class MinifyCSS extends Adapter
   ###
   isolated: false
 
-  _render: (str, options) ->
-    compile => (new @engine(options)).minify(str)
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+  _render: (job, options) ->
+    W.try =>
+      job.setText((new @engine(options)).minify(job.text))
 
 module.exports = MinifyCSS

@@ -1,38 +1,36 @@
-Adapter  = require '../adapter_base'
-path     = require 'path'
-fs       = require 'fs'
-W        = require 'when'
-UglifyJS = require 'uglify-js'
+path = require 'path'
+File = require 'fobject'
+W = require 'when'
+Adapter = require '../adapter_base'
+Job = require '../job'
 
 class Swig extends Adapter
   name: 'swig'
   extensions: ['swig']
   output: 'html'
+  supportedEngines: ['swig']
 
-  _render: (str, options) ->
-    compile => @engine.render(str, options)
+  _render: (job, options) ->
+    W.try(@engine.render, job.text, options)
+      .then(job.setText)
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    W.try( => @engine.compile(job.text, options))
 
-  _compileClient: (str, options) ->
-    compile => @engine.precompile(str, options).tpl.toString()
+  _compileClient: (job, options) ->
+    W.try( => @engine.precompile(job.text, options).tpl.toString())
+      .then(job.setText)
 
   renderFile: (path, options = {}) ->
-    compile => @engine.renderFile(path, options.locals)
+    W.try(@engine.renderFile, path, options.locals)
+      .then (res) -> new Job(res)
+      .then (res) -> res.text.trim() + '\n'
 
   compileFile: (path, options = {}) ->
-    compile => @engine.compileFile(path, options)
+    W.try(@engine.compileFile, path, options)
 
   clientHelpers: ->
-    runtime_path = path.join(@engine.__accord_path, 'dist/swig.min.js')
-    return fs.readFileSync(runtime_path, 'utf8')
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+    runtime_path = path.join(@enginePath, 'dist/swig.min.js')
+    new File(runtime_path).read()
 
 module.exports = Swig

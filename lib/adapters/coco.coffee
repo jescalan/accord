@@ -6,15 +6,16 @@ class Coco extends Adapter
   extensions: ['co']
   output: 'js'
   isolated: true
+  supportedEngines: ['coco']
 
-  _render: (str, options) ->
-    compile => @engine.compile(str, options)
+  constructor: (args...) ->
+    super(args...)
+    @options.schema.bare =
+      type: 'boolean'
+      default: false
 
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+  _render: (job, options) ->
+    options = @options.validate(options)
+    W.try(@engine.compile, job.text, options).then(job.setText)
 
 module.exports = Coco

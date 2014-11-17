@@ -1,44 +1,49 @@
-path    = require 'path'
-glob    = require 'glob'
-_       = require 'lodash'
-indx    = require 'indx'
+path = require 'path'
+glob = require 'glob'
+_ = require 'lodash'
+indx = require 'indx'
+EventEmitter = require('events').EventEmitter
 
 exports.supports = supports = (name) ->
   name = adapter_to_name(name)
   !!glob.sync("#{path.join(__dirname, 'adapters', name)}.*").length
 
-exports.load = (name, custom_path, engineName) ->
+exports.load = (name, enginePath, engineName) ->
   name = adapter_to_name(name)
-  return new (require(path.join(__dirname, 'adapters', name)))(engineName, custom_path)
+  return new (require(path.join(__dirname, 'adapters', name)))(engineName, enginePath)
 
 exports.all = ->
   indx(path.join(__dirname, 'adapters'))
 
+###*
+ * A map of aliases that we support. Each alias is a key, and the value is the
+   real name of the adapter
+###
+aliasMap =
+  'marked': 'markdown'
+  'uglify-js': 'minify-js'
+  'clean-css': 'minify-css'
+  'html-minifier': 'minify-html'
+  'hogan.js': 'mustache'
+  'node-sass': 'scss'
+  'hamljs': 'haml'
+  'yade': 'jade'
+  'coffee': 'coffee-script'
 
-# Responsible for mapping between adapters where the language name
-# does not match the node module name. direction can be "left" or "right",
-# "left" being lang name -> adapter name and right being the opposite.
-#
-abstract_mapper = (name, direction) ->
-  name_maps = [
-    ['markdown', 'marked']
-    ['minify-js', 'uglify-js']
-    ['minify-css', 'clean-css']
-    ['minify-html', 'html-minifier']
-    ['mustache', 'hogan.js']
-    ['scss', 'node-sass']
-    ['haml', 'hamljs']
-  ]
+adapter_to_name = (name) -> aliasMap[name] or name
 
-  res = null
-  name_maps.forEach (n) ->
-    if direction is 'left' and n[0] is name then res = n[1]
-    if direction is 'right' and n[1] is name then res = n[0]
-
-  return res or name
-
-name_to_adapter = (name) ->
-  abstract_mapper(name, 'left')
-
-adapter_to_name = (name) ->
-  abstract_mapper(name, 'right')
+###*
+ * Data about all the jobs that accord runs. Each "jobFinished" event has the
+ * properties:
+ *
+ * filename: filename
+ * engineName: ""
+ * method: <render/renderFile/compile...>
+ * duration: <in ms>
+ * deps: ["<filepath of dep>"]
+ * isolated: <Boolean>
+ * time: <unix time of when job finished>
+ *
+ * @type {EventEmitter}
+###
+exports.jobLog = new EventEmitter()

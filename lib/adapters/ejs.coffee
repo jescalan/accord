@@ -1,32 +1,26 @@
+path = require 'path'
+File = require 'fobject'
+W = require 'when'
 Adapter = require '../adapter_base'
-path    = require 'path'
-fs      = require 'fs'
-W       = require 'when'
 
 class EJS extends Adapter
   name: 'ejs'
   extensions: ['ejs']
   output: 'html'
+  supportedEngines: ['ejs']
 
-  _render: (str, options) ->
-    compile => @engine.render(str, options)
+  _render: (job, options) ->
+    W.try(@engine.render, job.text, options).then(job.setText)
 
-  _compile: (str, options) ->
-    compile => @engine.compile(str, options)
+  _compile: (job, options) ->
+    W.try(@engine.compile, job.text, options)
 
-  _compileClient: (str, options) ->
+  _compileClient: (job, options) ->
     options.client = true
-    compile => @engine.compile(str, options).toString()
+    W.try(@engine.compile,job.text, options).then (res) ->
+      job.setText(res.toString())
 
-  clientHelpers: (str, options) ->
-    runtime_path = path.join(@engine.__accord_path, 'ejs.min.js')
-    return fs.readFileSync(runtime_path, 'utf8')
-
-  # private
-
-  compile = (fn) ->
-    try res = fn()
-    catch err then return W.reject(err)
-    W.resolve(res)
+  clientHelpers: ->
+    new File(path.join(@enginePath, 'ejs.min.js')).read()
 
 module.exports = EJS
