@@ -10,7 +10,11 @@ class Toffee extends Adapter
     @output = 'html'
 
   _render: (str, options) ->
-    compile => @compiler.str_render(str, options, (err, res) -> res)
+    compile => @compiler.str_render(str, options, (err, res) ->
+      if res.indexOf("<div style=\"font-family:courier new;font-size:12px;color:#900;width:100%;\">") isnt -1
+        throw res
+      else res
+      )
 
   _compile: (str, options) ->
     compile => @compiler.compileStr(str).toString()
