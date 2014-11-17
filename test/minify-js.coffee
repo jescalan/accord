@@ -38,7 +38,7 @@ describe 'minify-js', ->
 
   it 'should support sourcemaps', (done) ->
     @minifyjs.render("if (true) {console.log()}").done (res) ->
-      res.text.should.eql('console.log();\n//# sourceMappingURL=out.js.map\n')
+      res.text.should.eql('console.log();\n')
       res.sourceMap.mappings.should.eql('AAAWA,QAAQC')
       done()
 
@@ -55,6 +55,6 @@ describe 'minify-js', ->
         mappings: 'AAAA,IAAG,IAAH;AAAa,EAAA,OAAO,CAAC,GAAR,CAAY,MAAZ,CAAA,CAAb;CAAA'
     )
     @minifyjs.render(job).done (res) ->
-      res.text.should.eql('console.log("test");\n//# sourceMappingURL=out.js.map\n')
+      res.text.should.eql('console.log("test");\n')
       res.sourceMap.mappings.should.eql('AAAa,QAAQ,IAAI')
       done()

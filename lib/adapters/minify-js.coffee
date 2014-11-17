@@ -26,6 +26,14 @@ class MinifyJS extends Adapter
       delete options.sourceMap
 
     W.try(@engine.minify, job.text, _.extend(options, fromString: true))
-      .then (res) -> job.setText(res.code, JSON.parse(res.map))
+      .then (res) ->
+        if origionalOptions.sourceMap
+          res.code = res.code.replace(
+            /\/\/# sourceMappingURL=out\.js\.map$/
+            ''
+          )
+          res.map = JSON.parse(res.map)
+          delete res.map.file
+        job.setText(res.code, res.map)
 
 module.exports = MinifyJS
