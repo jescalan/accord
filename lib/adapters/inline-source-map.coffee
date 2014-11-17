@@ -1,5 +1,7 @@
 W = require 'when'
 Adapter = require '../adapter_base'
+canonicalStringify = require 'canonical-json'
+
 
 class InlineSourceMap extends Adapter
   name: 'inline-source-map'
@@ -17,7 +19,7 @@ class InlineSourceMap extends Adapter
 
       # skip if there's no mappings
       if not job.sourceMap.mappings? then return job
-      base64 = new Buffer(JSON.stringify(job.sourceMap)).toString('base64')
+      base64 = new Buffer(canonicalStringify(job.sourceMap)).toString('base64')
       text = "# sourceMappingURL=data:application/json;base64,#{base64}"
       if options.blockComment
         text = """

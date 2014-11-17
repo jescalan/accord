@@ -10,6 +10,7 @@
     "url": "https://github.com/jenius/accord"
   },
   "dependencies": {
+    "canonical-json": "0.0.4",
     "config-schema": "0.0.3",
     "fobject": "0.x",
     "glob": "4.x",
