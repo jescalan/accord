@@ -96,11 +96,11 @@ Docs below should explain the methods executed in the example above.
 - [haml](https://github.com/visionmedia/haml.js)
 - [swig](http://paularmstrong.github.io/swig)
 - [marc](https://github.com/bredele/marc)
+- [toffee](https://github.com/malgorithms/toffee)
 - nunjucks _(pending)_
 - haml-coffee _(pending)_
 - dust _(pending)_
 - underscore _(pending)_
-- toffee _(pending)_
 
 #### CSS
 
