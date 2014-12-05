@@ -5,7 +5,6 @@ resolve = require 'resolve'
 path = require 'path'
 fs = require 'fs'
 ConfigSchema = require 'config-schema'
-accord = require './'
 Job = require './job'
 
 
@@ -133,12 +132,10 @@ class Adapter
    * @return {Promise}
   ###
   render: (str, opts = {}) =>
-    startTime = process.hrtime()
     if not @_render
       return W.reject new Error('render not supported')
 
     @_render(new Job(str), opts)
-      .tap( => @emitJobStats(opts.filename, 'render', startTime))
 
   ###*
    * Render a file to a compiled string
@@ -148,11 +145,9 @@ class Adapter
   ###
   renderFile: (file, opts = {}) =>
     opts = _.clone(opts, true)
-    startTime = process.hrtime()
     (new File(file))
       .read(encoding: 'utf8')
       .then _.partialRight(@render, _.extend(opts, filename: file)).bind(@)
-      .tap( => @emitJobStats(opts.filename, 'renderFile', startTime))
 
   ###*
    * Compile a string to a function
@@ -161,11 +156,9 @@ class Adapter
    * @return {Promise}
   ###
   compile: (str, opts = {}) =>
-    startTime = process.hrtime()
     if not @_compile
       return W.reject new Error('compile not supported')
     @_compile(new Job(str), opts)
-      .tap( => @emitJobStats(opts.filename, 'compile', startTime))
 
   ###*
    * Compile a file to a function
@@ -174,11 +167,10 @@ class Adapter
    * @return {Promise}
   ###
   compileFile: (file, opts = {}) =>
-    startTime = process.hrtime()
     (new File(file))
       .read(encoding: 'utf8')
       .then _.partialRight(@compile, _.extend(opts, filename: file)).bind(@)
-      .tap( => @emitJobStats(opts.filename, 'compileFile', startTime))
+
 
   ###*
    * Compile a string to a client-side-ready function
@@ -187,11 +179,9 @@ class Adapter
    * @return {Promise}
   ###
   compileClient: (str, opts = {}) =>
-    startTime = process.hrtime()
     if not @_compileClient
       return W.reject new Error('client-side compile not supported')
     @_compileClient(new Job(str), opts)
-      .tap( => @emitJobStats(opts.filename, 'compileClient', startTime))
 
   ###*
    * Compile a file to a client-side-ready function
@@ -200,11 +190,9 @@ class Adapter
    * @return {Promise}
   ###
   compileFileClient: (file, opts = {}) =>
-    startTime = process.hrtime()
     (new File(file))
       .read(encoding: 'utf8')
       .then _.partialRight(@compileClient, _.extend(opts, filename: file)).bind(@)
-      .tap( => @emitJobStats(opts.filename, 'compileFileClient', startTime))
 
   ###*
    * Some adapters that compile for client also need helpers, this method
@@ -212,32 +200,6 @@ class Adapter
    * @return {Promise} A promise for the client-side helpers.
   ###
   clientHelpers: undefined
-
-  ###*
-   * [emitJobStats description]
-   * @param {[type]} filename [description]
-   * @param {[type]} method [description]
-   * @param {[type]} startTime [description]
-   * @param {Array} [deps = []] [description]
-   * @param {Boolean} [isolated = Adapter.isolated] [description]
-  ###
-  emitJobStats: (filename, method, startTime, deps = [], isolated = @isolated) ->
-    if isolated is true and deps.length isnt 0
-      throw new Error('Isolated compilers cannot have deps.')
-
-    endTime = process.hrtime(startTime)
-    accord.jobLog.emit(
-      'jobFinished'
-      filename: filename
-      engineName: @engineName
-      enginePath: @enginePath
-      method: method
-      duration: endTime[0] + endTime[1] / 1e9
-      deps: deps
-      isolated: isolated
-      time: Date.now()
-      pid: process.pid # TODO: move this into accord-parallel
-    )
 
   _requireEngine: ->
     if @enginePath?

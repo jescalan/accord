@@ -31,19 +31,3 @@ aliasMap =
   'coffee': 'coffee-script'
 
 adapter_to_name = (name) -> aliasMap[name] or name
-
-###*
- * Data about all the jobs that accord runs. Each "jobFinished" event has the
- * properties:
- *
- * filename: filename
- * engineName: ""
- * method: <render/renderFile/compile...>
- * duration: <in ms>
- * deps: ["<filepath of dep>"]
- * isolated: <Boolean>
- * time: <unix time of when job finished>
- *
- * @type {EventEmitter}
-###
-exports.jobLog = new EventEmitter()

@@ -6,6 +6,13 @@ transferSourceMap = require('multi-stage-sourcemap').transfer
 ###
 class Job
   ###*
+   * A list of all the source files that were required to run this job,
+     including the input file (if it was specified in the filename option)
+   * @type {Array}
+  ###
+  dependancies: undefined
+
+  ###*
    * The text resulting from, or being given to the Adapter. This is read-only
      because the text and the sourcemap are tied together and the sourcemap
      needs to be updated or removed whenever the text changes. Use setText to
@@ -30,6 +37,10 @@ class Job
      to version 3 of the spec.
   ###
   constructor: (job) ->
+    @startTime = process.hrtime()
+    @dependancies = job.dependancies ?= []
+    if job.options?.filename? then @dependancies.push(job.options.filename)
+
     if typeof job is 'string'
       # if we are just passed a string, make it into a proper job object
       job = text: job
