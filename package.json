@@ -1,14 +1,8 @@
 {
   "name": "accord",
+  "description": "A unified interface for compiled languages and templates in JavaScript",
   "version": "0.12.0",
   "author": "Jeff Escalante <hello@jenius.me>",
-  "description": "A unified interface for compiled languages and templates in JavaScript",
-  "main": "lib",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jenius/accord"
-  },
   "dependencies": {
     "canonical-json": "0.0.4",
     "config-schema": "0.0.3",
@@ -22,38 +16,44 @@
     "when": "3.x"
   },
   "devDependencies": {
-    "coffee-script": "1.7.x",
-    "mocha": "1.x",
-    "should": "*",
-    "swig": "*",
-    "jade": "*",
-    "ejs": "*",
-    "marked": "*",
-    "marc": "*",
-    "hogan.js": "*",
-    "handlebars": "*",
-    "hamljs": "*",
-    "stylus": "*",
-    "node-sass": "*",
-    "less": "*",
-    "myth": "*",
-    "dogescript": "*",
-    "coco": "*",
     "LiveScript": "*",
-    "uglifyjs": "*",
-    "clean-css": "*",
-    "html-minifier": "*",
-    "csso": "*",
     "acorn": "*",
-    "css-parse": "*",
-    "parse5": "0.8.x",
+    "clean-css": "*",
+    "coco": "*",
+    "coffee-script": "1.7.x",
     "coveralls": "2.x",
-    "mocha-lcov-reporter": "0.0.1",
+    "css-parse": "*",
+    "csso": "*",
+    "dogescript": "*",
+    "ejs": "*",
+    "hamljs": "*",
+    "handlebars": "*",
+    "hogan.js": "*",
+    "html-minifier": "*",
     "istanbul": "0.3.x",
-    "toffee": "*"
+    "jade": "*",
+    "less": "*",
+    "marc": "*",
+    "marked": "*",
+    "mocha": "1.x",
+    "mocha-lcov-reporter": "0.0.1",
+    "myth": "*",
+    "node-sass": "*",
+    "parse5": "0.8.x",
+    "should": "*",
+    "stylus": "*",
+    "swig": "*",
+    "toffee": "*",
+    "uglifyjs": "*"
+  },
+  "license": "MIT",
+  "main": "lib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jenius/accord"
   },
   "scripts": {
-    "test": "mocha",
-    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild"
+    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild",
+    "test": "mocha"
   }
 }
