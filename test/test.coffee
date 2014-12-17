@@ -1,8 +1,10 @@
-should = require 'should'
+chai = require 'chai'
 path   = require 'path'
 W      = require 'when'
 _      = require 'lodash'
 accord = require '../'
+
+should = chai.should()
 
 require('./helpers')(should)
 
@@ -25,7 +27,7 @@ describe 'base functions', ->
     (-> accord.load('jade', path.join(__dirname, '../node_modules/jade/missing/path'))).should.not.throw()
 
   it 'all should return all adapters', ->
-    accord.all().should.be.type('object')
+    accord.all().should.be.a('object')
 
 describe 'jade', ->
 
@@ -35,7 +37,7 @@ describe 'jade', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @jade.extensions.should.be.an.instanceOf(Array)
-    @jade.output.should.be.type('string')
+    @jade.output.should.be.a('string')
     @jade.engine.should.be.ok
     @jade.name.should.be.ok
 
@@ -102,7 +104,7 @@ describe 'swig', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @swig.extensions.should.be.an.instanceOf(Array)
-    @swig.output.should.be.type('string')
+    @swig.output.should.be.a('string')
     @swig.engine.should.be.ok
     @swig.name.should.be.ok
 
@@ -153,7 +155,7 @@ describe 'coffeescript', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @coffee.extensions.should.be.an.instanceOf(Array)
-    @coffee.output.should.be.type('string')
+    @coffee.output.should.be.a('string')
     @coffee.engine.should.be.ok
     @coffee.name.should.be.ok
 
@@ -189,7 +191,7 @@ describe 'stylus', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @stylus.extensions.should.be.an.instanceOf(Array)
-    @stylus.output.should.be.type('string')
+    @stylus.output.should.be.a('string')
     @stylus.engine.should.be.ok
     @stylus.name.should.be.ok
 
@@ -319,7 +321,7 @@ describe 'ejs', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @ejs.extensions.should.be.an.instanceOf(Array)
-    @ejs.output.should.be.type('string')
+    @ejs.output.should.be.a('string')
     @ejs.engine.should.be.ok
     @ejs.name.should.be.ok
 
@@ -377,7 +379,7 @@ describe 'markdown', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @markdown.extensions.should.be.an.instanceOf(Array)
-    @markdown.output.should.be.type('string')
+    @markdown.output.should.be.a('string')
     @markdown.engine.should.be.ok
     @markdown.name.should.be.ok
 
@@ -407,7 +409,7 @@ describe 'minify-js', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @minifyjs.extensions.should.be.an.instanceOf(Array)
-    @minifyjs.output.should.be.type('string')
+    @minifyjs.output.should.be.a('string')
     @minifyjs.engine.should.be.ok
     @minifyjs.name.should.be.ok
 
@@ -448,7 +450,7 @@ describe 'minify-css', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @minifycss.extensions.should.be.an.instanceOf(Array)
-    @minifycss.output.should.be.type('string')
+    @minifycss.output.should.be.a('string')
     @minifycss.engine.should.be.ok
     @minifycss.name.should.be.ok
 
@@ -472,7 +474,7 @@ describe 'minify-css', ->
 
   it 'should correctly handle errors', (done) ->
     @minifycss.render("FMWT$SP#TPO%M@#@#M!@@@")
-      .done(should.not.exist, (-> done()))
+      .done(((r) -> r.result.should.equal(''); done()), should.not.exist)
 
 describe 'minify-html', ->
 
@@ -482,7 +484,7 @@ describe 'minify-html', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @minifyhtml.extensions.should.be.an.instanceOf(Array)
-    @minifyhtml.output.should.be.type('string')
+    @minifyhtml.output.should.be.a('string')
     @minifyhtml.engine.should.be.ok
     @minifyhtml.name.should.be.ok
 
@@ -517,7 +519,7 @@ describe 'csso', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @csso.extensions.should.be.an.instanceOf(Array)
-    @csso.output.should.be.type('string')
+    @csso.output.should.be.a('string')
     @csso.engine.should.be.ok
     @csso.name.should.be.ok
 
@@ -551,7 +553,7 @@ describe 'mustache', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @mustache.extensions.should.be.an.instanceOf(Array)
-    @mustache.output.should.be.type('string')
+    @mustache.output.should.be.a('string')
     @mustache.engine.should.be.ok
     @mustache.name.should.be.ok
 
@@ -598,7 +600,7 @@ describe 'dogescript', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @doge.extensions.should.be.an.instanceOf(Array)
-    @doge.output.should.be.type('string')
+    @doge.output.should.be.a('string')
     @doge.engine.should.be.ok
     @doge.name.should.be.ok
 
@@ -626,7 +628,7 @@ describe 'handlebars', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @handlebars.extensions.should.be.an.instanceOf(Array)
-    @handlebars.output.should.be.type('string')
+    @handlebars.output.should.be.a('string')
     @handlebars.engine.should.be.ok
     @handlebars.name.should.be.ok
 
@@ -682,7 +684,7 @@ describe 'scss', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @scss.extensions.should.be.an.instanceOf(Array)
-    @scss.output.should.be.type('string')
+    @scss.output.should.be.a('string')
     @scss.engine.should.be.ok
     @scss.name.should.be.ok
 
@@ -716,7 +718,7 @@ describe 'less', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @less.extensions.should.be.an.instanceOf(Array)
-    @less.output.should.be.type('string')
+    @less.output.should.be.a('string')
     @less.engine.should.be.ok
     @less.name.should.be.ok
 
@@ -764,7 +766,7 @@ describe 'coco', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @coco.extensions.should.be.an.instanceOf(Array)
-    @coco.output.should.be.type('string')
+    @coco.output.should.be.a('string')
     @coco.engine.should.be.ok
     @coco.name.should.be.ok
 
@@ -793,7 +795,7 @@ describe 'livescript', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @livescript.extensions.should.be.an.instanceOf(Array)
-    @livescript.output.should.be.type('string')
+    @livescript.output.should.be.a('string')
     @livescript.engine.should.be.ok
     @livescript.name.should.be.ok
 
@@ -822,7 +824,7 @@ describe 'myth', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @myth.extensions.should.be.an.instanceOf(Array)
-    @myth.output.should.be.type('string')
+    @myth.output.should.be.a('string')
     @myth.engine.should.be.ok
     @myth.name.should.be.ok
 
@@ -856,7 +858,7 @@ describe 'haml', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @haml.extensions.should.be.an.instanceOf(Array)
-    @haml.output.should.be.type('string')
+    @haml.output.should.be.a('string')
     @haml.engine.should.be.ok
     @haml.name.should.be.ok
 
@@ -894,7 +896,7 @@ describe 'marc', ->
 
   it 'should expose name, extensions, output, and engine', ->
     @marc.extensions.should.be.an.instanceOf(Array)
-    @marc.output.should.be.type('string')
+    @marc.output.should.be.a('string')
     @marc.engine.should.be.ok
     @marc.name.should.be.ok
 
