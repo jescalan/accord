@@ -10,11 +10,15 @@ class MinifyJS extends Adapter
   isolated: true
 
   _render: (str, options) ->
-    compile => @engine.minify(str, _.extend(options, fromString: true)).code
+    compile =>
+      res = @engine.minify(str, _.extend(options, fromString: true))
+      obj = { result: res.code }
+      if options.sourceMap then obj.sourcemap = res.map
+      obj
 
   # private
 
-  compile = (fn) ->
+  compile = (fn, map) ->
     try res = fn()
     catch err then return W.reject(err)
     W.resolve(res)

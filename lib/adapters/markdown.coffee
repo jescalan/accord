@@ -10,5 +10,6 @@ class Markdown extends Adapter
 
   _render: (str, options) ->
     nodefn.call(@engine.bind(@engine), str, options)
+      .then (res) -> result: res
 
 module.exports = Markdown

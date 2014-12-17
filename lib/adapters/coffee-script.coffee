@@ -15,6 +15,9 @@ class CoffeeScript extends Adapter
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)
-    W.resolve(res)
+    if res.sourceMap
+      W.resolve(result: res.js, sourcemap: res.sourceMap, v3sourcemap: res.v3SourceMap)
+    else
+      W.resolve(result: res)
 
 module.exports = CoffeeScript

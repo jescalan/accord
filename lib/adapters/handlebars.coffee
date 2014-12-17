@@ -43,6 +43,6 @@ class Handlebars extends Adapter
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)
-    W.resolve(res)
+    W.resolve(result: res)
 
 module.exports = Handlebars

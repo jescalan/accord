@@ -18,7 +18,7 @@ class Mustache extends Adapter
 
   _compileClient: (str, options) ->
     options.asString = true
-    @_compile(str, options).then((o) -> "new Hogan.Template(#{o.toString()});")
+    @_compile(str, options).then((o) -> result: "new Hogan.Template(#{o.result.toString()});")
 
   clientHelpers: ->
     version = require(path.join(@engine.__accord_path, 'package')).version
@@ -33,6 +33,6 @@ class Mustache extends Adapter
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)
-    W.resolve(res)
+    W.resolve(result: res)
 
 module.exports = Mustache

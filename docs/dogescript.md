@@ -10,3 +10,7 @@ dogescript.render('wow', { beauty: true, trueDoge: true })
 
 ## Supported Methods
  - render
+
+## Source Maps
+
+Dogescript does not support sourcemaps. Honestly, I doubt it ever will. If you are writing dogescript, you probably don't need sourcemaps anyway because you are too boss for that kind of stuff.

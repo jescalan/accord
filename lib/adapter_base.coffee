@@ -84,8 +84,7 @@ class Adapter
    * @return {Promise}
   ###
   render: (str, opts = {}) ->
-    if not @_render
-      return W.reject new Error('render not supported')
+    if not @_render then return W.reject new Error('render not supported')
     @_render(str, opts)
 
   ###*
@@ -107,8 +106,7 @@ class Adapter
    * @return {Promise}
   ###
   compile: (str, opts = {}) ->
-    if not @_compile
-      return W.reject new Error('compile not supported')
+    if not @_compile then return W.reject new Error('compile not supported')
     @_compile(str, opts)
 
   ###*

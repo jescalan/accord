@@ -4,6 +4,10 @@ Coco is a fork of CoffeeScript that tries to eliminate some pain points. It has 
 ## Supported Methods
  - render
 
+## Source Maps
+
+Coco does not support source maps, unfortunately. If they do add support we would be happy to add it to accord.
+
 ## Additional Options
 ### Bare
  - key: `bare`
