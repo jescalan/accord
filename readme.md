@@ -1,12 +1,14 @@
 accord
 ======
 
-A unified interface for compiled languages and templates in JavaScript.
-
 [![npm](http://img.shields.io/npm/v/accord.svg?style=flat)](http://badge.fury.io/js/accord)
 [![tests](http://img.shields.io/travis/jenius/accord/master.svg?style=flat)](https://travis-ci.org/jenius/accord)
 [![coverage](http://img.shields.io/coveralls/jenius/accord/master.svg?style=flat)](https://coveralls.io/r/jenius/accord?branch=master)
 [![dependencies](http://img.shields.io/gemnasium/jenius/accord.svg?style=flat)](https://david-dm.org/jenius/accord)
+
+A unified interface for compiled languages and templates in JavaScript.
+
+> **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
 
 ### Why should you care?
 
