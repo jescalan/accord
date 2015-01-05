@@ -8,6 +8,10 @@ class CoffeeScript extends Adapter
   isolated: true
 
   _render: (str, options) ->
+    filename = options.filename
+    options.sourceFiles = [filename]
+    options.generatedFile = path.basename(filename).replace('.coffee', '.js')
+
     compile => @engine.compile(str, options)
 
   # private
@@ -16,7 +20,10 @@ class CoffeeScript extends Adapter
     try res = fn()
     catch err then return W.reject(err)
     if res.sourceMap
-      W.resolve(result: res.js, sourcemap: res.sourceMap, v3sourcemap: res.v3SourceMap)
+      W.resolve
+        result: res.js
+        old_sourcemap: res.sourceMap
+        sourcemap: JSON.parse(res.v3SourceMap)
     else
       W.resolve(result: res)
 
