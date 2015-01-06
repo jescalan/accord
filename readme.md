@@ -145,6 +145,7 @@ Accord now supports source map generation for any language that also supports so
 - stylus
 - less
 - myth
+- scss
 - coffeescript
 - minify-js
 

@@ -715,6 +715,14 @@ describe 'scss', ->
     @scss.render("!@##%#$#^$")
       .done(should.not.exist, (-> done()))
 
+  it 'should generate a sourcemap', (done) ->
+    lpath = path.join(@path, 'basic.scss')
+    @scss.renderFile(lpath, { sourcemap: true })
+      .tap (res) ->
+        res.sourcemap.version.should.equal(3)
+        res.sourcemap.mappings.length.should.be.above(1)
+      .done((res) => should.match_expected(@scss, res.result, lpath, done))
+
 describe 'less', ->
 
   before ->
