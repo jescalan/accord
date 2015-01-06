@@ -1,4 +1,5 @@
 Adapter = require '../adapter_base'
+path    = require 'path'
 W       = require 'when'
 
 class CoffeeScript extends Adapter
@@ -9,6 +10,8 @@ class CoffeeScript extends Adapter
 
   _render: (str, options) ->
     filename = options.filename
+
+    if options.sourcemap is true then options.sourceMap = true
     options.sourceFiles = [filename]
     options.generatedFile = path.basename(filename).replace('.coffee', '.js')
 
@@ -22,7 +25,7 @@ class CoffeeScript extends Adapter
     if res.sourceMap
       W.resolve
         result: res.js
-        old_sourcemap: res.sourceMap
+        v2sourcemap: res.sourceMap
         sourcemap: JSON.parse(res.v3SourceMap)
     else
       W.resolve(result: res)

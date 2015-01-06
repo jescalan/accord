@@ -178,9 +178,11 @@ describe 'coffeescript', ->
 
   it 'should generate sourcemaps', (done) ->
     lpath = path.join(@path, 'basic.coffee')
-    @coffee.renderFile(lpath, sourceMap: true ).done (res) =>
+    @coffee.renderFile(lpath, sourcemap: true ).done (res) =>
       res.sourcemap.should.exist
-      res.v3sourcemap.should.exist
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.mappings.length.should.be.above(1)
+      res.v2sourcemap.should.exist
       should.match_expected(@coffee, res.result, lpath, done)
 
 describe 'stylus', ->
@@ -307,10 +309,13 @@ describe 'stylus', ->
 
   it 'should expose sourcemaps', (done) ->
     lpath = path.join(@path, 'basic.styl')
-    opts = { sourcemap: { comment: false } }
+    opts = { sourcemap: true }
 
     @stylus.renderFile(lpath, opts)
-      .tap (res) -> res.sourcemap.should.exist
+      .tap (res) ->
+        res.sourcemap.should.exist
+        res.sourcemap.version.should.equal(3)
+        res.sourcemap.mappings.length.should.be.above(1)
       .done((res) => should.match_expected(@stylus, res.result, lpath, done))
 
 describe 'ejs', ->
@@ -435,11 +440,11 @@ describe 'minify-js', ->
     @minifyjs.render("@#$%#I$$N%NI#$%I$PQ")
       .done(should.not.exist, (-> done()))
 
-  it.skip 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', (done) ->
     lpath = path.join(@path, 'basic.js')
-    @minifyjs.renderFile(lpath, sourceMap: true).done (res) =>
-      res.sourcemap.should.exist
-      res.sourcemap.should.not.equal('null')
+    @minifyjs.renderFile(lpath, sourcemap: true).done (res) =>
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.mappings.length.should.be.above(1)
       should.match_expected(@minifyjs, res.result, lpath, done)
 
 describe 'minify-css', ->
@@ -754,8 +759,9 @@ describe 'less', ->
 
   it 'should generate sourcemaps', (done) ->
     lpath = path.join(@path, 'basic.less')
-    @less.renderFile(lpath, sourceMap: true).done (res) =>
-      res.sourcemap.should.exist
+    @less.renderFile(lpath, sourcemap: true).done (res) =>
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.mappings.length.should.be.above(1)
       should.match_expected(@less, res.result, lpath, done)
 
 describe 'coco', ->
@@ -848,6 +854,9 @@ describe 'myth', ->
   it 'should generate sourcemaps', (done) ->
     lpath = path.join(@path, 'import.myth')
     @myth.renderFile(lpath, sourcemap: true).done (res) =>
+      res.sourcemap.should.be.an('object')
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.sources.length.should.be.above(1)
       should.match_expected(@myth, res.result, lpath, done)
 
 describe 'haml', ->

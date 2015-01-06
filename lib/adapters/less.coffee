@@ -14,10 +14,12 @@ class Less extends Adapter
   _render: (str, options) ->
     deferred = W.defer()
 
+    if options.sourcemap is true then options.sourceMap = true
+
     @engine.render str, options, (err, res) ->
       if err then return deferred.reject(err)
       obj = { result: res.css }
-      if options.sourceMap then obj.sourcemap = res.map
+      if options.sourceMap then obj.sourcemap = JSON.parse(res.map)
       deferred.resolve(obj)
 
     return deferred.promise
