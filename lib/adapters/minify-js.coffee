@@ -22,6 +22,8 @@ class MinifyJS extends Adapter
 
       if options.sourceMap
         obj.sourcemap = JSON.parse(res.map)
+        obj.sourcemap.sources.pop()
+        obj.sourcemap.sources.push(options.filename)
         obj.result = convert.removeMapFileComments(obj.result).trim()
 
       return obj
