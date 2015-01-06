@@ -1,6 +1,8 @@
 Adapter = require '../adapter_base'
 W       = require 'when'
 _       = require 'lodash'
+path    = require 'path'
+convert = require 'convert-source-map'
 
 class MinifyJS extends Adapter
   name: 'minify-js'
@@ -10,11 +12,21 @@ class MinifyJS extends Adapter
   isolated: true
 
   _render: (str, options) ->
+    if options.sourcemap is true
+      options.sourceMap = true
+      options.outSourceMap = path.basename(options.filename)
+
     compile =>
       res = @engine.minify(str, _.extend(options, fromString: true))
       obj = { result: res.code }
-      if options.sourceMap then obj.sourcemap = res.map
-      obj
+
+      if options.sourceMap
+        obj.sourcemap = JSON.parse(res.map)
+        obj.sourcemap.sources.pop()
+        obj.sourcemap.sources.push(options.filename)
+        obj.result = convert.removeMapFileComments(obj.result).trim()
+
+      return obj
 
   # private
 

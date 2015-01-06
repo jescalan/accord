@@ -1,4 +1,5 @@
 Adapter = require '../adapter_base'
+convert = require 'convert-source-map'
 W       = require 'when'
 
 class Myth extends Adapter
@@ -9,13 +10,19 @@ class Myth extends Adapter
   _render: (str, options) ->
     options.source = options.filename
     delete options.filename
-    compile => @engine(str, options)
+    compile(options.sourcemap, (=> @engine(str, options)))
 
   # private
 
-  compile = (fn) ->
+  compile = (sourcemap, fn) ->
     try res = fn()
     catch err then return W.reject(err)
-    W.resolve(result: res)
+
+    if not sourcemap
+      W.resolve(result: res)
+    else
+      map = convert.fromSource(res).sourcemap
+      src = convert.removeComments(res)
+      W.resolve(result: src, sourcemap: map)
 
 module.exports = Myth

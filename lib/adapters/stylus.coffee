@@ -14,6 +14,9 @@ class Stylus extends Adapter
     imports = []
     plugins = []
 
+    if options.sourcemap is true
+      options.sourcemap = { comment: false }
+
     for k, v of options
       switch k
         when 'define' then _.extend(defines, v)
