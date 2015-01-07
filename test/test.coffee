@@ -315,7 +315,6 @@ describe 'stylus', ->
 
     @stylus.renderFile(lpath, opts)
       .tap (res) ->
-        console.log res
         res.sourcemap.should.exist
         res.sourcemap.version.should.equal(3)
         res.sourcemap.mappings.length.should.be.above(1)

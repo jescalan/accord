@@ -21,6 +21,7 @@ class MinifyCSS extends Adapter
   compile = (fn) ->
     try res = fn()
     catch err then return W.reject(err)
-    W.resolve(result: res)
+    if res.errors.length > 0 then W.reject(res)
+    W.resolve(result: res.styles, warnings: res.warnings, stats: res.stats)
 
 module.exports = MinifyCSS
