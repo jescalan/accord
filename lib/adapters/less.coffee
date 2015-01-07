@@ -1,5 +1,6 @@
-Adapter = require '../adapter_base'
-W       = require 'when'
+Adapter    = require '../adapter_base'
+W          = require 'when'
+sourcemaps = require '../sourcemaps'
 
 class Less extends Adapter
   name: 'less'
@@ -19,8 +20,13 @@ class Less extends Adapter
     @engine.render str, options, (err, res) ->
       if err then return deferred.reject(err)
       obj = { result: res.css }
-      if options.sourceMap then obj.sourcemap = JSON.parse(res.map)
-      deferred.resolve(obj)
+      if options.sourceMap
+        obj.sourcemap = JSON.parse(res.map)
+        sourcemaps.inline_sources(obj.sourcemap).then (map) ->
+          obj.sourcemap = map
+          deferred.resolve(obj)
+      else
+        deferred.resolve(obj)
 
     return deferred.promise
 

@@ -1,6 +1,6 @@
-Adapter = require '../adapter_base'
-W       = require 'when'
-path    = require 'path'
+Adapter    = require '../adapter_base'
+W          = require 'when'
+path       = require 'path'
 
 class SCSS extends Adapter
   name: 'css'
@@ -15,6 +15,7 @@ class SCSS extends Adapter
       options.sourceMap = true
       options.outFile = path.basename(options.filename).replace('.scss', '.css')
       options.omitSourceMapUrl = true
+      options.sourceMapContents = true
 
     options.file = options.filename
     options.data = str

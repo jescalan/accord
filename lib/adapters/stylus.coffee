@@ -1,6 +1,7 @@
-Adapter = require '../adapter_base'
-nodefn  = require 'when/node/function'
-_       = require 'lodash'
+Adapter    = require '../adapter_base'
+nodefn     = require 'when/node/function'
+_          = require 'lodash'
+sourcemaps = require '../sourcemaps'
 
 class Stylus extends Adapter
   name: 'stylus'
@@ -51,7 +52,12 @@ class Stylus extends Adapter
     nodefn.call(base.render.bind(base))
       .then (res) ->
         obj = { result: res }
-        if base.sourcemap then obj.sourcemap = base.sourcemap
-        return obj
+      .then (obj) ->
+        if base.sourcemap
+          sourcemaps.inline_sources(base.sourcemap).then (map) ->
+            obj.sourcemap = map
+            obj
+        else
+          obj
 
 module.exports = Stylus

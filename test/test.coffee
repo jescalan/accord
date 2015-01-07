@@ -183,6 +183,7 @@ describe 'coffeescript', ->
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
       res.v2sourcemap.should.exist
       should.match_expected(@coffee, res.result, lpath, done)
 
@@ -314,9 +315,11 @@ describe 'stylus', ->
 
     @stylus.renderFile(lpath, opts)
       .tap (res) ->
+        console.log res
         res.sourcemap.should.exist
         res.sourcemap.version.should.equal(3)
         res.sourcemap.mappings.length.should.be.above(1)
+        res.sourcemap.sourcesContent.length.should.be.above(0)
         # this matches a relative path, really should match absolute
         # res.sourcemap.sources[0].should.equal(lpath)
       .done((res) => should.match_expected(@stylus, res.result, lpath, done))
@@ -449,6 +452,7 @@ describe 'minify-js', ->
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@minifyjs, res.result, lpath, done)
 
 describe 'minify-css', ->
@@ -726,6 +730,7 @@ describe 'scss', ->
         res.sourcemap.version.should.equal(3)
         res.sourcemap.mappings.length.should.be.above(1)
         res.sourcemap.sources[0].should.equal(lpath)
+        res.sourcemap.sourcesContent.length.should.be.above(0)
       .done((res) => should.match_expected(@scss, res.result, lpath, done))
 
 describe 'less', ->
@@ -776,6 +781,7 @@ describe 'less', ->
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@less, res.result, lpath, done)
 
 describe 'coco', ->
@@ -872,6 +878,7 @@ describe 'myth', ->
       res.sourcemap.version.should.equal(3)
       res.sourcemap.sources.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@myth, res.result, lpath, done)
 
 describe 'haml', ->

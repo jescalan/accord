@@ -1,6 +1,7 @@
-Adapter = require '../adapter_base'
-path    = require 'path'
-W       = require 'when'
+Adapter    = require '../adapter_base'
+path       = require 'path'
+W          = require 'when'
+sourcemaps = require '../sourcemaps'
 
 class CoffeeScript extends Adapter
   name: 'coffee-script'
@@ -23,10 +24,13 @@ class CoffeeScript extends Adapter
     try res = fn()
     catch err then return W.reject(err)
     if res.sourceMap
-      W.resolve
+      data =
         result: res.js
         v2sourcemap: res.sourceMap
         sourcemap: JSON.parse(res.v3SourceMap)
+      sourcemaps.inline_sources(data.sourcemap).then (map) ->
+        data.sourcemap = map
+        return data
     else
       W.resolve(result: res)
 

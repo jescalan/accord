@@ -1,8 +1,9 @@
-Adapter = require '../adapter_base'
-W       = require 'when'
-_       = require 'lodash'
-path    = require 'path'
-convert = require 'convert-source-map'
+Adapter    = require '../adapter_base'
+W          = require 'when'
+_          = require 'lodash'
+path       = require 'path'
+convert    = require 'convert-source-map'
+sourcemaps = require '../sourcemaps'
 
 class MinifyJS extends Adapter
   name: 'minify-js'
@@ -22,11 +23,17 @@ class MinifyJS extends Adapter
 
       if options.sourceMap
         obj.sourcemap = JSON.parse(res.map)
+        # TODO: This is currently an inadequate hack to fix either a bug in
+        # uglify or a piece of docs I couldn't find. Open issue here:
+        # https://github.com/mishoo/UglifyJS2/issues/579
         obj.sourcemap.sources.pop()
         obj.sourcemap.sources.push(options.filename)
         obj.result = convert.removeMapFileComments(obj.result).trim()
-
-      return obj
+        sourcemaps.inline_sources(obj.sourcemap).then (map) ->
+          obj.sourcemap = map
+          return obj
+      else
+        return obj
 
   # private
 

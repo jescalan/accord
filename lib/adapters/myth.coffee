@@ -1,6 +1,6 @@
-Adapter = require '../adapter_base'
-convert = require 'convert-source-map'
-W       = require 'when'
+Adapter    = require '../adapter_base'
+convert    = require 'convert-source-map'
+W          = require 'when'
 
 class Myth extends Adapter
   name: 'myth'
@@ -18,11 +18,13 @@ class Myth extends Adapter
     try res = fn()
     catch err then return W.reject(err)
 
-    if not sourcemap
-      W.resolve(result: res)
-    else
+    data = { result: res }
+
+    if sourcemap
       map = convert.fromSource(res).sourcemap
       src = convert.removeComments(res)
-      W.resolve(result: src, sourcemap: map)
+      data = { result: src, sourcemap: map }
+
+    return W.resolve(data)
 
 module.exports = Myth
