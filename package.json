@@ -37,6 +37,7 @@
     "html-minifier": "*",
     "istanbul": "0.3.x",
     "jade": "*",
+    "jade2php": "*",
     "less": "*",
     "marc": "*",
     "marked": "*",
