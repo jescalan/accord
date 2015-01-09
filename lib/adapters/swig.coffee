@@ -1,8 +1,7 @@
-Adapter  = require '../adapter_base'
-path     = require 'path'
-fs       = require 'fs'
-W        = require 'when'
-UglifyJS = require 'uglify-js'
+path = require 'path'
+File = require 'fobject'
+W = require 'when'
+Adapter = require '../adapter_base'
 
 class Swig extends Adapter
   name: 'swig'
@@ -26,7 +25,9 @@ class Swig extends Adapter
 
   clientHelpers: ->
     runtime_path = path.join(@engine.__accord_path, 'dist/swig.min.js')
-    return fs.readFileSync(runtime_path, 'utf8')
+    new File(runtime_path).read().then(
+      (res) -> result: res
+    )
 
   # private
 

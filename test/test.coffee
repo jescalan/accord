@@ -75,10 +75,10 @@ describe 'jade', ->
 
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.jade')
-    @jade.compileFileClient(lpath)
-      .done (res) =>
-        tpl_string =  "#{@jade.clientHelpers()}#{res.result}; template({ wow: 'local' })"
-        tpl = eval.call(global, tpl_string)
+    @jade.compileFileClient(lpath).done (resTemplate) =>
+      @jade.clientHelpers().done (resHelpers) =>
+        text = "#{resHelpers.result}#{resTemplate.result}; template({ wow: 'local' })"
+        tpl = eval.call(global, text)
         should.match_expected(@jade, tpl, lpath, done)
 
   it 'should correctly handle errors', (done) ->
@@ -142,10 +142,10 @@ describe 'swig', ->
 
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.swig')
-    @swig.compileFileClient(lpath)
-      .done (res) =>
-        tpl_string =  "window = {}; #{@swig.clientHelpers()};\n var tpl = (#{res.result});"
-        should.match_expected(@swig, tpl_string, lpath, done)
+    @swig.compileFileClient(lpath).done (resTemplate) =>
+      @swig.clientHelpers().done (resHelpers) =>
+        text =  "window = {}; #{resHelpers.result};\n var tpl = (#{resTemplate.result});"
+        should.match_expected(@swig, text, lpath, done)
 
 describe 'coffeescript', ->
 
@@ -371,9 +371,9 @@ describe 'ejs', ->
 
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.ejs')
-    @ejs.compileFileClient(lpath)
-      .done (res) =>
-        tpl_string =  "#{@ejs.clientHelpers()}; var tpl = #{res.result}; tpl({ foo: 'local' })"
+    @ejs.compileFileClient(lpath).done (resTemplate) =>
+      @ejs.clientHelpers().done (resHelpers) =>
+        tpl_string =  "#{resHelpers.result}; var tpl = #{resTemplate.result}; tpl({ foo: 'local' })"
         tpl = eval.call(global, tpl_string)
         should.match_expected(@ejs, tpl, lpath, done)
 
@@ -632,7 +632,7 @@ describe 'dogescript', ->
   # it turns out that it's impossible for dogescript to throw an error
   # which, honestly, is how it should be. so no test here.
 
-describe 'handlebars', ->
+describe 'ars', ->
 
   before ->
     @handlebars = accord.load('handlebars')
@@ -678,9 +678,9 @@ describe 'handlebars', ->
 
   it 'should render with client side helpers', (done) ->
     lpath = path.join(@path, 'client-complex.hbs')
-    @handlebars.compileFileClient(lpath)
-      .done (res) =>
-        tpl_string =  "#{@handlebars.clientHelpers()}; var tpl = #{res.result}; tpl({ wow: 'local' })"
+    @handlebars.compileFileClient(lpath).done (resTemplate) =>
+      @handlebars.clientHelpers().done (resHelpers) =>
+        tpl_string =  "#{resHelpers.result}; var tpl = #{resTemplate.result}; tpl({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
         should.match_expected(@handlebars, tpl, lpath, done)
 

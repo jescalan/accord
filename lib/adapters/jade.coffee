@@ -1,8 +1,7 @@
-Adapter  = require '../adapter_base'
-path     = require 'path'
-fs       = require 'fs'
-W        = require 'when'
-UglifyJS = require 'uglify-js'
+path = require 'path'
+W = require 'when'
+accord = require '../'
+Adapter = require '../adapter_base'
 
 class Jade extends Adapter
   name: 'jade'
@@ -19,10 +18,9 @@ class Jade extends Adapter
   _compileClient: (str, options) ->
     compile => @engine.compileClient(str, options)
 
-  clientHelpers: ->
+  clientHelpers: =>
     runtime_path = path.join(@engine.__accord_path, 'runtime.js')
-    runtime = fs.readFileSync(runtime_path, 'utf8')
-    return UglifyJS.minify(runtime, { fromString: true }).code
+    accord.load('minify-js').renderFile(runtime_path)
 
   # private
 

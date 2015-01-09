@@ -1,7 +1,7 @@
+path = require 'path'
+File = require 'fobject'
+W = require 'when'
 Adapter = require '../adapter_base'
-path    = require 'path'
-fs      = require 'fs'
-W       = require 'when'
 
 class EJS extends Adapter
   name: 'ejs'
@@ -18,9 +18,10 @@ class EJS extends Adapter
     options.client = true
     compile => @engine.compile(str, options).toString()
 
-  clientHelpers: (str, options) ->
-    runtime_path = path.join(@engine.__accord_path, 'ejs.min.js')
-    return fs.readFileSync(runtime_path, 'utf8')
+  clientHelpers: ->
+    new File(path.join(@engine.__accord_path, 'ejs.min.js')).read().then(
+      (res) -> result: res
+    )
 
   # private
 
