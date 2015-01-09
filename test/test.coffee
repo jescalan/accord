@@ -1021,3 +1021,42 @@ describe 'toffee', ->
       #}
       ''', {})
       .done(should.not.exist, (-> done()))
+
+describe '6to5', ->
+  before ->
+    @sixtofive = accord.load('6to5')
+    @path = path.join(__dirname, 'fixtures', '6to5')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @sixtofive.extensions.should.be.an.instanceOf(Array)
+    @sixtofive.output.should.be.a('string')
+    @sixtofive.engine.should.be.ok
+    @sixtofive.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @sixtofive.render("console.log('foo');").catch(should.not.exist)
+      .done((res) => should.match_expected(@sixtofive, res.result, path.join(@path, 'string.js'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.js')
+    @sixtofive.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@sixtofive, res.result, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @sixtofive.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @sixtofive.render("!   ---@#$$@%#$")
+      .done(should.not.exist, (-> done()))
+
+  it 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.js')
+    @sixtofive.renderFile(lpath, sourcemap: true).done (res) =>
+      res.sourcemap.should.exist
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.mappings.length.should.be.above(1)
+      res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
+      should.match_expected(@sixtofive, res.result, lpath, done)
