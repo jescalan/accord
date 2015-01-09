@@ -6,7 +6,7 @@ The CoffeeScript adapter API is almost exactly the same as the CoffeeScript JS A
 
 ## Source Maps
 
-Source maps are supported by the coffeescript adapter. Just pass in `sourceMap: true` as an option and you will get back both `sourcemap` and `v3sourcemap` (this is what coffeescript passes back by default), on the response object.
+Source maps are supported by the coffeescript adapter. Just pass in `sourcemap: true` as an option and you will get back both `sourcemap` and `v2sourcemap`, on the response object.
 
 ## Additional Options
 ### Bare
