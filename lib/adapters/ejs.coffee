@@ -19,7 +19,7 @@ class EJS extends Adapter
     compile => @engine.compile(str, options).toString()
 
   clientHelpers: ->
-    new File(path.join(@engine.__accord_path, 'ejs.min.js')).read().then(
+    new File(path.join(@enginePath, 'ejs.min.js')).read().then(
       (res) -> result: res
     )
 

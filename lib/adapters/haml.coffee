@@ -21,7 +21,7 @@ class HAML extends Adapter
   # client compile not yet supported, but when it is, this will be the path to
   # the right info
   # clientHelpers: ->
-  #   runtime_path = path.join(@engine.__accord_path, 'haml.js')
+  #   runtime_path = path.join(@enginePath, 'haml.js')
   #   accord.load('minify-js').renderFile(runtime_path)
 
   # private

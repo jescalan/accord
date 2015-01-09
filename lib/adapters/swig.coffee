@@ -24,7 +24,7 @@ class Swig extends Adapter
     compile => @engine.compileFile(path, options)
 
   clientHelpers: ->
-    runtime_path = path.join(@engine.__accord_path, 'dist/swig.min.js')
+    runtime_path = path.join(@enginePath, 'dist/swig.min.js')
     new File(runtime_path).read().then(
       (res) -> result: res
     )

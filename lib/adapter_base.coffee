@@ -23,6 +23,7 @@ class Adapter
 
   ###*
    * The path to the root directory of the engine that's in use.
+   * @type {String}
   ###
   enginePath: ''
 
@@ -157,15 +158,12 @@ class Adapter
   ###
   clientHelpers: undefined
 
-
   _requireEngine: ->
     if @enginePath?
       @engine = require(resolve.sync(path.basename(@enginePath), basedir: @enginePath))
-      @engine.__accord_path = @enginePath
     else
       @engine = require(@engineName)
-      @enginePath = @engine.__accord_path = resolvePath(@engineName)
-
+      @enginePath = resolvePath(@engineName)
 
 ###*
  * Get the path to the root folder of a node module, given its name.
