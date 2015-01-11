@@ -11,7 +11,7 @@ class JadePHP extends Adapter
     phpDefaultOptions = 
         omitPhpExtractor: yes
         omitPhpRuntime: yes
-    @engine str, _.merge(phpDefaultOptions,options)
+    @compile => @engine str, _.merge(phpDefaultOptions,options)
   
   # private
 
