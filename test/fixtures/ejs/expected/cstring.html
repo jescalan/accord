@@ -1,5 +1,5 @@
 function anonymous(locals, escape, include, rethrow) {
-rethrow = rethrow || function rethrow(err, str, filename, lineno){
+rethrow = rethrow || function (err, str, filename, lineno){
   var lines = str.split('\n')
     , start = Math.max(lineno - 3, 0)
     , end = Math.min(lines.length, lineno + 3);
@@ -36,5 +36,5 @@ escape = escape || function (markup) {
   });
   return str;
 };
-var __line = 1, __lines = "Woah look, a <%= thing %>", __filename = undefined; try {var buf = []; var __output = ""; with (locals) { ;__output += "Woah look, a ";;__output += escape(thing);} buf = [__output]; return __output.trim();} catch (e) { rethrow(e, __lines, __filename, __line); }
+var __line = 1, __lines = "Woah look, a <%= thing %>", __filename = undefined; try {var __output = ""; with (locals || {}) { ;__output += "Woah look, a ";;__output += escape(thing);}return __output.trim();} catch (e) { rethrow(e, __lines, __filename, __line); }
 }

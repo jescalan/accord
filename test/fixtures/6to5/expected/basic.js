@@ -1,31 +1,42 @@
 "use strict";
 
-var _inherits = function (child, parent) {
-  if (typeof parent !== "function" && parent !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof parent);
+var _prototypeProperties = function (child, staticProps, instanceProps) {
+  if (staticProps) Object.defineProperties(child, staticProps);
+  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+};
+
+var _inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
   }
-  child.prototype = Object.create(parent && parent.prototype, {
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
     constructor: {
-      value: child,
+      value: subClass,
       enumerable: false,
       writable: true,
       configurable: true
     }
   });
-  if (parent) child.__proto__ = parent;
+  if (superClass) subClass.__proto__ = superClass;
 };
 
-var Test = (function () {
-  var _TestClass = TestClass;
-  var Test = function Test(greeting) {
+var Test = (function (TestClass) {
+  function Test(greeting) {
     this.greeting = greeting;
-  };
+  }
 
-  _inherits(Test, _TestClass);
+  _inherits(Test, TestClass);
 
-  Test.defaultGreeting = function () {
-    return "hello there!";
-  };
+  _prototypeProperties(Test, {
+    defaultGreeting: {
+      value: function () {
+        return "hello there!";
+      },
+      writable: true,
+      enumerable: true,
+      configurable: true
+    }
+  });
 
   return Test;
-})();
+})(TestClass);
