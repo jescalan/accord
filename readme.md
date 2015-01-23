@@ -120,6 +120,10 @@ It's also important to note that accord returns an object rather than a string f
 - [minify-html](https://github.com/kangax/html-minifier)
 - [csso](https://github.com/css/csso)
 
+#### Escapers
+
+- [escape-html](https://github.com/mathiasbynens/he)
+
 ### Languages Supporting Compilation
 
 Accord can also compile templates into JavaScript functions, for some languages. This is really useful for client-side rendering. Languages with compile support are listed below. If you try to compile a language without support for it, you will get an error.

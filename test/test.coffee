@@ -3,7 +3,7 @@ path   = require 'path'
 W      = require 'when'
 _      = require 'lodash'
 accord = require '../'
-
+fs     = require 'fs'
 should = chai.should()
 
 require('./helpers')(should)
@@ -488,8 +488,38 @@ describe 'minify-css', ->
     @minifycss.render("FMWT$SP#TPO%M@#@#M!@@@")
       .done(((r) -> r.result.should.equal(''); done()), should.not.exist)
 
-describe 'minify-html', ->
+describe 'escape-html', ->
+  before ->
+    @escapeHtml = accord.load('escape-html')
+    @path = path.join(__dirname, 'fixtures', 'escape-html')
 
+  it 'should expose name, extensions, output, and compiler', ->
+    @escapeHtml.extensions.should.be.an.instanceOf(Array)
+    @escapeHtml.output.should.be.a('string')
+    @escapeHtml.engine.should.be.ok
+    @escapeHtml.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @escapeHtml.render("<h1>§</h1>")
+    .catch(should.not.exist)
+    .done((res) =>
+      fs.readFileSync(path.join(@path, 'expected', 'string.html'), 'utf8')
+      .should.contain(res.result)
+      done()
+    )
+  it 'should render a file without escaping anything', (done) ->
+    lpath = path.join(@path, 'basic.html')
+    @escapeHtml.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@escapeHtml, res.result, lpath, done))
+
+  it 'should escape content', (done) ->
+    lpath = path.join(@path, 'escapable.html')
+    @escapeHtml.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@escapeHtml, res.result, lpath, done))
+
+ describe 'minify-html', ->
   before ->
     @minifyhtml = accord.load('minify-html')
     @path = path.join(__dirname, 'fixtures', 'minify-html')
