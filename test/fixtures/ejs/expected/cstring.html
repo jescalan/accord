@@ -1,11 +1,11 @@
 function anonymous(locals, escape, include, rethrow) {
-rethrow = rethrow || function (err, str, filename, lineno){
+rethrow = rethrow || function rethrow(err, str, filename, lineno){
   var lines = str.split('\n')
     , start = Math.max(lineno - 3, 0)
     , end = Math.min(lines.length, lineno + 3);
 
   // Error context
-  var context = lines.slice(start, end).map(function(line, i){
+  var context = lines.slice(start, end).map(function (line, i){
     var curr = i + start + 1;
     return (curr == lineno ? ' >> ' : '    ')
       + curr
@@ -23,18 +23,18 @@ rethrow = rethrow || function (err, str, filename, lineno){
   throw err;
 };
 escape = escape || function (markup) {
-  var chars = {
-        '&': '&amp;'
-      , '<': '&lt;'
-      , '>': '&gt;'
-      , '"': '&quot;'
-      , '\'': '&#39;'
-    }
-  , str = String(markup);
-  Object.keys(chars).forEach(function (k) {
-    str = str.replace(new RegExp(k, 'g'), chars[k]);
-  });
-  return str;
+  // Handle stupid JS `undefined` and `null`
+  // Yes, we want double-equal here to catch both
+  // jshint eqnull: true
+  if (markup == null) {
+    return '';
+  }
+  return String(markup)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/'/g, '&#39;')
+    .replace(/"/g, '&quot;');
 };
-var __line = 1, __lines = "Woah look, a <%= thing %>", __filename = undefined; try {var __output = ""; with (locals || {}) { ;__output += "Woah look, a ";;__output += escape(thing);}return __output.trim();} catch (e) { rethrow(e, __lines, __filename, __line); }
+var __line = 1, __lines = "Woah look, a <%= thing %>", __filename = undefined; try {var __output = ""; with (locals || {}) { ;__output += "Woah look, a ";;__output += escape(thing)};return __output.trim();} catch (e) { rethrow(e, __lines, __filename, __line); }
 }

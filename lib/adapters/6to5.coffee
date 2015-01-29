@@ -14,6 +14,7 @@ class SixtoFive extends Adapter
 
     if options.sourcemap is true then options.sourceMap = true
     options.sourceMapName = filename
+    delete options.sourcemap
 
     compile => @engine.transform(str, options)
 
