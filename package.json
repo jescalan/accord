@@ -14,7 +14,7 @@
     "fobject": "0.x",
     "glob": "4.x",
     "indx": "0.2.x",
-    "lodash": "2.x",
+    "lodash": "3.x",
     "resolve": "1.x",
     "uglify-js": "2.x",
     "when": "3.x"
