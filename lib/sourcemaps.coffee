@@ -11,6 +11,8 @@ fs   = require 'fs'
 ###
 
 exports.inline_sources = (map) ->
+  if map.sourcesContent then return W.resolve(map)
+
   W.map map.sources, (source) ->
     node.call(fs.readFile.bind(fs), source, 'utf8')
   .then (contents) ->
