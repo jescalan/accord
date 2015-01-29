@@ -34,6 +34,7 @@
     "ejs": "*",
     "hamljs": "*",
     "handlebars": "*",
+    "he": "^0.5.0",
     "hogan.js": "*",
     "html-minifier": "*",
     "istanbul": "0.3.x",
