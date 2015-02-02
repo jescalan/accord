@@ -22,19 +22,13 @@ rethrow = rethrow || function rethrow(err, str, filename, lineno){
 
   throw err;
 };
-escape = escape || function (markup) {
-  // Handle stupid JS `undefined` and `null`
-  // Yes, we want double-equal here to catch both
-  // jshint eqnull: true
-  if (markup == null) {
-    return '';
-  }
-  return String(markup)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/'/g, '&#39;')
-    .replace(/"/g, '&quot;');
+var encodeHTMLRules = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&#34;", "'": "&#39;"}, matchHTML = /[&<>'"]/g;escape = escape || function (markup) {
+  return markup == undefined
+    ? ''
+    : String(markup)
+        .replace(matchHTML, function(m) {
+          return encodeHTMLRules[m] || m;
+        });
 };
-var __line = 1, __lines = "Woah look, a <%= thing %>", __filename = undefined; try {var __output = ""; with (locals || {}) { ;__output += "Woah look, a ";;__output += escape(thing)};return __output.trim();} catch (e) { rethrow(e, __lines, __filename, __line); }
+var __line = 1, __lines = "Woah look, a <%= thing %>", __filename = undefined; try {var __output = []; with (locals || {}) { ;__output.push("Woah look, a ");;__output.push(escape(thing))};return __output.join("").trim();} catch (e) { rethrow(e, __lines, __filename, __line); }
 }

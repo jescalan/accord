@@ -17,7 +17,6 @@ var Test = (function (TestClass) {
         return "hello there!";
       },
       writable: true,
-      enumerable: true,
       configurable: true
     }
   });
