@@ -1,6 +1,6 @@
 {
   "name": "accord",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "author": "Jeff Escalante <hello@jenius.me>",
   "description": "A unified interface for compiled languages and templates in JavaScript",
   "main": "lib",
