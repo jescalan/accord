@@ -1,7 +1,7 @@
 Adapter = require '../adapter_base'
 _       = require 'lodash'
 path    = require 'path'
-fs      = require 'fs'
+File    = require 'fobject'
 W       = require 'when'
 
 class Handlebars extends Adapter
@@ -26,10 +26,12 @@ class Handlebars extends Adapter
 
   clientHelpers: ->
     runtime_path = path.join(
-      @engine.__accord_path,
+      @enginePath,
       'dist/handlebars.runtime.min.js'
     )
-    return fs.readFileSync(runtime_path, 'utf8')
+    new File(runtime_path).read().then(
+      (res) -> result: res
+    )
 
   ###*
    * @private

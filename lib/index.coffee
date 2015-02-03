@@ -28,6 +28,7 @@ abstract_mapper = (name, direction) ->
     ['mustache', 'hogan.js']
     ['scss', 'node-sass']
     ['haml', 'hamljs']
+    ['jade', 'yade']
   ]
 
   res = null
