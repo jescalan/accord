@@ -50,7 +50,7 @@
     "stylus": "*",
     "swig": "*",
     "toffee": "*",
-    "uglifyjs": "*"
+    "uglify-js": "*"
   },
   "scripts": {
     "test": "mocha",
