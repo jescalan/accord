@@ -23,8 +23,8 @@ class SCSS extends Adapter
     options.success = (res) ->
       data = { result: res.css }
 
-      if Object.keys(res.map).length
-        data.sourcemap = res.map
+      if res.map and Object.keys(JSON.parse(res.map)).length
+        data.sourcemap = JSON.parse(res.map)
         data.sourcemap.sources.pop()
         data.sourcemap.sources.push(options.file)
 
