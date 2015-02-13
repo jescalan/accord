@@ -1129,3 +1129,28 @@ describe 'jsx', ->
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@jsx, res.result, lpath, done)
+
+describe 'cjsx', ->
+
+  before ->
+    @cjsx = accord.load('cjsx')
+    @path = path.join(__dirname, 'fixtures', 'cjsx')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @cjsx.extensions.should.be.an.instanceOf(Array)
+    @cjsx.output.should.be.a('string')
+    @cjsx.engine.should.be.ok
+    @cjsx.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @cjsx.render('<div className="foo"></div>')
+      .done((res) => should.match_expected(@cjsx, res.result, path.join(@path, 'string.cjsx'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.cjsx')
+    @cjsx.renderFile(lpath)
+      .done((res) => should.match_expected(@cjsx, res.result, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @cjsx.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))

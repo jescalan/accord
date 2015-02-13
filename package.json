@@ -25,6 +25,7 @@
     "chai": "1.x",
     "clean-css": "*",
     "coco": "*",
+    "coffee-react-transform": "*",
     "coffee-script": "*",
     "coveralls": "2.x",
     "css-parse": "*",
