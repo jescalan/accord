@@ -20,7 +20,7 @@
     "when": "3.x"
   },
   "devDependencies": {
-    "6to5": "*",
+    "babel": "*",
     "LiveScript": "*",
     "acorn": "*",
     "chai": "1.x",

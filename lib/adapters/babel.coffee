@@ -3,8 +3,8 @@ path       = require 'path'
 W          = require 'when'
 sourcemaps = require '../sourcemaps'
 
-class SixtoFive extends Adapter
-  name: '6to5'
+class Babel extends Adapter
+  name: 'babel'
   extensions: ['js']
   output: 'js'
   isolated: true
@@ -32,4 +32,4 @@ class SixtoFive extends Adapter
     else
       W.resolve(data)
 
-module.exports = SixtoFive
+module.exports = Babel
