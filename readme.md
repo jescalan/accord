@@ -111,7 +111,7 @@ It's also important to note that accord returns an object rather than a string f
 - [dogescript](https://github.com/remixz/dogescript)
 - [coco](https://github.com/satyr/coco)
 - [livescript](https://github.com/gkz/LiveScript)
-- [6to5](https://github.com/6to5/6to5)
+- [babel](https://github.com/babel/babel)
 
 #### Minifiers
 
@@ -153,7 +153,7 @@ Accord now supports source map generation for any language that also supports so
 - scss
 - coffeescript
 - minify-js
-- 6to5
+- babel
 
 Accord returns all source maps as javascript objects, and if available will prefer a [v3 sourcemap](https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit) over any other format. You can find the primary sourcemap on the object returned from accord under the `sourcemap` key. If there are multiple sourcemaps generated, alternate ones will be avaiable under different keys, which you can find on the object returned from accord after a compile.
 
