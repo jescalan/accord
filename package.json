@@ -20,9 +20,8 @@
     "when": "3.x"
   },
   "devDependencies": {
-    "6to5": "*",
-    "LiveScript": "*",
     "acorn": "*",
+    "babel": "*",
     "chai": "1.x",
     "clean-css": "*",
     "coco": "*",
@@ -40,6 +39,7 @@
     "istanbul": "0.3.x",
     "jade": "*",
     "less": "*",
+    "LiveScript": "*",
     "marc": "*",
     "marked": "*",
     "mocha": "2.x",

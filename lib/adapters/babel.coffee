@@ -4,8 +4,8 @@ W          = require 'when'
 sourcemaps = require '../sourcemaps'
 
 class SixtoFive extends Adapter
-  name: '6to5'
-  extensions: ['js']
+  name: 'babel'
+  extensions: ['jsx']
   output: 'js'
   isolated: true
 

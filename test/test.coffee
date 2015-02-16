@@ -1052,41 +1052,41 @@ describe 'toffee', ->
       ''', {})
       .done(should.not.exist, (-> done()))
 
-describe '6to5', ->
+describe 'babel', ->
   before ->
-    @sixtofive = accord.load('6to5')
-    @path = path.join(__dirname, 'fixtures', '6to5')
+    @babel = accord.load('babel')
+    @path = path.join(__dirname, 'fixtures', 'babel')
 
   it 'should expose name, extensions, output, and compiler', ->
-    @sixtofive.extensions.should.be.an.instanceOf(Array)
-    @sixtofive.output.should.be.a('string')
-    @sixtofive.engine.should.be.ok
-    @sixtofive.name.should.be.ok
+    @babel.extensions.should.be.an.instanceOf(Array)
+    @babel.output.should.be.a('string')
+    @babel.engine.should.be.ok
+    @babel.name.should.be.ok
 
   it 'should render a string', (done) ->
-    @sixtofive.render("console.log('foo');").catch(should.not.exist)
-      .done((res) => should.match_expected(@sixtofive, res.result, path.join(@path, 'string.js'), done))
+    @babel.render("console.log('foo');").catch(should.not.exist)
+      .done((res) => should.match_expected(@babel, res.result, path.join(@path, 'string.jsx'), done))
 
   it 'should render a file', (done) ->
-    lpath = path.join(@path, 'basic.js')
-    @sixtofive.renderFile(lpath)
+    lpath = path.join(@path, 'basic.jsx')
+    @babel.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@sixtofive, res.result, lpath, done))
+      .done((res) => should.match_expected(@babel, res.result, lpath, done))
 
   it 'should not be able to compile', (done) ->
-    @sixtofive.compile()
+    @babel.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
 
   it 'should correctly handle errors', (done) ->
-    @sixtofive.render("!   ---@#$$@%#$")
+    @babel.render("!   ---@#$$@%#$")
       .done(should.not.exist, (-> done()))
 
   it 'should generate sourcemaps', (done) ->
-    lpath = path.join(@path, 'basic.js')
-    @sixtofive.renderFile(lpath, sourcemap: true).done (res) =>
+    lpath = path.join(@path, 'basic.jsx')
+    @babel.renderFile(lpath, sourcemap: true).done (res) =>
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@sixtofive, res.result, lpath, done)
+      should.match_expected(@babel, res.result, lpath, done)
