@@ -3,7 +3,7 @@ W          = require 'when'
 path       = require 'path'
 
 class SCSS extends Adapter
-  name: 'css'
+  name: 'scss'
   extensions: ['scss']
   output: 'css'
   supportedEngines: ['node-sass']
