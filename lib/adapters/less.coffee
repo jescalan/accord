@@ -19,7 +19,10 @@ class Less extends Adapter
 
     @engine.render str, options, (err, res) ->
       if err then return deferred.reject(err)
-      obj = { result: res.css }
+      obj = {
+        result: res.css,
+        imports: res.imports
+      }
       if options.sourceMap and res.map
         obj.sourcemap = JSON.parse(res.map)
         sourcemaps.inline_sources(obj.sourcemap).then (map) ->
