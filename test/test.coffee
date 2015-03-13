@@ -1090,3 +1090,42 @@ describe 'babel', ->
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@babel, res.result, lpath, done)
+
+describe 'jsx', ->
+
+  before ->
+    @jsx = accord.load('jsx')
+    @path = path.join(__dirname, 'fixtures', 'jsx')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @jsx.extensions.should.be.an.instanceOf(Array)
+    @jsx.output.should.be.a('string')
+    @jsx.engine.should.be.ok
+    @jsx.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @jsx.render('<div className="foo">{this.props.bar}</div>', { bare: true })
+      .done((res) => should.match_expected(@jsx, res.result, path.join(@path, 'string.jsx'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.jsx')
+    @jsx.renderFile(lpath)
+      .done((res) => should.match_expected(@jsx, res.result, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @jsx.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @jsx.render("!   ---@#$$@%#$")
+      .done(should.not.exist, (-> done()))
+
+  it 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.jsx')
+    @jsx.renderFile(lpath, sourcemap: true ).done (res) =>
+      res.sourcemap.should.exist
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.mappings.length.should.be.above(1)
+      res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
+      should.match_expected(@jsx, res.result, lpath, done)

@@ -14,11 +14,9 @@ exports.load = (name, custom_path, engineName) ->
 exports.all = ->
   indx(path.join(__dirname, 'adapters'))
 
-
 # Responsible for mapping between adapters where the language name
 # does not match the node module name. direction can be "left" or "right",
 # "left" being lang name -> adapter name and right being the opposite.
-#
 abstract_mapper = (name, direction) ->
   name_maps = [
     ['markdown', 'marked']
@@ -29,6 +27,7 @@ abstract_mapper = (name, direction) ->
     ['scss', 'node-sass']
     ['haml', 'hamljs']
     ['escape-html', 'he']
+    ['jsx', 'react-tools']
   ]
 
   res = null
@@ -37,9 +36,6 @@ abstract_mapper = (name, direction) ->
     if direction is 'right' and n[1] is name then res = n[0]
 
   return res or name
-
-name_to_adapter = (name) ->
-  abstract_mapper(name, 'left')
 
 adapter_to_name = (name) ->
   abstract_mapper(name, 'right')

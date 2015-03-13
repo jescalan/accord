@@ -47,6 +47,7 @@
     "myth": "*",
     "node-sass": "*",
     "parse5": "1.x",
+    "react-tools": "*",
     "stylus": "*",
     "swig": "*",
     "toffee": "*"
