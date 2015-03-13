@@ -344,11 +344,11 @@ describe 'ejs', ->
     @ejs.renderFile(lpath, { foo: 'wow opts' })
       .done((res) => should.match_expected(@ejs, res.result, lpath, done))
 
-  it.skip 'should compile a string', (done) ->
+  it 'should compile a string', (done) ->
     @ejs.compile("<p>precompilez</p><p><%= foo %></p>")
       .done((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), path.join(@path, 'pstring.ejs'), done))
 
-  it.skip 'should compile a file', (done) ->
+  it 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.ejs')
     @ejs.compileFile(lpath)
       .done((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), lpath, done))
@@ -358,7 +358,7 @@ describe 'ejs', ->
     @ejs.renderFile(lpath)
       .done((res) => should.match_expected(@ejs, res.result, lpath, done))
 
-  it 'should client-compile a string', (done) ->
+  it.skip 'should client-compile a string', (done) ->
     @ejs.compileClient("Woah look, a <%= thing %>")
       .done((res) => should.match_expected(@ejs, res.result, path.join(@path, 'cstring.ejs'), done))
 
