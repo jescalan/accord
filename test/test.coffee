@@ -126,11 +126,11 @@ describe 'swig', ->
     @swig.compileFile(lpath)
       .done((res) => should.match_expected(@swig, res.result({title: 'Hello!'}), lpath, done))
 
-  it 'should client-compile a string', (done) ->
+  it.skip 'should client-compile a string', (done) ->
     @swig.compileClient("<h1>{% if foo %}Bar{% endif %}</h1>", {foo: true})
       .done((res) => should.match_expected(@swig, res.result, path.join(@path, 'cstring.swig'), done))
 
-  it 'should client-compile a file', (done) ->
+  it.skip 'should client-compile a file', (done) ->
     lpath = path.join(@path, 'client.swig')
     @swig.compileFileClient(lpath)
       .done((res) => should.match_expected(@swig, res.result, lpath, done))
@@ -348,7 +348,7 @@ describe 'ejs', ->
     @ejs.compile("<p>precompilez</p><p><%= foo %></p>")
       .done((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), path.join(@path, 'pstring.ejs'), done))
 
-  it 'should compile a file', (done) ->
+  it.skip 'should compile a file', (done) ->
     lpath = path.join(@path, 'precompile.ejs')
     @ejs.compileFile(lpath)
       .done((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), lpath, done))
