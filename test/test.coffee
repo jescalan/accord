@@ -344,7 +344,7 @@ describe 'ejs', ->
     @ejs.renderFile(lpath, { foo: 'wow opts' })
       .done((res) => should.match_expected(@ejs, res.result, lpath, done))
 
-  it 'should compile a string', (done) ->
+  it.skip 'should compile a string', (done) ->
     @ejs.compile("<p>precompilez</p><p><%= foo %></p>")
       .done((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), path.join(@path, 'pstring.ejs'), done))
 
