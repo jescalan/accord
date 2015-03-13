@@ -15,3 +15,7 @@ less.render('some less code', {
 ## Source Maps
 
 The less adapter does have support for sourcemaps. You can pass in `sourceMap: true` as an option and receive a map back on the response object as `sourcemap`.
+
+## Compile time included imports
+
+The less adapter returns an array of files included via `@import`. This array will be available as `imports` on the response object.

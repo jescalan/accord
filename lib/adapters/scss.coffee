@@ -21,7 +21,16 @@ class SCSS extends Adapter
     options.data = str
     options.error = (res) -> deferred.reject(result: res)
     options.success = (res) ->
-      data = { result: res.css }
+      data = {
+        result: res.css,
+        imports: res.stats.includedFiles,
+        meta: {
+          entry: res.stats.entry,
+          start: res.stats.start,
+          end: res.stats.end,
+          duration: res.stats.duration
+        }
+      }
 
       if res.map and Object.keys(JSON.parse(res.map)).length
         data.sourcemap = JSON.parse(res.map)
