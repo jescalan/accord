@@ -6,9 +6,9 @@
   };
 
   tmpl.render = tmpl.pub = function(__locals) {
-    var supply, __repress, _i, _len, _ln, _ref, _to, _ts;
+    var __repress, _ln, _to, _ts, i, len, ref, supply;
     __locals = __locals || {};
-    __repress = (_ref = __locals.__toffee) != null ? _ref.repress : void 0;
+    __repress = (ref = __locals.__toffee) != null ? ref.repress : void 0;
     _to = function(x) {
       return __locals.__toffee.out.push(x);
     };
@@ -23,8 +23,8 @@
     __toffee.out = [];
     _ts(1);
     _ts(2);
-    for (_i = 0, _len = supplies.length; _i < _len; _i++) {
-      supply = supplies[_i];
+    for (i = 0, len = supplies.length; i < len; i++) {
+      supply = supplies[i];
       _ts(1);
       _ts(1);
       _ln(2);

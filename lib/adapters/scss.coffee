@@ -19,10 +19,12 @@ class SCSS extends Adapter
 
     options.file = options.filename
     options.data = str
-    options.error = (res) -> deferred.reject(result: res)
-    options.success = (res) ->
+
+    @engine.render options, (err, res) ->
+      if err then return deferred.reject(result: res)
+
       data = {
-        result: res.css,
+        result: String(res.css),
         imports: res.stats.includedFiles,
         meta: {
           entry: res.stats.entry,
@@ -38,8 +40,6 @@ class SCSS extends Adapter
         data.sourcemap.sources.push(options.file)
 
       deferred.resolve(data)
-
-    @engine.render(options)
 
     return deferred.promise
 

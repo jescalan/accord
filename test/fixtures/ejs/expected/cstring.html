@@ -23,13 +23,35 @@ rethrow = rethrow || function rethrow(err, str, filename, lineno){
 
   throw err;
 };
-var encodeHTMLRules = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&#34;", "'": "&#39;"}, matchHTML = /[&<>'"]/g;escape = escape || function (markup) {
+escape = escape || function (markup) {
   return markup == undefined
     ? ''
     : String(markup)
-        .replace(matchHTML, function(m) {
-          return encodeHTMLRules[m] || m;
+        .replace(_MATCH_HTML, function(m) {
+          return _ENCODE_HTML_RULES[m] || m;
         });
 };
-var __line = 1, __lines = "Woah look, a <%= thing %>", __filename = undefined; try {var __output = []; with (locals || {}) { ;__output.push("Woah look, a ");;__output.push(escape(thing))};return __output.join("").trim();} catch (e) { rethrow(e, __lines, __filename, __line); }
+var _ENCODE_HTML_RULES = {
+      "&": "&amp;"
+    , "<": "&lt;"
+    , ">": "&gt;"
+    , '"': "&#34;"
+    , "'": "&#39;"
+    }
+  , _MATCH_HTML = /[&<>'"]/g;
+;
+var __line = 1
+  , __lines = "Woah look, a <%= thing %>"
+  , __filename = undefined;
+try {
+  var __output = [];
+  with (locals || {}) {
+    ; __output.push("Woah look, a ")
+    ; __output.push(escape(thing))
+  }
+  return __output.join("");
+} catch (e) {
+  rethrow(e, __lines, __filename, __line);
+}
+
 }
