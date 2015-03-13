@@ -11,6 +11,7 @@ module.exports = (should) ->
         parser.parseFragment.bind(parser)
       when 'css' then require ('css-parse')
       when 'js' then (require('acorn')).parse
+      else ((str) -> str)
 
     expected_path = path.join(path.dirname(epath), 'expected', "#{path.basename(epath, compiler.extensions[0])}#{compiler.output}")
     fs.existsSync(expected_path).should.be.ok("expected file doesn't exist")

@@ -111,8 +111,9 @@ It's also important to note that accord returns an object rather than a string f
 - [dogescript](https://github.com/remixz/dogescript)
 - [coco](https://github.com/satyr/coco)
 - [livescript](https://github.com/gkz/LiveScript)
-- [Babel](https://github.com/babel/babel)
+- [babel](https://github.com/babel/babel)
 - [jsx](https://github.com/facebook/react)
+- [cjsx](https://github.com/jsdf/coffee-react-transform)
 
 #### Minifiers
 
