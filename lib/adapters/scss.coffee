@@ -20,8 +20,18 @@ class SCSS extends Adapter
     options.file = options.filename
     options.data = str
 
-    @engine.render options, (err, res) ->
-      if err then return deferred.reject(result: res)
+    # node-sass 1.x needs this
+    stats = {}
+    options.stats = stats
+
+    successHandler = (res) ->
+      # node-sass 1.x compatibility
+      if typeof res == 'string'
+        res = {
+          css: res,
+          stats: stats
+          map: stats.sourceMap
+        }
 
       data = {
         result: String(res.css),
@@ -40,6 +50,16 @@ class SCSS extends Adapter
         data.sourcemap.sources.push(options.file)
 
       deferred.resolve(data)
+
+    # node-sass 2.x needs handlers in options
+    options.error = (err) -> deferred.reject(err)
+    options.success = successHandler
+
+    # node-sass 3.x needs handlers as 2nd argument
+    @engine.render options, (err, res) ->
+      if err then return deferred.reject(err)
+
+      successHandler(res)
 
     return deferred.promise
 
