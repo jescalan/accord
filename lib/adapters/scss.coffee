@@ -1,6 +1,7 @@
 Adapter    = require '../adapter_base'
 W          = require 'when'
 path       = require 'path'
+semver     = require 'semver'
 
 class SCSS extends Adapter
   name: 'scss'
