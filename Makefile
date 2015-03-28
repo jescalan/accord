@@ -1,6 +1,6 @@
 build:
 	cp -R lib src
-	coffee -c lib
+	./node_modules/coffee-script/bin/coffee -c lib
 	find lib -iname "*.coffee" -exec rm '{}' ';'
 
 unbuild:
