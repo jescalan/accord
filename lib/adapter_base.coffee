@@ -152,12 +152,17 @@ class Adapter
 
 requireEngine = (engineName, customPath) ->
   if customPath?
-    engine = require(resolve.sync(path.basename(customPath), basedir: customPath))
+    modulePath = resolve.sync(path.basename(customPath), basedir: customPath)
+    engine = require(modulePath)
     engine.__accord_path = customPath
+    try
+      engine.version = require(modulePath + '/package.json').version
+    catch err
   else
     try
       engine = require(engineName)
       engine.__accord_path = resolvePath(engineName)
+      engine.version = require(engineName + '/package.json').version
     catch err
       throw new Error("'#{engineName}' not found. make sure it has been installed!")
   return engine

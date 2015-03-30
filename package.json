@@ -16,6 +16,7 @@
     "indx": "0.2.x",
     "lodash": "3.x",
     "resolve": "1.x",
+    "semver": "4.x",
     "uglify-js": "2.x",
     "when": "3.x"
   },

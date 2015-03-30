@@ -5,6 +5,7 @@ _      = require 'lodash'
 accord = require '../'
 fs     = require 'fs'
 should = chai.should()
+semver = require 'semver'
 
 require('./helpers')(should)
 
@@ -20,11 +21,23 @@ describe 'base functions', ->
     (-> accord.load('jade')).should.not.throw()
     (-> accord.load('blargh')).should.throw()
 
+  it 'load should return engine version', ->
+    adapter = accord.load('jade')
+    semver.valid(adapter.engine.version).should.be.ok
+
   it 'load should accept a custom path', ->
     (-> accord.load('jade', path.join(__dirname, '../node_modules/jade'))).should.not.throw()
 
+  it 'load should return engine version when loading with custom path', ->
+    adapter = accord.load('jade', path.join(__dirname, '../node_modules/jade'))
+    semver.valid(adapter.engine.version).should.be.ok
+
   it "load should resolve a custom path using require's algorithm", ->
     (-> accord.load('jade', path.join(__dirname, '../node_modules/jade/missing/path'))).should.not.throw()
+
+  it "load should return engine version when resolving a custom path using require's algorithm", ->
+    adapter = accord.load('jade', path.join(__dirname, '../node_modules/jade'))
+    semver.valid(adapter.engine.version).should.be.ok
 
   it 'all should return all adapters', ->
     accord.all().should.be.a('object')
