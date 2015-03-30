@@ -172,7 +172,7 @@ requireEngine = (engineName, customPath) ->
 resolvePath = (name) ->
   filepath = require.resolve(name)
   loop
-    if path is '/'
+    if filepath is '/'
       throw new Error("cannot resolve root of node module #{name}")
     filepath = path.dirname(filepath) # cut off the last part of the path
     if fs.existsSync(path.join filepath, 'package.json')
