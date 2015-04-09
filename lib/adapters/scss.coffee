@@ -4,12 +4,22 @@ path       = require 'path'
 
 class SCSS extends Adapter
   name: 'scss'
-  extensions: ['scss']
+  extensions: ['scss', 'sass']
   output: 'css'
   supportedEngines: ['node-sass']
 
   _render: (str, options) ->
     deferred = W.defer()
+
+
+    # -      if res.map and Object.keys(JSON.parse(res.map)).length   +        if res.map and Object.keys(JSON.parse(res.map)).length
+    # -        data.sourcemap = JSON.parse(res.map)   +          data.sourcemap = JSON.parse(res.map)
+    # -        data.sourcemap.sources.pop()   +          data.sourcemap.sources.pop()
+    # -        data.sourcemap.sources.push(options.file)    +          data.sourcemap.sources.push(options.file)
+
+    # -      deferred.resolve(data)   +        deferred.resolve(data)
+    # +
+    # +      @engine.render options
 
     if options.sourcemap is true
       options.sourceMap = true
@@ -19,20 +29,16 @@ class SCSS extends Adapter
 
     options.file = options.filename
     options.data = str
-
-    @engine.render options, (err, res) ->
-      if err then return deferred.reject(result: res)
-
-      data = {
+    options.error = (err) -> deferred.reject(err)
+    options.success = (res) ->
+      data =
         result: String(res.css),
         imports: res.stats.includedFiles,
-        meta: {
+        meta:
           entry: res.stats.entry,
           start: res.stats.start,
           end: res.stats.end,
           duration: res.stats.duration
-        }
-      }
 
       if res.map and Object.keys(JSON.parse(res.map)).length
         data.sourcemap = JSON.parse(res.map)
@@ -40,6 +46,8 @@ class SCSS extends Adapter
         data.sourcemap.sources.push(options.file)
 
       deferred.resolve(data)
+
+    @engine.render(options)
 
     return deferred.promise
 
