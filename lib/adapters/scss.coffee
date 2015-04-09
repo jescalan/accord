@@ -11,16 +11,6 @@ class SCSS extends Adapter
   _render: (str, options) ->
     deferred = W.defer()
 
-
-    # -      if res.map and Object.keys(JSON.parse(res.map)).length   +        if res.map and Object.keys(JSON.parse(res.map)).length
-    # -        data.sourcemap = JSON.parse(res.map)   +          data.sourcemap = JSON.parse(res.map)
-    # -        data.sourcemap.sources.pop()   +          data.sourcemap.sources.pop()
-    # -        data.sourcemap.sources.push(options.file)    +          data.sourcemap.sources.push(options.file)
-
-    # -      deferred.resolve(data)   +        deferred.resolve(data)
-    # +
-    # +      @engine.render options
-
     if options.sourcemap is true
       options.sourceMap = true
       options.outFile = path.basename(options.filename).replace('.scss', '.css')
