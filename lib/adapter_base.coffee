@@ -97,7 +97,7 @@ class Adapter
     opts = _.clone(opts, true)
     (new File(file))
       .read(encoding: 'utf8')
-      .then _.partialRight(@render, _.extend(opts, {filename: file})).bind(@)
+      .then _.partialRight(@render, _.extend({ filename: file }, opts)).bind(@)
 
   ###*
    * Compile a string to a function
@@ -118,7 +118,7 @@ class Adapter
   compileFile: (file, opts = {}) ->
     (new File(file))
       .read(encoding: 'utf8')
-      .then _.partialRight(@compile, _.extend(opts, {filename: file})).bind(@)
+      .then _.partialRight(@compile, _.extend({ filename: file }, opts)).bind(@)
 
   ###*
    * Compile a string to a client-side-ready function
