@@ -813,6 +813,14 @@ describe 'less', ->
       res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@less, res.result, lpath, done)
 
+  it 'should accept sourcemap overrides', (done) ->
+    lpath = path.join(@path, 'basic.less')
+    @less.renderFile(lpath, { sourceMap: { sourceMapBasepath: 'test/fixtures/less/basic.less' }, filename: 'basic.less' }).done (res) =>
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.sources[0].should.equal('basic.less')
+      should.not.exist(res.sourcemap.sourcesContent)
+      done()
+
 describe 'coco', ->
 
   before ->

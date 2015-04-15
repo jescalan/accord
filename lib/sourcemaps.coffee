@@ -18,3 +18,6 @@ exports.inline_sources = (map) ->
   .then (contents) ->
     map.sourcesContent = contents
     return map
+  .catch ->
+    # sources could not be read means no inline maps
+    return map
