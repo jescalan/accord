@@ -1162,3 +1162,31 @@ describe 'cjsx', ->
   it 'should not be able to compile', (done) ->
     @cjsx.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+describe 'postcss', ->
+
+  before ->
+    @postcss = accord.load('postcss')
+    @path = path.join(__dirname, 'fixtures', 'postcss')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @postcss.extensions.should.be.an.instanceOf(Array)
+    @postcss.output.should.be.a('string')
+    @postcss.engine.should.be.ok
+    @postcss.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @postcss.render('.test { color: green; }')
+      .done((res) => should.match_expected(@postcss, res.result, path.join(@path, 'string.css'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.css')
+    @postcss.renderFile(lpath)
+      .done((res) => should.match_expected(@postcss, res.result, lpath, done))
+
+  it 'should render a file with plugin', (done) ->
+    lpath = path.join(@path, 'var.css')
+    varsPlugin = require('postcss-simple-vars')
+    @postcss.renderFile(lpath, {use: [varsPlugin]})
+      .done((res) => should.match_expected(@postcss, res.result, lpath, done))
+

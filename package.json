@@ -17,7 +17,9 @@
     "lodash": "3.x",
     "resolve": "1.x",
     "uglify-js": "2.x",
-    "when": "3.x"
+    "when": "3.x",
+    "postcss": "~4.1.5",
+    "postcss-simple-vars": "~0.2.4"
   },
   "devDependencies": {
     "acorn": "latest",
