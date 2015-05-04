@@ -1072,8 +1072,9 @@ describe 'babel', ->
     @babel.name.should.be.ok
 
   it 'should render a string', (done) ->
+    p = path.join(@path, 'string.jsx')
     @babel.render("console.log('foo');").catch(should.not.exist)
-      .done((res) => should.match_expected(@babel, res.result, path.join(@path, 'string.jsx'), done))
+      .done((res) => should.match_expected(@babel, res.result, p, done))
 
   it 'should render a file', (done) ->
     lpath = path.join(@path, 'basic.jsx')
@@ -1083,7 +1084,8 @@ describe 'babel', ->
 
   it 'should not be able to compile', (done) ->
     @babel.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .done(((r) -> should.not.exist(r); done()), ((r) ->
+        should.exist(r); done()))
 
   it 'should correctly handle errors', (done) ->
     @babel.render("!   ---@#$$@%#$")
