@@ -323,6 +323,75 @@ describe 'stylus', ->
         # res.sourcemap.sources[0].should.equal(lpath)
       .done((res) => should.match_expected(@stylus, res.result, lpath, done))
 
+describe 'dot', ->
+
+  before ->
+    @dot = accord.load('dot')
+    @path = path.join(__dirname, 'fixtures', 'dot')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @dot.extensions.should.be.an.instanceOf(Array)
+    @dot.output.should.be.a('string')
+    @dot.engine.should.be.ok
+    @dot.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @dot.render("<div>Hi {{=it.name}}!</div><div>{{=it.age || ''}}</div>", { name:"Jake",age:31})
+      .done((res) => should.match_expected(@dot, res.result, path.join(@path, 'rstring.dot'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.dot')
+    @dot.renderFile(lpath, {name:"Jake",age:31})
+      .done((res) => should.match_expected(@dot, res.result, lpath, done))
+
+  it 'should compile a string', (done) ->
+    @dot.compile("<p>{{=it.title}}</p><p>{{=it.message || ''}}</p>")
+      .done((res) => should.match_expected(@dot, res.result({ title:"precompilez", message:'wow opts'}), path.join(@path, 'pstring.dot'), done))
+
+  it 'should compile a file', (done) ->
+    lpath = path.join(@path, 'precompile.dot')
+    @dot.compileFile(lpath)
+      .done((res) => should.match_expected(@dot, res.result({title:"precompilez", message:'wow opts'}), lpath, done))
+
+  # dot doesn't support external file requests out of the box. You have to write your own extension to load snippets.
+  # try using the one found here https://github.com/olado/doT/blob/master/examples/withdoT.js
+  it 'should handle partial renders', (done) ->
+    lpath = path.join(@path, 'partial.dot')
+    @dot.renderFile(lpath, { name:"Jake",age:31})
+      .done((res) => should.match_expected(@dot, res.result, lpath, done))
+
+  it 'should client-compile a string', (done) ->
+    input = """
+      {{? it.name }}
+      <div>Oh, I love your name, {{=it.name}}!</div>
+      {{?? it.age === 0}}
+      <div>Guess nobody named you yet!</div>
+      {{??}}
+      You are {{=it.age}} and still don't have a name?
+      {{?}}
+    """
+    target = path.join(@path, 'cstring.dot')
+    @dot.compileClient(input,  { name:"Jake",age:31} )
+      .done((res) => should.match_expected(@dot, res.result, target, done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(@path, 'client.dot')
+
+    @dot.compileFileClient(lpath, {"name":"Jake","age":31})
+      .done((res) => should.match_expected(@dot, res.result, lpath, done))
+
+  it 'should render with client side helpers', (done) ->
+    lpath = path.join(@path, 'client-complex.dot')
+    @dot.compileFileClient(lpath)
+      .done (res) =>
+        tpl_string =  "#{@dot.clientHelpers()}; var tpl = #{res.result}; tpl({'name':'Jake','age':31})"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@dot, tpl, lpath, done)
+
+  it 'should correctly handle errors', (done) ->
+    @dot.render("<div>Hi {{=it.name()}}!</div>")
+      .done(should.not.exist, (-> done()))
+
 describe 'ejs', ->
 
   before ->
