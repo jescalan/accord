@@ -381,6 +381,56 @@ describe 'ejs', ->
     @ejs.render("<%= wow() %>")
       .done(should.not.exist, (-> done()))
 
+describe 'eco', ->
+
+  before ->
+    @eco = accord.load('eco')
+    @path = path.join(__dirname, 'fixtures', 'eco')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @eco.extensions.should.be.an.instanceOf(Array)
+    @eco.output.should.be.a('string')
+    @eco.engine.should.be.ok
+    @eco.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @eco.render('<p>eco yah</p><p><%= @foo %></p>', { foo: 'wow opts' })
+      .done((res) =>
+        tgt = path.join(@path, 'rstring.eco')
+        should.match_expected(@eco, res.result, tgt, done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.eco')
+    @eco.renderFile(lpath, { foo: 'wow opts' })
+      .done((res) => should.match_expected(@eco, res.result, lpath, done))
+
+  it 'should compile a string', (done) ->
+    @eco.compile("<p>precompilez</p><p><%= @foo %></p>").done((res) =>
+      tgt = path.join(@path, 'pstring.eco')
+      should.match_expected(@eco, res.result({foo: 'wow opts'}), tgt, done))
+
+  it 'should compile a file', (done) ->
+    lpath = path.join(@path, 'precompile.eco')
+    @eco.compileFile(lpath)
+      .done((res) =>
+        should.match_expected(@eco, res.result({foo: 'wow opts'}), lpath, done))
+
+  it 'should client-compile a string', (done) ->
+    @eco.compileClient("Woah look, a <%= thing %>")
+      .done((res) =>
+        tgt = path.join(@path, 'cstring.eco')
+        should.match_expected(@eco, res.result, tgt, done))
+
+  it 'should client-compile a file', (done) ->
+    lpath = path.join(@path, 'client.eco')
+    @eco.compileFileClient(lpath)
+      .done((res) =>
+        should.match_expected(@eco, res.result, lpath, done))
+
+  it 'should correctly handle errors', (done) ->
+    @eco.render("<%= wow() %>")
+      .done(should.not.exist, (-> done()))
+
 describe 'markdown', ->
 
   before ->
