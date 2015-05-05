@@ -1,6 +1,8 @@
 Adapter    = require '../adapter_base'
 W          = require 'when'
 _          = require 'lodash'
+path       = require 'path'
+convert    = require 'convert-source-map'
 sourcemaps = require '../sourcemaps'
 
 class PostCSS extends Adapter
@@ -12,10 +14,21 @@ class PostCSS extends Adapter
     use = options.use ? []
     processor = @engine(use)
 
-    options.map = {inline: false} if options.map is true
+    if options.map is true
+      options.map = {inline: false}
+      options.from = options.filename
 
     W(processor.process(str, options))
       .then (res) ->
-        { result: res.css, sourcemap: res.map }
+        obj = { result: res.css }
+
+        if options.map
+          obj.sourcemap = JSON.parse(res.map)
+          obj.result = convert.removeMapFileComments(obj.result).trim()
+          sourcemaps.inline_sources(obj.sourcemap).then (map) ->
+            obj.sourcemap = map
+            obj
+        else
+          obj
 
 module.exports = PostCSS
