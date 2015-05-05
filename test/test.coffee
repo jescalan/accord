@@ -1162,3 +1162,46 @@ describe 'cjsx', ->
   it 'should not be able to compile', (done) ->
     @cjsx.compile()
       .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+describe 'postcss', ->
+
+  before ->
+    @postcss = accord.load('postcss')
+    @path = path.join(__dirname, 'fixtures', 'postcss')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @postcss.extensions.should.be.an.instanceOf(Array)
+    @postcss.output.should.be.a('string')
+    @postcss.engine.should.be.ok
+    @postcss.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @postcss.render('.test { color: green; }')
+      .done((res) => should.match_expected(@postcss, res.result, path.join(@path, 'string.css'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.css')
+    @postcss.renderFile(lpath)
+      .done((res) => should.match_expected(@postcss, res.result, lpath, done))
+
+  it 'should render a file with plugin', (done) ->
+    lpath = path.join(@path, 'var.css')
+    varsPlugin = require('postcss-simple-vars')
+    @postcss.renderFile(lpath, {use: [varsPlugin]})
+      .done((res) => should.match_expected(@postcss, res.result, lpath, done))
+
+  it 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.css')
+    opts = {map: true}
+    @postcss.renderFile(lpath, opts).done (res) =>
+      res.sourcemap.should.exist
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.mappings.length.should.be.above(1)
+      # postcss converts the absolute path to a relative path
+      # res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
+      should.match_expected(@postcss, res.result, lpath, done)
+
+  it 'should correctly handle errors', (done) ->
+    @postcss.render('.test { ')
+      .done(should.not.exist, (-> done()))

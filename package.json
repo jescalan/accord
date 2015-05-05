@@ -51,7 +51,9 @@
     "react-tools": "latest",
     "stylus": "latest",
     "swig": "latest",
-    "toffee": "latest"
+    "toffee": "latest",
+    "postcss": "latest",
+    "postcss-simple-vars": "latest"
   },
   "scripts": {
     "test": "mocha",
