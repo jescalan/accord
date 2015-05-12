@@ -14,7 +14,7 @@ module.exports = (should) ->
       else ((str) -> str)
 
     expected_path = path.join(path.dirname(epath), 'expected', "#{path.basename(epath, compiler.extensions[0])}#{compiler.output}")
-    fs.existsSync(expected_path).should.be.ok("expected file doesn't exist")
+    fs.existsSync(expected_path).should.be.ok
     expected = parser(fs.readFileSync(expected_path, 'utf8'))
     results = parser(content)
     util.inspect(expected).should.eql(util.inspect(results), "expected output doesn't match")

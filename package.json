@@ -10,9 +10,9 @@
     "url": "https://github.com/jenius/accord"
   },
   "dependencies": {
-    "convert-source-map": "^0.4.1",
-    "fobject": "0.x",
-    "glob": "4.x",
+    "convert-source-map": "1.x",
+    "fobject": "0.0.3",
+    "glob": "5.x",
     "indx": "0.2.x",
     "lodash": "3.x",
     "resolve": "1.x",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "acorn": "latest",
     "babel": "latest",
-    "chai": "1.x",
+    "chai": "2.x",
     "clean-css": "latest",
     "coco": "latest",
     "coffee-react-transform": "latest",
@@ -45,7 +45,7 @@
     "marc": "latest",
     "marked": "latest",
     "mocha": "2.x",
-    "mocha-lcov-reporter": "0.0.1",
+    "mocha-lcov-reporter": "0.0.2",
     "myth": "latest",
     "node-sass": "latest",
     "parse5": "1.x",
