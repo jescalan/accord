@@ -32,6 +32,7 @@
     "csso": "latest",
     "dogescript": "latest",
     "eco": "latest",
+    "dot": "latest",
     "ejs": "latest",
     "hamljs": "latest",
     "handlebars": "latest",

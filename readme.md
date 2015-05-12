@@ -94,6 +94,7 @@ It's also important to note that accord returns an object rather than a string f
 - [swig](http://paularmstrong.github.io/swig)
 - [marc](https://github.com/bredele/marc)
 - [toffee](https://github.com/malgorithms/toffee)
+- [doT.js](https://github.com/olado/doT)
 
 #### CSS
 
