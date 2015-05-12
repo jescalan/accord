@@ -31,6 +31,7 @@
     "css-parse": "latest",
     "csso": "latest",
     "dogescript": "latest",
+    "eco": "latest",
     "ejs": "latest",
     "hamljs": "latest",
     "handlebars": "latest",

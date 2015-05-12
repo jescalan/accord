@@ -85,6 +85,7 @@ It's also important to note that accord returns an object rather than a string f
 #### HTML
 
 - [jade](http://jade-lang.com/)
+- [eco](https://github.com/sstephenson/eco)
 - [ejs](https://github.com/visionmedia/ejs)
 - [markdown](https://github.com/chjj/marked)
 - [mustache/hogan](https://github.com/twitter/hogan.js)
