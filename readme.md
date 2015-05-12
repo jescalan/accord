@@ -94,10 +94,6 @@ It's also important to note that accord returns an object rather than a string f
 - [swig](http://paularmstrong.github.io/swig)
 - [marc](https://github.com/bredele/marc)
 - [toffee](https://github.com/malgorithms/toffee)
-- nunjucks _(pending)_
-- haml-coffee _(pending)_
-- dust _(pending)_
-- underscore _(pending)_
 
 #### CSS
 
