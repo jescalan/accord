@@ -15,6 +15,7 @@
     "glob": "5.x",
     "indx": "0.2.x",
     "lodash": "3.x",
+    "node-sass-evergreen": "^1.0.0",
     "resolve": "1.x",
     "uglify-js": "2.x",
     "when": "3.x"

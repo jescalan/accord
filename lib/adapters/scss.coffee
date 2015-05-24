@@ -6,7 +6,7 @@ class SCSS extends Adapter
   name: 'scss'
   extensions: ['scss', 'sass']
   output: 'css'
-  supportedEngines: ['node-sass']
+  supportedEngines: ['node-sass-evergreen']
 
   _render: (str, options) ->
     deferred = W.defer()
