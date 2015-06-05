@@ -41,6 +41,7 @@
     "html-minifier": "latest",
     "istanbul": "0.3.x",
     "jade": "latest",
+    "jade2php": "latest",
     "less": "latest",
     "LiveScript": "latest",
     "marc": "latest",
