@@ -15,6 +15,10 @@ exports.load = (name, custom_path, engine_name) ->
   engine_path = resolve_engine_path(name, custom_path)
   version = get_version(engine_path)
   adapter_name = match_version_to_adapter(name, version)
+
+  if not adapter_name
+    throw new Error("#{name} version #{version} is not currently supported")
+
   return new (require(adapter_name))(engine_name, custom_path)
 
 exports.all = ->

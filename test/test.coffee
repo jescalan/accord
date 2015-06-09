@@ -22,6 +22,10 @@ describe 'base functions', ->
   it 'all should return all adapters', ->
     accord.all().should.be.a('object')
 
+  it.skip 'should throw an error when attempting to load an unsupported version', ->
+    (-> accord.load('xxx'))
+      .should.throw('xxx version x is not currently supported')
+
 describe 'jade', ->
 
   before ->
