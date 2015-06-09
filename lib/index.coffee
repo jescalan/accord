@@ -8,14 +8,14 @@ semver  = require 'semver'
 
 exports.supports = supports = (name) ->
   name = adapter_to_name(name)
-  !!glob.sync("#{path.join(__dirname, 'adapters', name)}.*").length
+  !!glob.sync("#{path.join(__dirname, 'adapters', name)}").length
 
-exports.load = (name, custom_path, engineName) ->
+exports.load = (name, custom_path, engine_name) ->
   name = adapter_to_name(name)
   engine_path = resolve_engine_path(name, custom_path)
   version = get_version(engine_path)
   adapter_name = match_version_to_adapter(name, version)
-  return new (require(adapter_name))(engineName, custom_path)
+  return new (require(adapter_name))(engine_name, custom_path)
 
 exports.all = ->
   indx(path.join(__dirname, 'adapters'))
