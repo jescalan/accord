@@ -1,12 +1,5 @@
-chai = require 'chai'
-path   = require 'path'
-W      = require 'when'
-_      = require 'lodash'
-accord = require '../'
-fs     = require 'fs'
-should = chai.should()
-
-require('./helpers')(should)
+path = require 'path'
+fs = require 'fs'
 
 describe 'base functions', ->
 
