@@ -1,7 +1,7 @@
-Adapter    = require '../adapter_base'
+Adapter    = require '../../adapter_base'
+sourcemaps = require '../../sourcemaps'
 nodefn     = require 'when/node/function'
 _          = require 'lodash'
-sourcemaps = require '../sourcemaps'
 
 class Stylus extends Adapter
   name: 'stylus'

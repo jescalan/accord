@@ -1,7 +1,6 @@
-Adapter = require '../adapter_base'
+Adapter = require '../../adapter_base'
 W = require 'when'
 fs = require 'fs'
-
 
 class Toffee extends Adapter
   name: 'toffee'

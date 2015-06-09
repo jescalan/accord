@@ -1,4 +1,4 @@
-Adapter    = require '../adapter_base'
+Adapter    = require '../../adapter_base'
 convert    = require 'convert-source-map'
 W          = require 'when'
 

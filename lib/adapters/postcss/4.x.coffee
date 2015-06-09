@@ -1,9 +1,9 @@
-Adapter    = require '../adapter_base'
+Adapter    = require '../../adapter_base'
+sourcemaps = require '../../sourcemaps'
 W          = require 'when'
 _          = require 'lodash'
 path       = require 'path'
 convert    = require 'convert-source-map'
-sourcemaps = require '../sourcemaps'
 
 class PostCSS extends Adapter
   name: 'postcss'

@@ -1,7 +1,7 @@
+Adapter    = require '../../adapter_base'
+sourcemaps = require '../../sourcemaps'
 path       = require 'path'
 W          = require 'when'
-Adapter    = require '../adapter_base'
-sourcemaps = require '../sourcemaps'
 
 class JSX extends Adapter
   name: 'jsx'

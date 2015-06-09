@@ -1,6 +1,6 @@
-Adapter    = require '../adapter_base'
+Adapter    = require '../../adapter_base'
+sourcemaps = require '../../sourcemaps'
 W          = require 'when'
-sourcemaps = require '../sourcemaps'
 
 class Less extends Adapter
   name: 'less'

@@ -1,4 +1,4 @@
-Adapter = require '../adapter_base'
+Adapter = require '../../adapter_base'
 _       = require 'lodash'
 path    = require 'path'
 fs      = require 'fs'

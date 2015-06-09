@@ -1,4 +1,4 @@
-Adapter = require '../adapter_base'
+Adapter = require '../../adapter_base'
 nodefn  = require 'when/node/function'
 
 class Markdown extends Adapter
