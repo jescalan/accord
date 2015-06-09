@@ -1,7 +1,7 @@
-Adapter    = require '../adapter_base'
+Adapter    = require '../../adapter_base'
 path       = require 'path'
 W          = require 'when'
-sourcemaps = require '../sourcemaps'
+sourcemaps = require '../../sourcemaps'
 
 class SixtoFive extends Adapter
   name: 'babel'
