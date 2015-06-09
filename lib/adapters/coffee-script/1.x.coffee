@@ -1,7 +1,7 @@
-Adapter    = require '../adapter_base'
+Adapter    = require '../../adapter_base'
+sourcemaps = require '../../sourcemaps'
 path       = require 'path'
 W          = require 'when'
-sourcemaps = require '../sourcemaps'
 
 class CoffeeScript extends Adapter
   name: 'coffee-script'

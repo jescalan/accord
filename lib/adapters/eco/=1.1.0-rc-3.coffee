@@ -1,8 +1,7 @@
-Adapter = require '../adapter_base'
+Adapter = require '../../adapter_base'
 path    = require 'path'
 fs      = require 'fs'
 W       = require 'when'
-
 
 class Eco extends Adapter
   name: 'eco'
