@@ -51,18 +51,19 @@ name_to_adapter = (name) ->
   abstract_mapper(name, 'left')
 
 resolve_engine_path = (name, custom_path) ->
-  if custom_path?
-    resolve.sync(path.basename(custom_path), basedir: custom_path)
+  filepath = if custom_path?
+    resolve.sync(name_to_adapter(name), basedir: custom_path)
   else
-    filepath = require.resolve(name_to_adapter(name))
-    loop
-      if filepath is '/'
-        throw new Error("cannot resolve root of node module #{name}")
-      filepath = path.dirname(filepath) # cut off the last part of the path
-      if fs.existsSync(path.join filepath, 'package.json')
-        # if there's a package.json directly under it, we've found the root of
-        # the module
-        return filepath
+    require.resolve(name_to_adapter(name))
+
+  loop
+    if filepath is '/'
+      throw new Error("cannot resolve root of node module #{name}")
+    filepath = path.dirname(filepath) # cut off the last part of the path
+    if fs.existsSync(path.join filepath, 'package.json')
+      # if there's a package.json directly under it, we've found the root of
+      # the module
+      return filepath
 
 get_version = (engine_path) ->
   try
