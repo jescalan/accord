@@ -96,6 +96,41 @@ describe 'jade', ->
       done()
     .catch(done)
 
+describe 'jade2php', ->
+
+  before ->
+    @jade = accord.load('jade2php')
+    @path = path.join(__dirname, 'fixtures', 'jade2php')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @jade.extensions.should.be.an.instanceOf(Array)
+    @jade.output.should.be.a('string')
+    @jade.engine.should.be.ok
+    @jade.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @jade.render('p hi')
+      .done((res) => should.match_expected(@jade, res.result, path.join(@path, 'rstring.jade'), done()))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.jade')
+    @jade.renderFile(lpath, { foo: 'such options' })
+      .done((res) => should.match_expected(@jade, res.result, lpath, done()))
+
+  it 'should not support compiles', (done) ->
+    @jade.compile("p thou shalt not compile")
+      .done(((res) -> should.not.exist(res); done()), ((res) -> should.exist(res); done()))
+
+  it 'should not support client compiles', (done) ->
+    @jade.compileClient("p thou shalt not compile")
+      .done(((res) -> should.not.exist(res); done()), ((res) -> should.exist(res); done()))
+
+  it 'should handle external file requests', (done) ->
+    lpath = path.join(@path, 'partial.jade')
+    @jade.renderFile(lpath)
+      .done((res) => should.match_expected(@jade, res.result, lpath, done()))
+
+
 describe 'swig', ->
 
   before ->
