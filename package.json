@@ -27,6 +27,7 @@
     "chai": "2.x",
     "clean-css": "latest",
     "coco": "latest",
+    "coffee-coverage": "^0.6.0",
     "coffee-react-transform": "latest",
     "coffee-script": "latest",
     "coveralls": "2.x",
@@ -61,6 +62,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild"
+    "coverage": "mocha && ./node_modules/.bin/istanbul report && open coverage/lcov-report/index.html",
+    "coveralls": "istanbul report && cat ./coverage/lcov.info | coveralls"
   }
 }
