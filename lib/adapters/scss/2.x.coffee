@@ -19,12 +19,8 @@ class SCSS extends Adapter
 
     options.file = options.filename
     options.data = str
-
-    cb =
-
-    @engine.render options, (err, res) ->
-      if err then return deferred.reject(err)
-
+    options.error = (err) -> deferred.reject(err)
+    options.success = (res) ->
       data =
         result: String(res.css),
         imports: res.stats.includedFiles,
@@ -34,12 +30,14 @@ class SCSS extends Adapter
           end: res.stats.end,
           duration: res.stats.duration
 
-      if res.map
-        data.sourcemap = JSON.parse(res.map.toString('utf8'))
+      if res.map and Object.keys(JSON.parse(res.map)).length
+        data.sourcemap = JSON.parse(res.map)
         data.sourcemap.sources.pop()
         data.sourcemap.sources.push(options.file)
 
       deferred.resolve(data)
+
+    @engine.render(options)
 
     return deferred.promise
 

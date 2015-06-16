@@ -61,7 +61,7 @@
     "toffee": "latest"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha test/test.coffee",
     "coverage": "mocha && ./node_modules/.bin/istanbul report && open coverage/lcov-report/index.html",
     "coveralls": "istanbul report && cat ./coverage/lcov.info | coveralls",
     "legacy": "./node_modules/.bin/coffee test/legacy.coffee"

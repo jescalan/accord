@@ -19,7 +19,7 @@ exports.load = (name, custom_path, engine_name) ->
   if not adapter_name
     throw new Error("#{name} version #{version} is not currently supported")
 
-  return new (require(adapter_name))(engine_name, custom_path)
+  return new (require(adapter_name))(engine_name, engine_path)
 
 exports.all = ->
   indx(path.join(__dirname, 'adapters'))

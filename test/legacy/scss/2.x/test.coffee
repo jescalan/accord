@@ -1,11 +1,16 @@
+path = require 'path'
+fs = require 'fs'
 polytest = require('../config')
-require = polytest.v2.require()
+polytest.v2.require()
 
 describe 'scss', ->
 
   before ->
-    @scss = accord.load('scss')
+    @scss = accord.load('scss', polytest.v2.path)
     @path = path.join(__dirname, 'fixtures', 'scss')
+
+  # it 'should load version 2.x', ->
+    # @scss.
 
   it 'should expose name, extensions, output, and engine', ->
     @scss.extensions.should.be.an.instanceOf(Array)
