@@ -63,6 +63,7 @@
   "scripts": {
     "test": "mocha",
     "coverage": "mocha && ./node_modules/.bin/istanbul report && open coverage/lcov-report/index.html",
-    "coveralls": "istanbul report && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "istanbul report && cat ./coverage/lcov.info | coveralls",
+    "legacy": "./node_modules/.bin/coffee test/legacy.coffee"
   }
 }

@@ -1,3 +1,6 @@
+polytest = require('../config')
+require = polytest.v2.require()
+
 describe 'scss', ->
 
   before ->
