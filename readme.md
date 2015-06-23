@@ -127,7 +127,7 @@ It's also important to note that accord returns an object rather than a string f
 
 ### Evergreen Version Support
 
-As of version 0.19.0, accord ships with a system that can be used to offer full support for any engine across any version, so that the interface remains consistent even in the face of breaking changes to the adapter's API. With this feature in place, you can freely upgrade accord without worrying about any breakage in any libraries you are using, ever.
+As of version `0.20.0`, accord ships with a system that can be used to offer full support for any engine across any version, so that the interface remains consistent even in the face of breaking changes to the adapter's API. With this feature in place, you can freely upgrade accord without worrying about any breakage in any libraries you are using, ever.
 
 So for example, if you are using sass and they release a breaking version bump, we will release a new adapter for the new version and cut a new release of accord that includes support for this version. However, if you are still using the old version, it will still work as before so you have as much time as you need to upgrade to the new version.
 
