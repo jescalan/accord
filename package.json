@@ -16,15 +16,18 @@
     "indx": "0.2.x",
     "lodash": "3.x",
     "resolve": "1.x",
+    "semver": "^4.3.4",
     "uglify-js": "2.x",
     "when": "3.x"
   },
   "devDependencies": {
+    "LiveScript": "latest",
     "acorn": "latest",
     "babel": "latest",
     "chai": "2.x",
     "clean-css": "latest",
     "coco": "latest",
+    "coffee-coverage": "^0.6.0",
     "coffee-react-transform": "latest",
     "coffee-script": "latest",
     "coveralls": "2.x",
@@ -42,7 +45,6 @@
     "istanbul": "0.3.x",
     "jade": "latest",
     "less": "latest",
-    "LiveScript": "latest",
     "marc": "latest",
     "marked": "latest",
     "mocha": "2.x",
@@ -50,15 +52,18 @@
     "myth": "latest",
     "node-sass": "latest",
     "parse5": "1.x",
+    "polytest": "0.0.1",
+    "postcss": "latest",
+    "postcss-simple-vars": "latest",
     "react-tools": "latest",
     "stylus": "latest",
     "swig": "latest",
-    "toffee": "latest",
-    "postcss": "latest",
-    "postcss-simple-vars": "latest"
+    "toffee": "latest"
   },
   "scripts": {
-    "test": "mocha",
-    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild"
+    "test": "mocha test/test.coffee",
+    "coverage": "mocha && ./node_modules/.bin/istanbul report && open coverage/lcov-report/index.html",
+    "coveralls": "istanbul report && cat ./coverage/lcov.info | coveralls",
+    "legacy": "./node_modules/.bin/coffee test/legacy.coffee"
   }
 }

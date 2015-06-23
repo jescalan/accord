@@ -1,12 +1,5 @@
-chai = require 'chai'
-path   = require 'path'
-W      = require 'when'
-_      = require 'lodash'
-accord = require '../'
-fs     = require 'fs'
-should = chai.should()
-
-require('./helpers')(should)
+path = require 'path'
+fs = require 'fs'
 
 describe 'base functions', ->
 
@@ -28,6 +21,10 @@ describe 'base functions', ->
 
   it 'all should return all adapters', ->
     accord.all().should.be.a('object')
+
+  it.skip 'should throw an error when attempting to load an unsupported version', ->
+    (-> accord.load('xxx'))
+      .should.throw('xxx version x is not currently supported')
 
 describe 'jade', ->
 

@@ -1,0 +1,1 @@
+require './legacy/scss/init'
