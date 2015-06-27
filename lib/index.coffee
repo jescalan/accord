@@ -77,6 +77,6 @@ get_version = (engine_path) ->
 match_version_to_adapter = (name, version) ->
   adapters = fs.readdirSync(path.join(__dirname, 'adapters', name))
   for adapter in adapters
-    adapter = adapter.replace(/.coffee$/, '')
+    adapter = adapter.replace(/\.(?:js|coffee)$/, '')
     if semver.satisfies(version, adapter)
       return path.join(__dirname, 'adapters', name, adapter)
