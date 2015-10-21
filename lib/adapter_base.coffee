@@ -118,7 +118,7 @@ class Adapter
   compileFile: (file, opts = {}) ->
     (new File(file))
       .read(encoding: 'utf8')
-      .then _.partialRight(@compile, _.extend({ filename: file }, opts)).bind(@)
+      .then _.partialRight(@compile, _.defaults({ filename: file }, opts)).bind(@)
 
   ###*
    * Compile a string to a client-side-ready function
