@@ -5,7 +5,7 @@ sourcemaps = require '../../sourcemaps'
 
 class SixtoFive extends Adapter
   name: 'babel'
-  extensions: ['jsx']
+  extensions: ['jsx', 'js']
   output: 'js'
   isolated: true
 
