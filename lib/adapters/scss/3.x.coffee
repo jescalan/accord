@@ -34,8 +34,8 @@ class SCSS extends Adapter
 
       if res.map
         data.sourcemap = JSON.parse(res.map.toString('utf8'))
-        data.sourcemap.sources.pop()
-        data.sourcemap.sources.push(options.file)
+        if data.sourcemap.sources[0]
+          data.sourcemap.sources[0] = options.file
 
       deferred.resolve(data)
 
