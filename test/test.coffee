@@ -234,6 +234,8 @@ describe 'stylus', ->
     @stylus.renderFile(lpath, opts)
       .done((res) => should.match_expected(@stylus, res.result, lpath, done))
 
+
+
   it 'should set url function with options', (done) ->
     opts =
       url:
@@ -251,6 +253,15 @@ describe 'stylus', ->
 
     @stylus.render('.test\n  test: foo', opts)
       .done((res) => should.match_expected(@stylus, res.result, path.join(@path, 'defines.styl'), done))
+
+  it 'should set raw defines', (done) ->
+    opts =
+      rawDefine: { rdefine: { blue1: '#0000FF' } }
+
+    lpath = path.join(@path, 'rawdefine.styl')
+    @stylus.renderFile(lpath, opts)
+      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+
 
   it 'should set includes', (done) ->
     opts =
