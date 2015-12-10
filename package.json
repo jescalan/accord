@@ -17,7 +17,7 @@
     "lodash": "3.x",
     "resolve": "1.x",
     "semver": "^4.3.4",
-    "uglify-js": "2.x",
+    "uglify-js": "^2.6.0",
     "when": "3.x"
   },
   "devDependencies": {
