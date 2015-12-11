@@ -13,7 +13,7 @@ class SCSS extends Adapter
 
     if options.sourcemap is true
       options.sourceMap = true
-      options.outFile = path.basename(options.filename).replace('.scss', '.css')
+      options.outFile = options.filename.replace('.scss', '.css')
       options.omitSourceMapUrl = true
       options.sourceMapContents = true
 
@@ -34,8 +34,10 @@ class SCSS extends Adapter
 
       if res.map
         data.sourcemap = JSON.parse(res.map.toString('utf8'))
-        data.sourcemap.sources.pop()
-        data.sourcemap.sources.push(options.file)
+        basePath = path.dirname(options.filename)
+        data.sourcemap.sources =
+          data.sourcemap.sources.map (relativePath) ->
+            path.join(basePath, relativePath)
 
       deferred.resolve(data)
 
