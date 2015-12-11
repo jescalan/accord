@@ -11,6 +11,7 @@ class Stylus extends Adapter
   _render: (str, options) ->
     sets = {}
     defines = {}
+    rawDefines = {}
     includes = []
     imports = []
     plugins = []
@@ -21,6 +22,7 @@ class Stylus extends Adapter
     for k, v of options
       switch k
         when 'define' then _.extend(defines, v)
+        when 'rawDefine' then _.extend(rawDefines, v)
         when 'include' then includes.push(v)
         when 'import' then imports.push(v)
         when 'use' then plugins.push(v)
@@ -45,6 +47,7 @@ class Stylus extends Adapter
 
     base.set(k, v) for k, v of sets
     base.define(k, v) for k, v of defines
+    base.define(k, v, true) for k, v of rawDefines
     base.include(i) for i in includes
     base.import(i) for i in imports
     base.use(i) for i in plugins
