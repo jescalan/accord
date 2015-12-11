@@ -889,6 +889,19 @@ describe 'scss', ->
         res.sourcemap.sourcesContent.length.should.be.above(0)
       .done((res) => should.match_expected(@scss, res.result, lpath, done))
 
+  it 'should generate a sourcemap with correct sources', (done) ->
+    lpath = path.join(@path, 'external.scss')
+    mixinpath = path.join(@path, '_mixin_lib.scss')
+    @scss.renderFile(lpath, { sourcemap: true })
+      .tap (res) ->
+        res.sourcemap.version.should.equal(3)
+        res.sourcemap.mappings.length.should.be.above(1)
+        res.sourcemap.sources.length.should.equal(2)
+        res.sourcemap.sources[0].should.equal(lpath)
+        res.sourcemap.sources[1].should.equal(mixinpath)
+        res.sourcemap.sourcesContent.length.should.equal(2)
+      .done((res) => should.match_expected(@scss, res.result, lpath, done))
+
 describe 'less', ->
 
   before ->
