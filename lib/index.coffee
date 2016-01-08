@@ -39,6 +39,7 @@ abstract_mapper = (name, direction) ->
     ['escape-html', 'he']
     ['jsx', 'react-tools']
     ['cjsx', 'coffee-react-transform']
+    ['babel', 'babel-core']
   ]
 
   res = null
