@@ -704,7 +704,7 @@ describe 'csso', ->
 
   it 'should minify with options', (done) ->
     lpath = path.join(@path, 'opts.css')
-    @csso.renderFile(lpath, { noRestructure: true })
+    @csso.renderFile(lpath, { restructuring: false })
       .done((res) => should.match_expected(@csso, res.result, lpath, done))
 
   it 'should not be able to compile', (done) ->
