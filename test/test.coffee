@@ -313,7 +313,8 @@ describe 'stylus', ->
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
       .done((res) => should.match_expected(@stylus, res.result, path.join(@path, 'plugins2.styl'), done))
 
-  it 'should correctly handle errors', (done) ->
+  # Open stylus issue for this: https://github.com/stylus/stylus/issues/2082
+  it.skip 'should correctly handle errors', (done) ->
     @stylus.render("214m2/3l")
       .done(should.not.exist, (-> done()))
 
@@ -703,7 +704,7 @@ describe 'csso', ->
 
   it 'should minify with options', (done) ->
     lpath = path.join(@path, 'opts.css')
-    @csso.renderFile(lpath, { noRestructure: true })
+    @csso.renderFile(lpath, { restructuring: false })
       .done((res) => should.match_expected(@csso, res.result, lpath, done))
 
   it 'should not be able to compile', (done) ->
@@ -1212,13 +1213,13 @@ describe 'babel', ->
     @babel.name.should.be.ok
 
   it 'should render a string', (done) ->
-    p = path.join(@path, 'string.jsx')
-    @babel.render("console.log('foo');").catch(should.not.exist)
+    p = path.join(@path, 'string.js')
+    @babel.render("console.log('foo');", { presets: ['es2015'] }).catch(should.not.exist)
       .done((res) => should.match_expected(@babel, res.result, p, done))
 
   it 'should render a file', (done) ->
-    lpath = path.join(@path, 'basic.jsx')
-    @babel.renderFile(lpath)
+    lpath = path.join(@path, 'basic.js')
+    @babel.renderFile(lpath, { presets: ['es2015'] })
       .catch(should.not.exist)
       .done((res) => should.match_expected(@babel, res.result, lpath, done))
 
@@ -1232,8 +1233,8 @@ describe 'babel', ->
       .done(should.not.exist, (-> done()))
 
   it 'should generate sourcemaps', (done) ->
-    lpath = path.join(@path, 'basic.jsx')
-    @babel.renderFile(lpath, sourcemap: true).done (res) =>
+    lpath = path.join(@path, 'basic.js')
+    @babel.renderFile(lpath, { presets: ['es2015'], sourcemap: true }).done (res) =>
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
