@@ -5,15 +5,16 @@ sourcemaps = require '../../sourcemaps'
 
 class Babel extends Adapter
   name: 'babel'
-  extensions: ['jsx', 'js']
+  extensions: ['js', 'jsx']
   output: 'js'
   isolated: true
+  supportedEngines: ['babel-core']
 
   _render: (str, options) ->
     filename = options.filename
 
-    if options.sourcemap is true then options.sourceMap = true
-    options.sourceMapName = filename
+    if options.sourcemap is true then options.sourceMaps = true
+    options.sourceFileName = filename
     delete options.sourcemap
 
     compile => @engine.transform(str, options)
