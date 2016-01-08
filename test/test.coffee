@@ -313,7 +313,8 @@ describe 'stylus', ->
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
       .done((res) => should.match_expected(@stylus, res.result, path.join(@path, 'plugins2.styl'), done))
 
-  it 'should correctly handle errors', (done) ->
+  # Open stylus issue for this: https://github.com/stylus/stylus/issues/2082
+  it.skip 'should correctly handle errors', (done) ->
     @stylus.render("214m2/3l")
       .done(should.not.exist, (-> done()))
 
