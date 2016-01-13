@@ -44,7 +44,7 @@
     "he": "^0.5.0",
     "hogan.js": "latest",
     "html-minifier": "latest",
-    "istanbul": "0.4.1",
+    "istanbul": "0.4.2",
     "jade": "latest",
     "less": "latest",
     "marc": "latest",
