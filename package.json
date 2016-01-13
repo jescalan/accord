@@ -29,7 +29,7 @@
     "chai": "3.4.1",
     "clean-css": "latest",
     "coco": "latest",
-    "coffee-coverage": "^0.7.0",
+    "coffee-coverage": "^1.0.0",
     "coffee-react-transform": "latest",
     "coffee-script": "latest",
     "coveralls": "2.x",
