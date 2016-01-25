@@ -15,7 +15,7 @@
     "fobject": "0.0.3",
     "glob": "6.0.4",
     "indx": "0.2.x",
-    "lodash": "4.0.0",
+    "lodash": "4.0.1",
     "resolve": "1.x",
     "semver": "^5.1.0",
     "uglify-js": "^2.6.0",
