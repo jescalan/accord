@@ -1019,6 +1019,36 @@ describe 'livescript', ->
     @livescript.render("!! ---  )I%$_(I(YRTO")
       .done(should.not.exist, (-> done()))
 
+describe 'typescript', ->
+
+  before ->
+    @typescript = accord.load('typescript', undefined, 'typescript-compiler')
+    @path = path.join(__dirname, 'fixtures', 'typescript')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @typescript.extensions.should.be.an.instanceOf(Array)
+    @typescript.output.should.be.a('string')
+    @typescript.engine.should.be.ok
+    @typescript.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    @typescript.render("var n:number = 42; console.log(n)", { bare: true })
+      .done((res) => should.match_expected(@typescript, res.result, path.join(@path, 'string.ts'), done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.ts')
+    @typescript.renderFile(lpath)
+      .done((res) => should.match_expected(@typescript, res.result, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @typescript.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @typescript.render("!! ---  )I%$_(I(YRTO")
+      .done(should.not.exist, (-> done()))
+
+
 describe 'myth', ->
 
   before ->

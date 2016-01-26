@@ -40,6 +40,7 @@ abstract_mapper = (name, direction) ->
     ['jsx', 'react-tools']
     ['cjsx', 'coffee-react-transform']
     ['babel', 'babel-core']
+    ['typescript', 'typescript-compiler']
   ]
 
   res = null
