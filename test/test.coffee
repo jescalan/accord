@@ -1267,9 +1267,15 @@ describe 'babel', ->
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
-      res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sources[0].should.equal('basic.js')
       res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@babel, res.result, lpath, done)
+
+  it 'should not allow keys outside of babel\'s options', (done) ->
+    lpath = path.join(@path, 'basic.js')
+    @babel.renderFile(lpath, { presets: ['es2015'], foobar: 'wow' })
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@babel, res.result, lpath, done))
 
 describe 'jsx', ->
 
