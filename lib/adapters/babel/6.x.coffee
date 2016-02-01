@@ -1,6 +1,7 @@
-Adapter    = require '../../adapter_base'
 path       = require 'path'
 W          = require 'when'
+_          = require 'lodash'
+Adapter    = require '../../adapter_base'
 sourcemaps = require '../../sourcemaps'
 
 class Babel extends Adapter
@@ -17,7 +18,22 @@ class Babel extends Adapter
     options.sourceFileName = filename
     delete options.sourcemap
 
-    compile => @engine.transform(str, options)
+    # Babel will crash if you pass any keys others than ones they accept in the
+    # options object. To be fair, accord should not populate the options object
+    # with potentially unused options, or even options that might cause errors
+    # as they do here. Eventually this should be fixed up. But to prevent
+    # babel-specific breakage, we sanitize the options object here in the
+    # meantime.
+
+    allowed_keys = ['filename', 'filenameRelative', 'presets', 'plugins',
+    'highlightCode', 'only', 'ignore', 'auxiliaryCommentBefore',
+    'auxiliaryCommentAfter', 'sourceMaps', 'inputSourceMap', 'sourceMapTarget',
+    'sourceMapTarget', 'sourceRoot', 'moduleRoot', 'moduleIds', 'moduleId',
+    'getModuleId', 'resolveModuleSource', 'code', 'babelrc', 'ast', 'compact',
+    'comments', 'shouldPrintComment', 'env', 'retainLines', 'extends']
+    sanitized_options = _.pick(options, allowed_keys)
+
+    compile => @engine.transform(str, sanitized_options)
 
   # private
 
