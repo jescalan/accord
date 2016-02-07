@@ -10,7 +10,7 @@
     "url": "https://github.com/jenius/accord"
   },
   "dependencies": {
-    "babel-core": "^6.4.0",
+    "babel-core": "^6.5.0",
     "convert-source-map": "1.x",
     "fobject": "0.0.3",
     "glob": "6.0.4",
