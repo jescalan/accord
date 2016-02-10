@@ -13,7 +13,7 @@
     "babel-core": "^6.5.1",
     "convert-source-map": "1.x",
     "fobject": "0.0.3",
-    "glob": "6.0.4",
+    "glob": "7.0.0",
     "indx": "0.2.x",
     "lodash": "4.3.0",
     "resolve": "1.x",
