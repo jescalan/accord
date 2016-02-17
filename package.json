@@ -51,7 +51,7 @@
     "marc": "latest",
     "marked": "latest",
     "mocha": "2.x",
-    "mocha-lcov-reporter": "1.0.0",
+    "mocha-lcov-reporter": "1.1.0",
     "myth": "latest",
     "node-sass": "latest",
     "parse5": "2.1.5",
