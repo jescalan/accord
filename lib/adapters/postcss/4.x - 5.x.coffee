@@ -7,7 +7,7 @@ convert    = require 'convert-source-map'
 
 class PostCSS extends Adapter
   name: 'postcss'
-  extensions: ['css']
+  extensions: ['css', 'pcss', 'sss']
   output: 'css'
 
   _render: (str, options) ->
