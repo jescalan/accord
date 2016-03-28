@@ -162,7 +162,8 @@ requireEngine = (engineName, customPath) ->
       throw new Error("'#{engineName}' not found. make sure it has been installed!")
 
   try
-    engine.version = require(engine.__accord_path + '/package.json').version
+    if not engine.version
+      engine.version = require(engine.__accord_path + '/package.json').version
   catch err
 
   return engine
