@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "convert-source-map": "1.x",
-    "fobject": "0.0.3",
+    "fobject": "0.0.4",
     "glob": "7.0.3",
     "indx": "0.2.x",
     "lodash": "4.11.2",
