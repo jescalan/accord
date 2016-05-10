@@ -11,11 +11,10 @@ class CoffeeScript extends Adapter
 
   _render: (str, options) ->
     filename = options.filename
-
     if options.sourcemap is true then options.sourceMap = true
     options.sourceFiles = [filename]
-    options.generatedFile = path.basename(filename).replace('.coffee', '.js')
-
+    if (options.filename)
+      options.generatedFile = path.basename(filename).replace('.coffee', '.js')
     compile => @engine.compile(str, options)
 
   # private

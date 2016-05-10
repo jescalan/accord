@@ -4,3 +4,4 @@ src
 Makefile
 docs
 coverage
+polytest_*
