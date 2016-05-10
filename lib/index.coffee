@@ -6,27 +6,12 @@ indx    = require 'indx'
 resolve = require 'resolve'
 semver  = require 'semver'
 
-name_maps = [
-  ['markdown', 'marked']
-  ['minify-js', 'uglify-js']
-  ['minify-css', 'clean-css']
-  ['minify-html', 'html-minifier']
-  ['mustache', 'hogan.js']
-  ['scss', 'node-sass']
-  ['haml', 'hamljs']
-  ['escape-html', 'he']
-  ['jsx', 'react-tools']
-  ['cjsx', 'coffee-react-transform']
-  ['babel', 'babel-core']
-  ['typescript', 'typescript-compiler']
-]
-custom_adapters = []
-
 exports.supports = supports = (name) ->
   name = adapter_to_name(name)
   !!glob.sync("#{path.join(__dirname, 'adapters', name)}").length
 
 exports.load = (name, custom_path, engine_name) ->
+  name = adapter_to_name(name)
   engine_path = resolve_engine_path(name, custom_path)
   version = get_version(engine_path)
   adapter_name = match_version_to_adapter(name, version)
@@ -39,16 +24,25 @@ exports.load = (name, custom_path, engine_name) ->
 exports.all = ->
   indx(path.join(__dirname, 'adapters'))
 
-
-exports.addAdapter = (name, adapter, module_name) ->
-  custom_adapters[name] = adapter
-  if module_name then name_maps.push([name, module_name])
-
-
 # Responsible for mapping between adapters where the language name
 # does not match the node module name. direction can be "left" or "right",
 # "left" being lang name -> adapter name and right being the opposite.
 abstract_mapper = (name, direction) ->
+  name_maps = [
+    ['markdown', 'marked']
+    ['minify-js', 'uglify-js']
+    ['minify-css', 'clean-css']
+    ['minify-html', 'html-minifier']
+    ['mustache', 'hogan.js']
+    ['scss', 'node-sass']
+    ['haml', 'hamljs']
+    ['escape-html', 'he']
+    ['jsx', 'react-tools']
+    ['cjsx', 'coffee-react-transform']
+    ['babel', 'babel-core']
+    ['typescript', 'typescript-compiler']
+  ]
+
   res = null
   name_maps.forEach (n) ->
     if direction is 'left' and n[0] is name then res = n[1]
@@ -83,13 +77,8 @@ get_version = (engine_path) ->
   catch err
 
 match_version_to_adapter = (name, version) ->
-  adapter_path =
-    if custom_adapters[name]?
-      path.dirname(custom_adapters[name])
-    else
-      path.join(__dirname, 'adapters', name)
-  adapters = fs.readdirSync(adapter_path)
+  adapters = fs.readdirSync(path.join(__dirname, 'adapters', name))
   for adapter in adapters
     adapter = adapter.replace(/\.(?:js|coffee)$/, '')
     if semver.satisfies(version, adapter)
-      return path.join(adapter_path, adapter)
+      return path.join(__dirname, 'adapters', name, adapter)

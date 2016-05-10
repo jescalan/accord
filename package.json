@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "LiveScript": "latest",
-    "accord-babel-legacy": "^1.0.1",
+    "typescript-compiler": "^1.4",
     "acorn": "latest",
-    "babel": "^5.8.38",
+    "babel": "latest",
     "babel-core": "latest",
     "babel-preset-es2015": "latest",
     "chai": "3.5.0",
@@ -61,8 +61,7 @@
     "react-tools": "latest",
     "stylus": "latest",
     "swig": "latest",
-    "toffee": "latest",
-    "typescript-compiler": "^1.4.1"
+    "toffee": "latest"
   },
   "scripts": {
     "test": "mocha test/test.coffee",

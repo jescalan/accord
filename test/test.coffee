@@ -22,11 +22,6 @@ describe 'base functions', ->
   it 'all should return all adapters', ->
     accord.all().should.be.a('object')
 
-  it 'addAdapter should work', ->
-    (-> accord.addAdapter(
-      'babel-legacy', require.resolve('accord-babel-legacy'), 'babel'
-    )).should.not.throw()
-
   it.skip 'should throw an error when attempting to load an unsupported version', ->
     (-> accord.load('xxx'))
       .should.throw('xxx version x is not currently supported')
@@ -1281,58 +1276,6 @@ describe 'babel', ->
     @babel.renderFile(lpath, { presets: ['es2015'], foobar: 'wow' })
       .catch(should.not.exist)
       .done((res) => should.match_expected(@babel, res.result, lpath, done))
-
-describe 'babel (legacy)', ->
-  before ->
-    accordModulePath = path.join(__dirname, '../node_modules/accord')
-    try
-      fs.lstatSync(accordModulePath)
-    catch err
-      fs.symlinkSync(path.join(__dirname,'../'), accordModulePath)
-    @babel = accord.load('babel-legacy')
-    @path = path.join(__dirname, 'fixtures', 'babel-legacy')
-
-  after ->
-    accordModulePath = path.join(__dirname, '../node_modules/accord')
-    try
-      accordModuleExists = fs.lstatSync(accordModulePath)
-      if accordModuleExists then fs.unlinkSync(accordModulePath)
-
-  it 'should expose name, extensions, output, and compiler', ->
-    @babel.extensions.should.be.an.instanceOf(Array)
-    @babel.output.should.be.a('string')
-    @babel.engine.should.be.ok
-    @babel.name.should.be.ok
-
-  it 'should render a string', (done) ->
-    p = path.join(@path, 'string.jsx')
-    @babel.render("console.log('foo');").catch(should.not.exist)
-      .done((res) => should.match_expected(@babel, res.result, p, done))
-
-  it 'should render a file', (done) ->
-    lpath = path.join(@path, 'basic.jsx')
-    @babel.renderFile(lpath)
-      .catch(should.not.exist)
-      .done((res) => should.match_expected(@babel, res.result, lpath, done))
-
-  it 'should not be able to compile', (done) ->
-    @babel.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) ->
-        should.exist(r); done()))
-
-  it 'should correctly handle errors', (done) ->
-    @babel.render("!   ---@#$$@%#$")
-      .done(should.not.exist, (-> done()))
-
-  it 'should generate sourcemaps', (done) ->
-    lpath = path.join(@path, 'basic.jsx')
-    @babel.renderFile(lpath, sourcemap: true).done (res) =>
-      res.sourcemap.should.exist
-      res.sourcemap.version.should.equal(3)
-      res.sourcemap.mappings.length.should.be.above(1)
-      res.sourcemap.sources[0].should.equal(lpath)
-      res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@babel, res.result, lpath, done)
 
 describe 'jsx', ->
 
