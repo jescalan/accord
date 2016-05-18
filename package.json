@@ -22,11 +22,11 @@
   },
   "devDependencies": {
     "LiveScript": "latest",
-    "typescript-compiler": "^1.4",
     "acorn": "latest",
     "babel": "latest",
     "babel-core": "latest",
     "babel-preset-es2015": "latest",
+    "buble": "latest",
     "chai": "3.5.0",
     "clean-css": "latest",
     "coco": "latest",
@@ -61,7 +61,8 @@
     "react-tools": "latest",
     "stylus": "latest",
     "swig": "latest",
-    "toffee": "latest"
+    "toffee": "latest",
+    "typescript-compiler": "^1.4"
   },
   "scripts": {
     "test": "mocha test/test.coffee",

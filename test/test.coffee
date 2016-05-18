@@ -1277,6 +1277,47 @@ describe 'babel', ->
       .catch(should.not.exist)
       .done((res) => should.match_expected(@babel, res.result, lpath, done))
 
+describe 'buble', ->
+  before ->
+    @buble = accord.load('buble')
+    @path = path.join(__dirname, 'fixtures', 'buble')
+
+  it 'should expose name, extensions, output, and compiler', ->
+    @buble.extensions.should.be.an.instanceOf(Array)
+    @buble.output.should.be.a('string')
+    @buble.engine.should.be.ok
+    @buble.name.should.be.ok
+
+  it 'should render a string', (done) ->
+    p = path.join(@path, 'string.js')
+    @buble.render("console.log('foo');").catch(should.not.exist)
+      .done((res) => should.match_expected(@buble, res.result, p, done))
+
+  it 'should render a file', (done) ->
+    lpath = path.join(@path, 'basic.js')
+    @buble.renderFile(lpath)
+      .catch(should.not.exist)
+      .done((res) => should.match_expected(@buble, res.result, lpath, done))
+
+  it 'should not be able to compile', (done) ->
+    @buble.compile()
+      .done(((r) -> should.not.exist(r); done()), ((r) ->
+        should.exist(r); done()))
+
+  it 'should correctly handle errors', (done) ->
+    @buble.render("!   ---@#$$@%#$")
+      .done(should.not.exist, (-> done()))
+
+  it 'should generate sourcemaps', (done) ->
+    lpath = path.join(@path, 'basic.js')
+    @buble.renderFile(lpath).done (res) =>
+      res.sourcemap.should.exist
+      res.sourcemap.version.should.equal(3)
+      res.sourcemap.mappings.length.should.be.above(1)
+      res.sourcemap.sources[0].should.equal(lpath)
+      res.sourcemap.sourcesContent.length.should.be.above(0)
+      should.match_expected(@buble, res.result, lpath, done)
+
 describe 'jsx', ->
 
   before ->
