@@ -114,6 +114,7 @@ It's also important to note that accord returns an object rather than a string f
 - [jsx](https://github.com/facebook/react)
 - [cjsx](https://github.com/jsdf/coffee-react-transform)
 - [typescript](http://www.typescriptlang.org/)
+- [buble](https://buble.surge.sh/guide/)
 
 #### Minifiers
 
