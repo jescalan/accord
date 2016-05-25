@@ -50,7 +50,7 @@
     "less": "latest",
     "marc": "latest",
     "marked": "latest",
-    "mocha": "2.x",
+    "mocha": "2.5.3",
     "mocha-lcov-reporter": "1.2.0",
     "myth": "latest",
     "node-sass": "latest",
