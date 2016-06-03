@@ -50,10 +50,10 @@ exports.abstract_mapper = (name, direction) ->
 
   return res or name
 
-adapter_to_name = (name) ->
+exports.adapter_to_name = (name) ->
   abstract_mapper(name, 'right')
 
-name_to_adapter = (name) ->
+exports.name_to_adapter = (name) ->
   abstract_mapper(name, 'left')
 
 resolve_engine_path = (name, custom_path) ->
