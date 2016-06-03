@@ -27,7 +27,7 @@ exports.all = ->
 # Responsible for mapping between adapters where the language name
 # does not match the node module name. direction can be "left" or "right",
 # "left" being lang name -> adapter name and right being the opposite.
-abstract_mapper = (name, direction) ->
+exports.abstract_mapper = (name, direction) ->
   name_maps = [
     ['markdown', 'marked']
     ['minify-js', 'uglify-js']
