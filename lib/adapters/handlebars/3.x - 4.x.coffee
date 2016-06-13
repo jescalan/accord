@@ -1,5 +1,6 @@
 Adapter = require '../../adapter_base'
-_       = require 'lodash'
+clone   = require 'lodash.clone'
+merge   = require 'lodash.merge'
 path    = require 'path'
 fs      = require 'fs'
 W       = require 'when'
@@ -10,17 +11,17 @@ class Handlebars extends Adapter
   output: 'html'
 
   _render: (str, options) ->
-    compiler = _.clone(@engine)
+    compiler = clone(@engine)
     register_helpers(compiler, options)
     compile => compiler.compile(str)(options)
 
   _compile: (str, options) ->
-    compiler = _.clone(@engine)
+    compiler = clone(@engine)
     register_helpers(compiler, options)
     compile => compiler.compile(str)
 
   _compileClient: (str, options) ->
-    compiler = _.clone(@engine)
+    compiler = clone(@engine)
     register_helpers(compiler, options)
     compile => "Handlebars.template(#{compiler.precompile(str)});"
 
@@ -36,9 +37,9 @@ class Handlebars extends Adapter
   ###
   register_helpers = (compiler, opts) ->
     if opts.helpers
-      compiler.helpers = _.merge(compiler.helpers, opts.helpers)
+      compiler.helpers = merge(compiler.helpers, opts.helpers)
     if opts.partials
-      compiler.partials = _.merge(compiler.partials, opts.partials)
+      compiler.partials = merge(compiler.partials, opts.partials)
 
   compile = (fn) ->
     try res = fn()

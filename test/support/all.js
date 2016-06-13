@@ -1,6 +1,5 @@
 var chai = require('chai')
 var W = require('when')
-var _ = require('lodash')
 var path = require('path')
 var fs = require('fs')
 var util = require('util')
@@ -9,7 +8,6 @@ var accord = require('../..')
 global.should = chai.should()
 global.accord = accord
 global.W = W
-global._ = _
 
 global.should.match_expected = function (compiler, content, epath, done) {
   var parser

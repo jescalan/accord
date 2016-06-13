@@ -1,7 +1,7 @@
 Adapter    = require '../../adapter_base'
 sourcemaps = require '../../sourcemaps'
 nodefn     = require 'when/node/function'
-_          = require 'lodash'
+flatten    = require 'lodash.flatten'
 
 class Stylus extends Adapter
   name: 'stylus'
@@ -21,8 +21,8 @@ class Stylus extends Adapter
 
     for k, v of options
       switch k
-        when 'define' then _.extend(defines, v)
-        when 'rawDefine' then _.extend(rawDefines, v)
+        when 'define' then Object.assign(defines, v)
+        when 'rawDefine' then Object.assign(rawDefines, v)
         when 'include' then includes.push(v)
         when 'import' then imports.push(v)
         when 'use' then plugins.push(v)
@@ -30,18 +30,18 @@ class Stylus extends Adapter
           if typeof v  == 'string'
             obj = {}
             obj[v] = @engine.url()
-            _.extend(defines, obj)
+            Object.assign(defines, obj)
           else
             obj = {}
             obj[v.name] = @engine.url
               limit: if v.limit? then v.limit else 30000
               paths: v.paths || []
-            _.extend(defines, obj)
+            Object.assign(defines, obj)
         else sets[k] = v
 
-    includes = _.flatten(includes)
-    imports = _.flatten(imports)
-    plugins = _.flatten(plugins)
+    includes = flatten(includes)
+    imports = flatten(imports)
+    plugins = flatten(plugins)
 
     base = @engine(str)
 

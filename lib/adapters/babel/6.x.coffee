@@ -1,6 +1,6 @@
 path       = require 'path'
 W          = require 'when'
-_          = require 'lodash'
+pick       = require 'lodash.pick'
 Adapter    = require '../../adapter_base'
 sourcemaps = require '../../sourcemaps'
 
@@ -31,7 +31,7 @@ class Babel extends Adapter
     'sourceMapTarget', 'sourceRoot', 'moduleRoot', 'moduleIds', 'moduleId',
     'getModuleId', 'resolveModuleSource', 'code', 'babelrc', 'ast', 'compact',
     'comments', 'shouldPrintComment', 'env', 'retainLines', 'extends']
-    sanitized_options = _.pick(options, allowed_keys)
+    sanitized_options = pick(options, allowed_keys)
 
     compile => @engine.transform(str, sanitized_options)
 

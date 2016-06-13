@@ -1,5 +1,6 @@
 path = require 'path'
-fs = require 'fs'
+fs   = require 'fs'
+uniq = require 'lodash.uniq'
 
 describe 'base functions', ->
 
@@ -89,7 +90,7 @@ describe 'jade', ->
       opts.wow = {such: i}
       @jade.renderFile(lpath, opts).catch(should.not.exist)
     .then (res) ->
-      _.uniq(res).length.should.equal(res.length)
+      uniq(res).length.should.equal(res.length)
       done()
     .catch(done)
 
