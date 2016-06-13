@@ -1,7 +1,6 @@
 path    = require 'path'
 fs      = require 'fs'
 glob    = require 'glob'
-_       = require 'lodash'
 indx    = require 'indx'
 resolve = require 'resolve'
 semver  = require 'semver'

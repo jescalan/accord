@@ -1,9 +1,10 @@
-File    = require 'fobject'
-W       = require 'when'
-_       = require 'lodash'
-resolve = require 'resolve'
-path    = require 'path'
-fs      = require 'fs'
+File         = require 'fobject'
+W            = require 'when'
+clone        = require 'lodash.clone'
+partialRight = require 'lodash.partialright'
+resolve      = require 'resolve'
+path         = require 'path'
+fs           = require 'fs'
 
 
 class Adapter
@@ -94,10 +95,10 @@ class Adapter
    * @return {Promise}
   ###
   renderFile: (file, opts = {}) ->
-    opts = _.clone(opts, true)
+    opts = clone(opts, true)
     (new File(file))
       .read(encoding: 'utf8')
-      .then _.partialRight(@render, _.extend({ filename: file }, opts)).bind(@)
+      .then partialRight(@render, Object.assign({ filename: file }, opts)).bind(@)
 
   ###*
    * Compile a string to a function
@@ -118,7 +119,7 @@ class Adapter
   compileFile: (file, opts = {}) ->
     (new File(file))
       .read(encoding: 'utf8')
-      .then _.partialRight(@compile, _.extend({ filename: file }, opts)).bind(@)
+      .then partialRight(@compile, Object.assign({ filename: file }, opts)).bind(@)
 
   ###*
    * Compile a string to a client-side-ready function
@@ -140,7 +141,7 @@ class Adapter
   compileFileClient: (file, opts = {}) ->
     (new File(file))
       .read(encoding: 'utf8')
-      .then _.partialRight(@compileClient, _.extend(opts, {filename: file})).bind(@)
+      .then partialRight(@compileClient, Object.assign(opts, {filename: file})).bind(@)
 
   ###*
    * Some adapters that compile for client also need helpers, this method

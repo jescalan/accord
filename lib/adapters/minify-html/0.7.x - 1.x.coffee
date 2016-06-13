@@ -1,6 +1,6 @@
-Adapter = require '../../adapter_base'
-W       = require 'when'
-_       = require 'lodash'
+Adapter  = require '../../adapter_base'
+W        = require 'when'
+defaults = require 'lodash.defaults'
 
 class MinifyHTML extends Adapter
   name: 'minify-html'
@@ -16,7 +16,7 @@ class MinifyHTML extends Adapter
   isolated: true
 
   _render: (str, options) ->
-    options = _.defaults options,
+    options = defaults options,
       removeComments: true
       collapseWhitespace: true
       removeEmptyAttributes: true
