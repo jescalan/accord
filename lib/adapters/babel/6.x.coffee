@@ -16,7 +16,6 @@ class Babel extends Adapter
 
     if options.sourcemap is true then options.sourceMaps = true
     options.sourceFileName = filename
-    options.sourceRoot = '/'
     delete options.sourcemap
 
     # Babel will crash if you pass any keys others than ones they accept in the
@@ -44,7 +43,10 @@ class Babel extends Adapter
 
     data = { result: res.code }
     if res.map
+      # Convert source to absolute path.
+      # This is done for consistency with other accord adapters.
       if res.map.sources then res.map.sources[0] = res.options.filename
+
       sourcemaps.inline_sources(res.map).then (map) ->
         data.sourcemap = map
         return data
