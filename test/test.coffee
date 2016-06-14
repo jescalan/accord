@@ -1268,7 +1268,7 @@ describe 'babel', ->
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
-      res.sourcemap.sources[0].should.equal('basic.js')
+      res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
       should.match_expected(@babel, res.result, lpath, done)
 

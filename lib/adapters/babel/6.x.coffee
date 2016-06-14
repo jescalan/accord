@@ -16,6 +16,7 @@ class Babel extends Adapter
 
     if options.sourcemap is true then options.sourceMaps = true
     options.sourceFileName = filename
+    options.sourceRoot = '/'
     delete options.sourcemap
 
     # Babel will crash if you pass any keys others than ones they accept in the
@@ -28,9 +29,9 @@ class Babel extends Adapter
     allowed_keys = ['filename', 'filenameRelative', 'presets', 'plugins',
     'highlightCode', 'only', 'ignore', 'auxiliaryCommentBefore',
     'auxiliaryCommentAfter', 'sourceMaps', 'inputSourceMap', 'sourceMapTarget',
-    'sourceMapTarget', 'sourceRoot', 'moduleRoot', 'moduleIds', 'moduleId',
-    'getModuleId', 'resolveModuleSource', 'code', 'babelrc', 'ast', 'compact',
-    'comments', 'shouldPrintComment', 'env', 'retainLines', 'extends']
+    'sourceRoot', 'moduleRoot', 'moduleIds', 'moduleId', 'getModuleId',
+    'resolveModuleSource', 'code', 'babelrc', 'ast', 'compact', 'comments',
+    'shouldPrintComment', 'env', 'retainLines', 'extends']
     sanitized_options = pick(options, allowed_keys)
 
     compile => @engine.transform(str, sanitized_options)
@@ -43,6 +44,7 @@ class Babel extends Adapter
 
     data = { result: res.code }
     if res.map
+      if res.map.sources then res.map.sources[0] = res.options.filename
       sourcemaps.inline_sources(res.map).then (map) ->
         data.sourcemap = map
         return data
