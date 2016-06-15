@@ -45,7 +45,10 @@ class Babel extends Adapter
     if res.map
       # Convert source to absolute path.
       # This is done for consistency with other accord adapters.
-      if res.map.sources then res.map.sources[0] = res.options.filename
+      if res.map.sources
+        dirname = path.dirname(res.options.filename)
+        res.map.sources =
+            res.map.sources.map (source) -> path.join(dirname, source)
 
       sourcemaps.inline_sources(res.map).then (map) ->
         data.sourcemap = map
