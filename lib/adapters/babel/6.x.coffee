@@ -28,9 +28,9 @@ class Babel extends Adapter
     allowed_keys = ['filename', 'filenameRelative', 'presets', 'plugins',
     'highlightCode', 'only', 'ignore', 'auxiliaryCommentBefore',
     'auxiliaryCommentAfter', 'sourceMaps', 'inputSourceMap', 'sourceMapTarget',
-    'sourceMapTarget', 'sourceRoot', 'moduleRoot', 'moduleIds', 'moduleId',
-    'getModuleId', 'resolveModuleSource', 'code', 'babelrc', 'ast', 'compact',
-    'comments', 'shouldPrintComment', 'env', 'retainLines', 'extends']
+    'sourceRoot', 'moduleRoot', 'moduleIds', 'moduleId', 'getModuleId',
+    'resolveModuleSource', 'code', 'babelrc', 'ast', 'compact', 'comments',
+    'shouldPrintComment', 'env', 'retainLines', 'extends']
     sanitized_options = pick(options, allowed_keys)
 
     compile => @engine.transform(str, sanitized_options)
@@ -43,6 +43,13 @@ class Babel extends Adapter
 
     data = { result: res.code }
     if res.map
+      # Convert source to absolute path.
+      # This is done for consistency with other accord adapters.
+      if res.map.sources
+        dirname = path.dirname(res.options.filename)
+        res.map.sources =
+            res.map.sources.map (source) -> path.join(dirname, source)
+
       sourcemaps.inline_sources(res.map).then (map) ->
         data.sourcemap = map
         return data
