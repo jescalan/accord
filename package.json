@@ -51,7 +51,7 @@
     "he": "^1.0.0",
     "hogan.js": "latest",
     "html-minifier": "latest",
-    "istanbul": "0.4.3",
+    "istanbul": "0.4.4",
     "jade": "latest",
     "less": "latest",
     "marc": "latest",
