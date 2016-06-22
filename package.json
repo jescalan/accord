@@ -12,7 +12,7 @@
   "dependencies": {
     "convert-source-map": "1.x",
     "fobject": "0.0.4",
-    "glob": "7.0.4",
+    "glob": "7.0.5",
     "indx": "0.2.x",
     "lodash.clone": "^4.3.2",
     "lodash.defaults": "^4.0.1",
