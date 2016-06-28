@@ -22,7 +22,7 @@
     "lodash.pick": "^4.2.1",
     "lodash.uniq": "^4.3.0",
     "resolve": "1.x",
-    "semver": "^5.1.1",
+    "semver": "^5.2.0",
     "uglify-js": "^2.6.4",
     "when": "3.x"
   },
