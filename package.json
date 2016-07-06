@@ -23,7 +23,7 @@
     "lodash.uniq": "^4.3.0",
     "resolve": "1.x",
     "semver": "^5.2.0",
-    "uglify-js": "^2.6.4",
+    "uglify-js": "^2.7.0",
     "when": "3.x"
   },
   "devDependencies": {
