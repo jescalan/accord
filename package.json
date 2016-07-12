@@ -39,7 +39,7 @@
     "coffee-coverage": "^1.0.0",
     "coffee-react-transform": "latest",
     "coffee-script": "latest",
-    "coveralls": "2.x",
+    "coveralls": "2.11.11",
     "css-parse": "latest",
     "csso": "latest",
     "dogescript": "latest",
