@@ -1,14 +1,9 @@
 {
   "name": "accord",
+  "description": "A unified interface for compiled languages and templates in JavaScript",
   "version": "0.24.1",
   "author": "Jeff Escalante <hello@jenius.me>",
-  "description": "A unified interface for compiled languages and templates in JavaScript",
-  "main": "lib",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jenius/accord"
-  },
+  "bugs": "https://github.com/jescalan/accord",
   "dependencies": {
     "convert-source-map": "1.x",
     "fobject": "0.0.4",
@@ -70,10 +65,20 @@
     "toffee": "latest",
     "typescript-compiler": "^1.4"
   },
+  "homepage": "https://github.com/jescalan/accord",
+  "keywords": [
+    "compile"
+  ],
+  "license": "MIT",
+  "main": "lib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jenius/accord"
+  },
   "scripts": {
-    "test": "mocha test/test.coffee",
     "coverage": "mocha && ./node_modules/.bin/istanbul report && open coverage/lcov-report/index.html",
     "coveralls": "istanbul report && cat ./coverage/lcov.info | coveralls",
-    "legacy": "./node_modules/.bin/coffee test/legacy.coffee"
+    "legacy": "./node_modules/.bin/coffee test/legacy.coffee",
+    "test": "mocha test/test.coffee"
   }
 }
