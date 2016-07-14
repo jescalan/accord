@@ -10,6 +10,7 @@ global.accord = accord
 global.W = W
 
 global.should.match_expected = function (compiler, content, epath, done) {
+  // console.log(content)
   var parser
   switch (compiler.output) {
     case 'html':
@@ -33,8 +34,8 @@ global.should.match_expected = function (compiler, content, epath, done) {
 
   fs.existsSync(expected_path).should.be.ok
 
-  var expected = parser(fs.readFileSync(expected_path, 'utf8'))
-  var results = parser(content)
+  var expected = parser(fs.readFileSync(expected_path, 'utf8').trim())
+  var results = parser(content.trim())
 
   util.inspect(expected).should.eql(util.inspect(results))
   return done()

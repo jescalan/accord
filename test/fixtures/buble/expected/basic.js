@@ -8,7 +8,7 @@ var Test = (function (TestClass) {
   Test.prototype = Object.create( TestClass && TestClass.prototype );
   Test.prototype.constructor = Test;
 
-  Test.defaultGreeting = function defaultGreeting() {
+  Test.defaultGreeting = function defaultGreeting () {
     return 'hello there!'
   };
 
