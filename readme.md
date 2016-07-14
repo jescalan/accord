@@ -4,7 +4,7 @@ accord
 [![npm](https://img.shields.io/npm/v/accord.svg?style=flat)](http://badge.fury.io/js/accord)
 [![tests](https://img.shields.io/travis/jescalan/accord/master.svg?style=flat)](https://travis-ci.org/jescalan/accord)
 [![coverage](https://img.shields.io/coveralls/jescalan/accord/master.svg?style=flat)](https://coveralls.io/r/jescalan/accord?branch=master)
-[![dependencies](https://img.shields.io/gemnasium/jescalan/accord.svg?style=flat)](https://gemnasium.com/jescalan/accord)
+[![dependencies](https://img.shields.io/david/jescalan/accord.svg?style=flat)](https://david-dm.org/jescalan/accord)
 
 A unified interface for compiled languages and templates in JavaScript.
 
