@@ -37,6 +37,6 @@ global.should.match_expected = function (compiler, content, epath, done) {
   var expected = parser(fs.readFileSync(expected_path, 'utf8').trim())
   var results = parser(content.trim())
 
-  util.inspect(expected).should.eql(util.inspect(results))
+  util.inspect(expected).should.deep.eql(util.inspect(results))
   return done()
 }
