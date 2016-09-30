@@ -57,7 +57,7 @@
     "node-sass": "^3.8.0",
     "parse5": "^2.2.2",
     "polytest": "0.0.1",
-    "postcss": "^5.1.0",
+    "postcss": "^5.2.4",
     "postcss-simple-vars": "^3.0.0",
     "react-tools": "^0.13.3",
     "stylus": "^0.54.5",
