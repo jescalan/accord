@@ -4,10 +4,7 @@ partialRight = require 'lodash.partialright'
 resolve      = require 'resolve'
 path         = require 'path'
 fs           = require 'fs'
-Promise      = require 'bluebird'
-
-readFile     = Promise.promisify fs.readFile
-
+readFile     = require('when/node/function').lift(fs.readFile)
 
 class Adapter
   ###*
