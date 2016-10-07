@@ -4,7 +4,7 @@ partialRight = require 'lodash.partialright'
 resolve      = require 'resolve'
 path         = require 'path'
 fs           = require 'fs'
-readFile     = require('when/node/function').lift(fs.readFile)
+readFile     = require('when/node/function').lift fs.readFile 
 
 class Adapter
   ###*
