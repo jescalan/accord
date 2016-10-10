@@ -1,11 +1,10 @@
-File         = require 'fobject'
 W            = require 'when'
 clone        = require 'lodash.clone'
 partialRight = require 'lodash.partialright'
 resolve      = require 'resolve'
 path         = require 'path'
 fs           = require 'fs'
-
+readFile     = require('when/node/function').lift fs.readFile 
 
 class Adapter
   ###*
@@ -96,8 +95,7 @@ class Adapter
   ###
   renderFile: (file, opts = {}) ->
     opts = clone(opts, true)
-    (new File(file))
-      .read(encoding: 'utf8')
+    readFile(file, 'utf8')
       .then partialRight(@render, Object.assign({ filename: file }, opts)).bind(@)
 
   ###*
@@ -117,8 +115,7 @@ class Adapter
    * @return {Promise}
   ###
   compileFile: (file, opts = {}) ->
-    (new File(file))
-      .read(encoding: 'utf8')
+    readFile(file, 'utf8')
       .then partialRight(@compile, Object.assign({ filename: file }, opts)).bind(@)
 
   ###*
@@ -139,8 +136,7 @@ class Adapter
    * @return {Promise}
   ###
   compileFileClient: (file, opts = {}) ->
-    (new File(file))
-      .read(encoding: 'utf8')
+    readFile(file, 'utf8')
       .then partialRight(@compileClient, Object.assign(opts, {filename: file})).bind(@)
 
   ###*

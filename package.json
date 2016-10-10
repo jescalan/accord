@@ -6,7 +6,6 @@
   "bugs": "https://github.com/jescalan/accord",
   "dependencies": {
     "convert-source-map": "^1.2.0",
-    "fobject": "0.0.4",
     "glob": "^7.0.5",
     "indx": "^0.2.3",
     "lodash.clone": "^4.3.2",
