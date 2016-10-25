@@ -39,51 +39,53 @@ describe 'jade', ->
     @jade.engine.should.be.ok
     @jade.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @jade.render('p BLAHHHHH\np= foo', { foo: 'such options' })
-      .done((res) => should.match_expected(@jade, res.result, path.join(@path, 'rstring.jade'), done))
+      .then((res) => should.match_expected(@jade, res.result, path.join(@path, 'rstring.jade')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.jade')
     @jade.renderFile(lpath, { foo: 'such options' })
-      .done((res) => should.match_expected(@jade, res.result, lpath, done))
+      .then((res) => should.match_expected(@jade, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @jade.compile("p why cant I shot web?\np= foo")
-      .done((res) => should.match_expected(@jade, res.result({foo: 'such options'}), path.join(@path, 'pstring.jade'), done))
+      .then((res) => should.match_expected(@jade, res.result({foo: 'such options'}), path.join(@path, 'pstring.jade')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.jade')
     @jade.compileFile(lpath)
-      .done((res) => should.match_expected(@jade, res.result({foo: 'such options'}), lpath, done))
+      .then((res) => should.match_expected(@jade, res.result({foo: 'such options'}), lpath))
 
-  it 'should client-compile a string', (done) ->
+  it 'should client-compile a string', ->
     @jade.compileClient("p imma firin mah lazer!\np= foo", {foo: 'such options'})
-      .done((res) => should.match_expected(@jade, res.result, path.join(@path, 'cstring.jade'), done))
+      .then((res) => should.match_expected(@jade, res.result, path.join(@path, 'cstring.jade')))
 
-  it 'should client-compile a file', (done) ->
+  it 'should client-compile a file', ->
     lpath = path.join(@path, 'client.jade')
     @jade.compileFileClient(lpath, {foo: 'such options'})
-      .done((res) => should.match_expected(@jade, res.result, lpath, done))
+      .then((res) => should.match_expected(@jade, res.result, lpath))
 
-  it 'should handle external file requests', (done) ->
+  it 'should handle external file requests', ->
     lpath = path.join(@path, 'partial.jade')
     @jade.renderFile(lpath)
-      .done((res) => should.match_expected(@jade, res.result, lpath, done))
+      .then((res) => should.match_expected(@jade, res.result, lpath))
 
-  it 'should render with client side helpers', (done) ->
+  it 'should render with client side helpers', ->
     lpath = path.join(@path, 'client-complex.jade')
     @jade.compileFileClient(lpath)
-      .done (res) =>
+      .then (res) =>
         tpl_string =  "#{@jade.clientHelpers()}#{res.result}; template({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
-        should.match_expected(@jade, tpl, lpath, done)
+        should.match_expected(@jade, tpl, lpath)
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @jade.render("!= nonexistantfunction()")
-      .done(should.not.exist, (-> done()))
+      .catch((err) ->
+        err.message.should.equal('nonexistantfunction is not a function on line 1')
+      )
 
-  it "should handle rapid async calls with different deeply nested locals correctly", (done) ->
+  it "should handle rapid async calls with different deeply nested locals correctly", ->
     lpath = path.join(@path, 'async.jade')
     opts  = {wow: {such: 'test'}}
     W.map [1..100], (i) =>
@@ -91,8 +93,6 @@ describe 'jade', ->
       @jade.renderFile(lpath, opts).catch(should.not.exist)
     .then (res) ->
       uniq(res).length.should.equal(res.length)
-      done()
-    .catch(done)
 
 describe 'swig', ->
 
@@ -106,44 +106,44 @@ describe 'swig', ->
     @swig.engine.should.be.ok
     @swig.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @swig.render('<h1>{% if foo %}Bar{% endif %}</h1>', { locals: { foo: true } })
-      .done((res) => should.match_expected(@swig, res.result, path.join(@path, 'string.swig'), done))
+      .then((res) => should.match_expected(@swig, res.result, path.join(@path, 'string.swig')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.swig')
     @swig.renderFile(lpath, { locals: { author: "Jeff Escalante" } })
-      .done((res) => should.match_expected(@swig, res.result, lpath, done))
+      .then((res) => should.match_expected(@swig, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @swig.compile("<h1>{{ title }}</h1>")
-      .done((res) => should.match_expected(@swig, res.result({title: 'Hello!'}), path.join(@path, 'pstring.swig'), done))
+      .then((res) => should.match_expected(@swig, res.result({title: 'Hello!'}), path.join(@path, 'pstring.swig')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.swig')
     @swig.compileFile(lpath)
-      .done((res) => should.match_expected(@swig, res.result({title: 'Hello!'}), lpath, done))
+      .then((res) => should.match_expected(@swig, res.result({title: 'Hello!'}), lpath))
 
-  it.skip 'should client-compile a string', (done) ->
+  it.skip 'should client-compile a string', ->
     @swig.compileClient("<h1>{% if foo %}Bar{% endif %}</h1>", {foo: true})
-      .done((res) => should.match_expected(@swig, res.result, path.join(@path, 'cstring.swig'), done))
+      .then((res) => should.match_expected(@swig, res.result, path.join(@path, 'cstring.swig')))
 
-  it.skip 'should client-compile a file', (done) ->
+  it.skip 'should client-compile a file', ->
     lpath = path.join(@path, 'client.swig')
     @swig.compileFileClient(lpath)
-      .done((res) => should.match_expected(@swig, res.result, lpath, done))
+      .then((res) => should.match_expected(@swig, res.result, lpath))
 
-  it 'should handle external file requests', (done) ->
+  it 'should handle external file requests', ->
     lpath = path.join(@path, 'partial.swig')
     @swig.renderFile(lpath)
-      .done((res) => should.match_expected(@swig, res.result, lpath, done))
+      .then((res) => should.match_expected(@swig, res.result, lpath))
 
-  it 'should render with client side helpers', (done) ->
+  it 'should render with client side helpers', ->
     lpath = path.join(@path, 'client-complex.swig')
     @swig.compileFileClient(lpath)
-      .done (res) =>
+      .then (res) =>
         tpl_string =  "window = {}; #{@swig.clientHelpers()};\n var tpl = (#{res.result});"
-        should.match_expected(@swig, tpl_string, lpath, done)
+        should.match_expected(@swig, tpl_string, lpath)
 
 describe 'coffeescript', ->
 
@@ -157,33 +157,34 @@ describe 'coffeescript', ->
     @coffee.engine.should.be.ok
     @coffee.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @coffee.render('console.log "test"', { bare: true })
-      .done((res) => should.match_expected(@coffee, res.result, path.join(@path, 'string.coffee'), done))
+      .then((res) => should.match_expected(@coffee, res.result, path.join(@path, 'string.coffee')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.coffee')
     @coffee.renderFile(lpath)
-      .done((res) => should.match_expected(@coffee, res.result, lpath, done))
+      .then((res) => should.match_expected(@coffee, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @coffee.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @coffee.render("!   ---@#$$@%#$")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.coffee')
-    @coffee.renderFile(lpath, sourcemap: true ).done (res) =>
+    @coffee.renderFile(lpath, sourcemap: true ).then (res) =>
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
       res.v2sourcemap.should.exist
-      should.match_expected(@coffee, res.result, lpath, done)
+      should.match_expected(@coffee, res.result, lpath)
 
 describe 'stylus', ->
 
@@ -197,47 +198,47 @@ describe 'stylus', ->
     @stylus.engine.should.be.ok
     @stylus.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @stylus.render('.test\n  foo: bar')
-      .done((res) => should.match_expected(@stylus, res.result, path.join(@path, 'string.styl'), done))
+      .then((res) => should.match_expected(@stylus, res.result, path.join(@path, 'string.styl')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.styl')
     @stylus.renderFile(lpath)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @stylus.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should set normal options', (done) ->
+  it 'should set normal options', ->
     opts =
       paths: ['pluginz']
       foo: 'bar'
 
     lpath = path.join(@path, 'include1.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
-  it 'should correctly import css files', (done) ->
+  it 'should correctly import css files', ->
     opts =
       "include css": true
 
     lpath = path.join(@path, 'include_css.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
-  it 'should set vanilla url function', (done) ->
+  it 'should set vanilla url function', ->
     opts =
       url: 'embedurl'
 
     lpath = path.join(@path, 'embedurl.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
 
 
-  it 'should set url function with options', (done) ->
+  it 'should set url function with options', ->
     opts =
       url:
         name: 'embedurl'
@@ -246,65 +247,65 @@ describe 'stylus', ->
     lpath = path.join(@path, 'embedurl.styl')
     epath = path.join(@path, 'embedurl-opts.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, epath, done))
+      .then((res) => should.match_expected(@stylus, res.result, epath))
 
-  it 'should set defines', (done) ->
+  it 'should set defines', ->
     opts =
       define: { foo: 'bar', baz: 'quux' }
 
     @stylus.render('.test\n  test: foo', opts)
-      .done((res) => should.match_expected(@stylus, res.result, path.join(@path, 'defines.styl'), done))
+      .then((res) => should.match_expected(@stylus, res.result, path.join(@path, 'defines.styl')))
 
-  it 'should set raw defines', (done) ->
+  it 'should set raw defines', ->
     opts =
       rawDefine: { rdefine: { blue1: '#0000FF' } }
 
     lpath = path.join(@path, 'rawdefine.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
 
-  it 'should set includes', (done) ->
+  it 'should set includes', ->
     opts =
       include: 'pluginz'
 
     lpath = path.join(@path, 'include1.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
-  it 'should set multiple includes', (done) ->
+  it 'should set multiple includes', ->
     opts =
       include: ['pluginz', 'extra_plugin']
 
     lpath = path.join(@path, 'include2.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
-  it 'should set imports', (done) ->
+  it 'should set imports', ->
     opts =
       import: 'pluginz/lib'
 
     lpath = path.join(@path, 'import1.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
-  it 'should set multiple imports', (done) ->
+  it 'should set multiple imports', ->
     opts =
       import: ['pluginz/lib', 'pluginz/lib2']
 
     lpath = path.join(@path, 'import2.styl')
     @stylus.renderFile(lpath, opts)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
-  it 'should set plugins', (done) ->
+  it 'should set plugins', ->
     opts =
       use: (style) ->
         style.define('main-width', 500)
 
     @stylus.render('.test\n  foo: main-width', opts)
-      .done((res) => should.match_expected(@stylus, res.result, path.join(@path, 'plugins1.styl'), done))
+      .then((res) => should.match_expected(@stylus, res.result, path.join(@path, 'plugins1.styl')))
 
-  it 'should set multiple plugins', (done) ->
+  it 'should set multiple plugins', ->
     opts =
       use: [
         ((style) -> style.define('main-width', 500)),
@@ -312,13 +313,14 @@ describe 'stylus', ->
       ]
 
     @stylus.render('.test\n  foo: main-width\n  bar: main-height', opts)
-      .done((res) => should.match_expected(@stylus, res.result, path.join(@path, 'plugins2.styl'), done))
+      .then((res) => should.match_expected(@stylus, res.result, path.join(@path, 'plugins2.styl')))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @stylus.render("error('oh noes!')")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should expose sourcemaps', (done) ->
+  it 'should expose sourcemaps', ->
     lpath = path.join(@path, 'basic.styl')
     opts = { sourcemap: true }
 
@@ -330,7 +332,7 @@ describe 'stylus', ->
         res.sourcemap.sourcesContent.length.should.be.above(0)
         # this matches a relative path, really should match absolute
         # res.sourcemap.sources[0].should.equal(lpath)
-      .done((res) => should.match_expected(@stylus, res.result, lpath, done))
+      .then((res) => should.match_expected(@stylus, res.result, lpath))
 
 describe 'dot', ->
 
@@ -344,32 +346,32 @@ describe 'dot', ->
     @dot.engine.should.be.ok
     @dot.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @dot.render("<div>Hi {{=it.name}}!</div><div>{{=it.age || ''}}</div>", { name:"Jake",age:31})
-      .done((res) => should.match_expected(@dot, res.result, path.join(@path, 'rstring.dot'), done))
+      .then((res) => should.match_expected(@dot, res.result, path.join(@path, 'rstring.dot')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.dot')
     @dot.renderFile(lpath, {name:"Jake",age:31})
-      .done((res) => should.match_expected(@dot, res.result, lpath, done))
+      .then((res) => should.match_expected(@dot, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @dot.compile("<p>{{=it.title}}</p><p>{{=it.message || ''}}</p>")
-      .done((res) => should.match_expected(@dot, res.result({ title:"precompilez", message:'wow opts'}), path.join(@path, 'pstring.dot'), done))
+      .then((res) => should.match_expected(@dot, res.result({ title:"precompilez", message:'wow opts'}), path.join(@path, 'pstring.dot')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.dot')
     @dot.compileFile(lpath)
-      .done((res) => should.match_expected(@dot, res.result({title:"precompilez", message:'wow opts'}), lpath, done))
+      .then((res) => should.match_expected(@dot, res.result({title:"precompilez", message:'wow opts'}), lpath))
 
   # dot doesn't support external file requests out of the box. You have to write your own extension to load snippets.
   # try using the one found here https://github.com/olado/doT/blob/master/examples/withdoT.js
-  it 'should handle partial renders', (done) ->
+  it 'should handle partial renders', ->
     lpath = path.join(@path, 'partial.dot')
     @dot.renderFile(lpath, { name:"Jake",age:31})
-      .done((res) => should.match_expected(@dot, res.result, lpath, done))
+      .then((res) => should.match_expected(@dot, res.result, lpath))
 
-  it 'should client-compile a string', (done) ->
+  it 'should client-compile a string', ->
     input = """
       {{? it.name }}
       <div>Oh, I love your name, {{=it.name}}!</div>
@@ -381,25 +383,26 @@ describe 'dot', ->
     """
     target = path.join(@path, 'cstring.dot')
     @dot.compileClient(input,  { name:"Jake",age:31} )
-      .done((res) => should.match_expected(@dot, res.result, target, done))
+      .then((res) => should.match_expected(@dot, res.result, target))
 
-  it 'should client-compile a file', (done) ->
+  it 'should client-compile a file', ->
     lpath = path.join(@path, 'client.dot')
 
     @dot.compileFileClient(lpath, {"name":"Jake","age":31})
-      .done((res) => should.match_expected(@dot, res.result, lpath, done))
+      .then((res) => should.match_expected(@dot, res.result, lpath))
 
-  it 'should render with client side helpers', (done) ->
+  it 'should render with client side helpers', ->
     lpath = path.join(@path, 'client-complex.dot')
     @dot.compileFileClient(lpath)
-      .done (res) =>
+      .then (res) =>
         tpl_string =  "#{@dot.clientHelpers()}; var tpl = #{res.result}; tpl({'name':'Jake','age':31})"
         tpl = eval.call(global, tpl_string)
-        should.match_expected(@dot, tpl, lpath, done)
+        should.match_expected(@dot, tpl, lpath)
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @dot.render("<div>Hi {{=it.name()}}!</div>")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'ejs', ->
 
@@ -413,51 +416,52 @@ describe 'ejs', ->
     @ejs.engine.should.be.ok
     @ejs.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @ejs.render('<p>ejs yah</p><p><%= foo%></p>', { foo: 'wow opts' })
-      .done((res) => should.match_expected(@ejs, res.result, path.join(@path, 'rstring.ejs'), done))
+      .then((res) => should.match_expected(@ejs, res.result, path.join(@path, 'rstring.ejs')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.ejs')
     @ejs.renderFile(lpath, { foo: 'wow opts' })
-      .done((res) => should.match_expected(@ejs, res.result, lpath, done))
+      .then((res) => should.match_expected(@ejs, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @ejs.compile("<p>precompilez</p><p><%= foo %></p>")
-      .done((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), path.join(@path, 'pstring.ejs'), done))
+      .then((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), path.join(@path, 'pstring.ejs')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.ejs')
     @ejs.compileFile(lpath)
-      .done((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), lpath, done))
+      .then((res) => should.match_expected(@ejs, res.result({foo: 'wow opts'}), lpath))
 
-  it 'should handle external file requests', (done) ->
+  it 'should handle external file requests', ->
     lpath = path.join(@path, 'partial.ejs')
     @ejs.renderFile(lpath)
-      .done((res) => should.match_expected(@ejs, res.result, lpath, done))
+      .then((res) => should.match_expected(@ejs, res.result, lpath))
 
-  it.skip 'should client-compile a string', (done) ->
+  it.skip 'should client-compile a string', ->
     @ejs.compileClient("Woah look, a <%= thing %>")
-      .done((res) => should.match_expected(@ejs, res.result, path.join(@path, 'cstring.ejs'), done))
+      .then((res) => should.match_expected(@ejs, res.result, path.join(@path, 'cstring.ejs')))
 
   # ejs writes the filename to the function, which makes this
   # not work cross-system as expected
-  it.skip 'should client-compile a file', (done) ->
+  it.skip 'should client-compile a file', ->
     lpath = path.join(@path, 'client.ejs')
     @ejs.compileFileClient(lpath)
-      .done((res) => should.match_expected(@ejs, res.result, lpath, done))
+      .then((res) => should.match_expected(@ejs, res.result, lpath))
 
-  it 'should render with client side helpers', (done) ->
+  it 'should render with client side helpers', ->
     lpath = path.join(@path, 'client-complex.ejs')
     @ejs.compileFileClient(lpath)
-      .done (res) =>
+      .then (res) =>
         tpl_string =  "#{@ejs.clientHelpers()}; var tpl = #{res.result}; tpl({ foo: 'local' })"
         tpl = eval.call(global, tpl_string)
-        should.match_expected(@ejs, tpl, lpath, done)
+        should.match_expected(@ejs, tpl, lpath)
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @ejs.render("<%= wow() %>")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'eco', ->
 
@@ -471,43 +475,44 @@ describe 'eco', ->
     @eco.engine.should.be.ok
     @eco.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @eco.render('<p>eco yah</p><p><%= @foo %></p>', { foo: 'wow opts' })
-      .done((res) =>
+      .then((res) =>
         tgt = path.join(@path, 'rstring.eco')
-        should.match_expected(@eco, res.result, tgt, done))
+        should.match_expected(@eco, res.result, tgt))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.eco')
     @eco.renderFile(lpath, { foo: 'wow opts' })
-      .done((res) => should.match_expected(@eco, res.result, lpath, done))
+      .then((res) => should.match_expected(@eco, res.result, lpath))
 
-  it 'should compile a string', (done) ->
-    @eco.compile("<p>precompilez</p><p><%= @foo %></p>").done((res) =>
+  it 'should compile a string', ->
+    @eco.compile("<p>precompilez</p><p><%= @foo %></p>").then((res) =>
       tgt = path.join(@path, 'pstring.eco')
-      should.match_expected(@eco, res.result({foo: 'wow opts'}), tgt, done))
+      should.match_expected(@eco, res.result({foo: 'wow opts'}), tgt))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.eco')
     @eco.compileFile(lpath)
-      .done((res) =>
-        should.match_expected(@eco, res.result({foo: 'wow opts'}), lpath, done))
+      .then((res) =>
+        should.match_expected(@eco, res.result({foo: 'wow opts'}), lpath))
 
-  it 'should client-compile a string', (done) ->
+  it 'should client-compile a string', ->
     @eco.compileClient("Woah look, a <%= thing %>")
-      .done((res) =>
+      .then((res) =>
         tgt = path.join(@path, 'cstring.eco')
-        should.match_expected(@eco, res.result, tgt, done))
+        should.match_expected(@eco, res.result, tgt))
 
-  it 'should client-compile a file', (done) ->
+  it 'should client-compile a file', ->
     lpath = path.join(@path, 'client.eco')
     @eco.compileFileClient(lpath)
-      .done((res) =>
-        should.match_expected(@eco, res.result, lpath, done))
+      .then((res) =>
+        should.match_expected(@eco, res.result, lpath))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @eco.render("<%= wow() %>")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'markdown', ->
 
@@ -521,23 +526,23 @@ describe 'markdown', ->
     @markdown.engine.should.be.ok
     @markdown.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @markdown.render('hello **world**')
-      .done((res) => should.match_expected(@markdown, res.result, path.join(@path, 'string.md'), done))
+      .then((res) => should.match_expected(@markdown, res.result, path.join(@path, 'string.md')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.md')
     @markdown.renderFile(lpath)
-      .done((res) => should.match_expected(@markdown, res.result, lpath, done))
+      .then((res) => should.match_expected(@markdown, res.result, lpath))
 
-  it 'should render with options', (done) ->
+  it 'should render with options', ->
     lpath = path.join(@path, 'opts.md')
     @markdown.renderFile(lpath, {sanitize: true})
-      .done((res) => should.match_expected(@markdown, res.result, lpath, done))
+      .then((res) => should.match_expected(@markdown, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @markdown.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
 describe 'minify-js', ->
 
@@ -551,36 +556,37 @@ describe 'minify-js', ->
     @minifyjs.engine.should.be.ok
     @minifyjs.name.should.be.ok
 
-  it 'should minify a string', (done) ->
+  it 'should minify a string', ->
     @minifyjs.render('var foo = "foobar";\nconsole.log(foo)')
-      .done((res) => should.match_expected(@minifyjs, res.result, path.join(@path, 'string.js'), done))
+      .then((res) => should.match_expected(@minifyjs, res.result, path.join(@path, 'string.js')))
 
-  it 'should minify a file', (done) ->
+  it 'should minify a file', ->
     lpath = path.join(@path, 'basic.js')
     @minifyjs.renderFile(lpath)
-      .done((res) => should.match_expected(@minifyjs, res.result, lpath, done))
+      .then((res) => should.match_expected(@minifyjs, res.result, lpath))
 
-  it 'should minify with options', (done) ->
+  it 'should minify with options', ->
     lpath = path.join(@path, 'opts.js')
     @minifyjs.renderFile(lpath, { compress: false })
-      .done((res) => should.match_expected(@minifyjs, res.result, lpath, done))
+      .then((res) => should.match_expected(@minifyjs, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @minifyjs.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @minifyjs.render("@#$%#I$$N%NI#$%I$PQ")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.js')
-    @minifyjs.renderFile(lpath, sourcemap: true).done (res) =>
+    @minifyjs.renderFile(lpath, sourcemap: true).then (res) =>
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@minifyjs, res.result, lpath, done)
+      should.match_expected(@minifyjs, res.result, lpath)
 
 describe 'minify-css', ->
 
@@ -594,27 +600,27 @@ describe 'minify-css', ->
     @minifycss.engine.should.be.ok
     @minifycss.name.should.be.ok
 
-  it 'should minify a string', (done) ->
+  it 'should minify a string', ->
     @minifycss.render('.test {\n  foo: bar;\n}')
-      .done((res) => should.match_expected(@minifycss, res.result, path.join(@path, 'string.css'), done))
+      .then((res) => should.match_expected(@minifycss, res.result, path.join(@path, 'string.css')))
 
-  it 'should minify a file', (done) ->
+  it 'should minify a file', ->
     lpath = path.join(@path, 'basic.css')
     @minifycss.renderFile(lpath)
-      .done((res) => should.match_expected(@minifycss, res.result, lpath, done))
+      .then((res) => should.match_expected(@minifycss, res.result, lpath))
 
-  it 'should minify with options', (done) ->
+  it 'should minify with options', ->
     lpath = path.join(@path, 'opts.css')
     @minifycss.renderFile(lpath, { keepBreaks: true })
-      .done((res) => should.match_expected(@minifycss, res.result, lpath, done))
+      .then((res) => should.match_expected(@minifycss, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @minifycss.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @minifycss.render("FMWT$SP#TPO%M@#@#M!@@@")
-      .done(((r) -> r.result.should.equal(''); done()), should.not.exist)
+      .then(((r) -> r.result.should.equal('')), should.not.exist)
 
 describe 'escape-html', ->
   before ->
@@ -627,25 +633,24 @@ describe 'escape-html', ->
     @escapeHtml.engine.should.be.ok
     @escapeHtml.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @escapeHtml.render("<h1>§</h1>")
     .catch(should.not.exist)
-    .done((res) =>
+    .then((res) =>
       fs.readFileSync(path.join(@path, 'expected', 'string.html'), 'utf8')
-      .should.contain(res.result)
-      done()
+        .should.contain(res.result)
     )
-  it 'should render a file without escaping anything', (done) ->
+  it 'should render a file without escaping anything', ->
     lpath = path.join(@path, 'basic.html')
     @escapeHtml.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@escapeHtml, res.result, lpath, done))
+      .then((res) => should.match_expected(@escapeHtml, res.result, lpath))
 
-  it 'should escape content', (done) ->
+  it 'should escape content', ->
     lpath = path.join(@path, 'escapable.html')
     @escapeHtml.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@escapeHtml, res.result, lpath, done))
+      .then((res) => should.match_expected(@escapeHtml, res.result, lpath))
 
  describe 'minify-html', ->
   before ->
@@ -658,28 +663,29 @@ describe 'escape-html', ->
     @minifyhtml.engine.should.be.ok
     @minifyhtml.name.should.be.ok
 
-  it 'should minify a string', (done) ->
+  it 'should minify a string', ->
     @minifyhtml.render('<div class="hi" id="">\n  <p>hello</p>\n</div>')
-      .done((res) => should.match_expected(@minifyhtml, res.result, path.join(@path, 'string.html'), done))
+      .then((res) => should.match_expected(@minifyhtml, res.result, path.join(@path, 'string.html')))
 
-  it 'should minify a file', (done) ->
+  it 'should minify a file', ->
     lpath = path.join(@path, 'basic.html')
     @minifyhtml.renderFile(lpath)
       .catch((err) -> console.log err.stack)
-      .done((res) => should.match_expected(@minifyhtml, res.result, lpath, done))
+      .then((res) => should.match_expected(@minifyhtml, res.result, lpath))
 
-  it 'should minify with options', (done) ->
+  it 'should minify with options', ->
     lpath = path.join(@path, 'opts.html')
     @minifyhtml.renderFile(lpath, { collapseWhitespace: false })
-      .done((res) => should.match_expected(@minifyhtml, res.result, lpath, done))
+      .then((res) => should.match_expected(@minifyhtml, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @minifyhtml.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @minifyhtml.render("<<<{@$@#$")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'csso', ->
 
@@ -693,27 +699,28 @@ describe 'csso', ->
     @csso.engine.should.be.ok
     @csso.name.should.be.ok
 
-  it 'should minify a string', (done) ->
+  it 'should minify a string', ->
     @csso.render(".hello { foo: bar; }\n .hello { color: green }")
-      .done((res) => should.match_expected(@csso, res.result, path.join(@path, 'string.css'), done))
+      .then((res) => should.match_expected(@csso, res.result, path.join(@path, 'string.css')))
 
-  it 'should minify a file', (done) ->
+  it 'should minify a file', ->
     lpath = path.join(@path, 'basic.css')
     @csso.renderFile(lpath)
-      .done((res) => should.match_expected(@csso, res.result, lpath, done))
+      .then((res) => should.match_expected(@csso, res.result, lpath))
 
-  it 'should minify with options', (done) ->
+  it 'should minify with options', ->
     lpath = path.join(@path, 'opts.css')
     @csso.renderFile(lpath, { restructuring: false })
-      .done((res) => should.match_expected(@csso, res.result, lpath, done))
+      .then((res) => should.match_expected(@csso, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @csso.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @csso.render("wow")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'mustache', ->
 
@@ -727,40 +734,41 @@ describe 'mustache', ->
     @mustache.engine.should.be.ok
     @mustache.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @mustache.render("Why hello, {{ name }}!", { name: 'dogeudle' })
-      .done((res) => should.match_expected(@mustache, res.result, path.join(@path, 'string.mustache'), done))
+      .then((res) => should.match_expected(@mustache, res.result, path.join(@path, 'string.mustache')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.mustache')
     @mustache.renderFile(lpath, { name: 'doge', winner: true })
-      .done((res) => should.match_expected(@mustache, res.result, lpath, done))
+      .then((res) => should.match_expected(@mustache, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @mustache.compile("Wow, such {{ noun }}")
-      .done((res) => should.match_expected(@mustache, res.result.render({noun: 'compile'}), path.join(@path, 'pstring.mustache'), done))
+      .then((res) => should.match_expected(@mustache, res.result.render({noun: 'compile'}), path.join(@path, 'pstring.mustache')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.mustache')
     @mustache.compileFile(lpath)
-      .done((res) => should.match_expected(@mustache, res.result.render({name: 'foo'}), lpath, done))
+      .then((res) => should.match_expected(@mustache, res.result.render({name: 'foo'}), lpath))
 
-  it 'client compile should work', (done) ->
+  it 'client compile should work', ->
     lpath = path.join(@path, 'client-complex.mustache')
     @mustache.compileFileClient(lpath)
-      .done (res) =>
+      .then (res) =>
         tpl_string =  "#{@mustache.clientHelpers()}; var tpl = #{res.result} tpl.render({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
-        should.match_expected(@mustache, tpl, lpath, done)
+        should.match_expected(@mustache, tpl, lpath)
 
-  it 'should handle partials', (done) ->
+  it 'should handle partials', ->
     lpath = path.join(@path, 'partial.mustache')
     @mustache.renderFile(lpath, { foo: 'bar', partials: { partial: 'foo {{ foo }}' } })
-      .done((res) => should.match_expected(@mustache, res.result, lpath, done))
+      .then((res) => should.match_expected(@mustache, res.result, lpath))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @mustache.render("{{# !@{!# }}")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'dogescript', ->
 
@@ -774,18 +782,18 @@ describe 'dogescript', ->
     @doge.engine.should.be.ok
     @doge.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @doge.render("console dose loge with 'wow'", { beautify: true })
-      .done((res) => should.match_expected(@doge, res.result, path.join(@path, 'string.djs'), done))
+      .then((res) => should.match_expected(@doge, res.result, path.join(@path, 'string.djs')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.djs')
     @doge.renderFile(lpath, { trueDoge: true })
-      .done((res) => should.match_expected(@doge, res.result, lpath, done))
+      .then((res) => should.match_expected(@doge, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @doge.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
   # it turns out that it's impossible for dogescript to throw an error
   # which, honestly, is how it should be. so no test here.
@@ -802,49 +810,50 @@ describe 'handlebars', ->
     @handlebars.engine.should.be.ok
     @handlebars.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @handlebars.render('Hello there {{ name }}', { name: 'homie' })
-      .done((res) => should.match_expected(@handlebars, res.result, path.join(@path, 'rstring.hbs'), done))
+      .then((res) => should.match_expected(@handlebars, res.result, path.join(@path, 'rstring.hbs')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.hbs')
     @handlebars.renderFile(lpath, { compiler: 'handlebars' })
-      .done((res) => should.match_expected(@handlebars, res.result, lpath, done))
+      .then((res) => should.match_expected(@handlebars, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @handlebars.compile('Hello there {{ name }}')
-      .done((res) => should.match_expected(@handlebars, res.result({ name: 'my friend' }), path.join(@path, 'pstring.hbs'), done))
+      .then((res) => should.match_expected(@handlebars, res.result({ name: 'my friend' }), path.join(@path, 'pstring.hbs')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.hbs')
     @handlebars.compileFile(lpath)
-      .done((res) => should.match_expected(@handlebars, res.result({ friend: 'r kelly' }), lpath, done))
+      .then((res) => should.match_expected(@handlebars, res.result({ friend: 'r kelly' }), lpath))
 
-  it 'should client-compile a string', (done) ->
+  it 'should client-compile a string', ->
     @handlebars.compileClient("Here comes the {{ thing }}")
-      .done((res) => should.match_expected(@handlebars, res.result, path.join(@path, 'cstring.hbs'), done))
+      .then((res) => should.match_expected(@handlebars, res.result, path.join(@path, 'cstring.hbs')))
 
-  it 'should client-compile a file', (done) ->
+  it 'should client-compile a file', ->
     lpath = path.join(@path, 'client.hbs')
     @handlebars.compileFileClient(lpath)
-      .done((res) => should.match_expected(@handlebars, res.result, lpath, done))
+      .then((res) => should.match_expected(@handlebars, res.result, lpath))
 
-  it 'should handle external file requests', (done) ->
+  it 'should handle external file requests', ->
     lpath = path.join(@path, 'partial.hbs')
     @handlebars.renderFile(lpath, { partials: { foo: "<p>hello from a partial!</p>" }})
-      .done((res) => should.match_expected(@handlebars, res.result, lpath, done))
+      .then((res) => should.match_expected(@handlebars, res.result, lpath))
 
-  it 'should render with client side helpers', (done) ->
+  it 'should render with client side helpers', ->
     lpath = path.join(@path, 'client-complex.hbs')
     @handlebars.compileFileClient(lpath)
-      .done (res) =>
+      .then (res) =>
         tpl_string =  "#{@handlebars.clientHelpers()}; var tpl = #{res.result}; tpl({ wow: 'local' })"
         tpl = eval.call(global, tpl_string)
-        should.match_expected(@handlebars, tpl, lpath, done)
+        should.match_expected(@handlebars, tpl, lpath)
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @handlebars.render("{{# !@{!# }}")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'scss', ->
 
@@ -858,29 +867,30 @@ describe 'scss', ->
     @scss.engine.should.be.ok
     @scss.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @scss.render("$wow: 'red'; foo { bar: $wow; }")
-      .done((res) => should.match_expected(@scss, res.result, path.join(@path, 'string.scss'), done))
+      .then((res) => should.match_expected(@scss, res.result, path.join(@path, 'string.scss')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.scss')
     @scss.renderFile(lpath, { trueDoge: true })
-      .done((res) => should.match_expected(@scss, res.result, lpath, done))
+      .then((res) => should.match_expected(@scss, res.result, lpath))
 
-  it 'should include external files', (done) ->
+  it 'should include external files', ->
     lpath = path.join(@path, 'external.scss')
     @scss.renderFile(lpath, { includePaths: [@path] })
-      .done((res) => should.match_expected(@scss, res.result, lpath, done))
+      .then((res) => should.match_expected(@scss, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @scss.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @scss.render("!@##%#$#^$")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate a sourcemap', (done) ->
+  it 'should generate a sourcemap', ->
     lpath = path.join(@path, 'basic.scss')
     @scss.renderFile(lpath, { sourcemap: true })
       .tap (res) ->
@@ -888,9 +898,9 @@ describe 'scss', ->
         res.sourcemap.mappings.length.should.be.above(1)
         res.sourcemap.sources[0].should.equal(lpath)
         res.sourcemap.sourcesContent.length.should.be.above(0)
-      .done((res) => should.match_expected(@scss, res.result, lpath, done))
+      .then((res) => should.match_expected(@scss, res.result, lpath))
 
-  it 'should generate a sourcemap with correct sources', (done) ->
+  it 'should generate a sourcemap with correct sources', ->
     lpath = path.join(@path, 'external.scss')
     mixinpath = path.join(@path, '_mixin_lib.scss')
     @scss.renderFile(lpath, { sourcemap: true })
@@ -901,7 +911,7 @@ describe 'scss', ->
         res.sourcemap.sources[0].should.equal(lpath)
         res.sourcemap.sources[1].should.equal(mixinpath)
         res.sourcemap.sourcesContent.length.should.equal(2)
-      .done((res) => should.match_expected(@scss, res.result, lpath, done))
+      .then((res) => should.match_expected(@scss, res.result, lpath))
 
 describe 'less', ->
 
@@ -915,52 +925,53 @@ describe 'less', ->
     @less.engine.should.be.ok
     @less.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @less.render(".foo { width: 100 + 20 }")
-      .done((res) => should.match_expected(@less, res.result, path.join(@path, 'string.less'), done))
+      .then((res) => should.match_expected(@less, res.result, path.join(@path, 'string.less')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.less')
     @less.renderFile(lpath, { trueDoge: true })
-      .done((res) => should.match_expected(@less, res.result, lpath, done))
+      .then((res) => should.match_expected(@less, res.result, lpath))
 
-  it 'should include external files', (done) ->
+  it 'should include external files', ->
     lpath = path.join(@path, 'external.less')
     @less.renderFile(lpath, { paths: [@path] })
-      .done((res) => should.match_expected(@less, res.result, lpath, done))
+      .then((res) => should.match_expected(@less, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @less.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle parse errors', (done) ->
+  it 'should correctly handle parse errors', ->
     @less.render("!@##%#$#^$")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should correctly handle tree resolution errors', (done) ->
+  it 'should correctly handle tree resolution errors', ->
     @less.render('''
     .foo {
       .notFound()
     }
     ''')
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.less')
-    @less.renderFile(lpath, sourcemap: true).done (res) =>
+    @less.renderFile(lpath, sourcemap: true).then (res) =>
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@less, res.result, lpath, done)
+      should.match_expected(@less, res.result, lpath)
 
-  it 'should accept sourcemap overrides', (done) ->
+  it 'should accept sourcemap overrides', ->
     lpath = path.join(@path, 'basic.less')
-    @less.renderFile(lpath, { sourceMap: { sourceMapBasepath: 'test/fixtures/less/basic.less' }, filename: 'basic.less' }).done (res) =>
+    @less.renderFile(lpath, { sourceMap: { sourceMapBasepath: 'test/fixtures/less/basic.less' }, filename: 'basic.less' }).then (res) =>
       res.sourcemap.version.should.equal(3)
       res.sourcemap.sources[0].should.equal('basic.less')
       should.not.exist(res.sourcemap.sourcesContent)
-      done()
 
 describe 'coco', ->
 
@@ -974,22 +985,23 @@ describe 'coco', ->
     @coco.engine.should.be.ok
     @coco.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @coco.render("function test\n  console.log('foo')", { bare: true })
-      .done((res) => should.match_expected(@coco, res.result, path.join(@path, 'string.co'), done))
+      .then((res) => should.match_expected(@coco, res.result, path.join(@path, 'string.co')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.co')
     @coco.renderFile(lpath)
-      .done((res) => should.match_expected(@coco, res.result, lpath, done))
+      .then((res) => should.match_expected(@coco, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @coco.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @coco.render("!! ---  )I%$_(I(YRTO")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'livescript', ->
 
@@ -1003,22 +1015,23 @@ describe 'livescript', ->
     @livescript.engine.should.be.ok
     @livescript.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @livescript.render("test = ~> console.log('foo')", { bare: true })
-      .done((res) => should.match_expected(@livescript, res.result, path.join(@path, 'string.ls'), done))
+      .then((res) => should.match_expected(@livescript, res.result, path.join(@path, 'string.ls')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.ls')
     @livescript.renderFile(lpath)
-      .done((res) => should.match_expected(@livescript, res.result, lpath, done))
+      .then((res) => should.match_expected(@livescript, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @livescript.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @livescript.render("!! ---  )I%$_(I(YRTO")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'typescript', ->
 
@@ -1032,23 +1045,23 @@ describe 'typescript', ->
     @typescript.engine.should.be.ok
     @typescript.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @typescript.render("var n:number = 42; console.log(n)", { bare: true })
-      .done((res) => should.match_expected(@typescript, res.result, path.join(@path, 'string.ts'), done))
+      .then((res) => should.match_expected(@typescript, res.result, path.join(@path, 'string.ts')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.ts')
     @typescript.renderFile(lpath)
-      .done((res) => should.match_expected(@typescript, res.result, lpath, done))
+      .then((res) => should.match_expected(@typescript, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @typescript.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @typescript.render("!! ---  )I%$_(I(YRTO")
-      .done(should.not.exist, (-> done()))
-
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'myth', ->
 
@@ -1062,32 +1075,33 @@ describe 'myth', ->
     @myth.engine.should.be.ok
     @myth.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @myth.render(".foo { transition: all 1s ease; }")
-      .done((res) => should.match_expected(@myth, res.result, path.join(@path, 'string.myth'), done))
+      .then((res) => should.match_expected(@myth, res.result, path.join(@path, 'string.myth')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.myth')
     @myth.renderFile(lpath)
-      .done((res) => should.match_expected(@myth, res.result, lpath, done))
+      .then((res) => should.match_expected(@myth, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @myth.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @myth.render("!! ---  )I%$_(I(YRTO")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.myth')
-    @myth.renderFile(lpath, sourcemap: true).done (res) =>
+    @myth.renderFile(lpath, sourcemap: true).then (res) =>
       res.sourcemap.should.be.an('object')
       res.sourcemap.version.should.equal(3)
       res.sourcemap.sources.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@myth, res.result, lpath, done)
+      should.match_expected(@myth, res.result, lpath)
 
 describe 'haml', ->
 
@@ -1101,31 +1115,32 @@ describe 'haml', ->
     @haml.engine.should.be.ok
     @haml.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @haml.render('%div.foo= "Whats up " + name', { name: 'mang' })
-      .done((res) => should.match_expected(@haml, res.result, path.join(@path, 'rstring.haml'), done))
+      .then((res) => should.match_expected(@haml, res.result, path.join(@path, 'rstring.haml')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.haml')
     @haml.renderFile(lpath, { compiler: 'haml' })
-      .done((res) => should.match_expected(@haml, res.result, lpath, done))
+      .then((res) => should.match_expected(@haml, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @haml.compile('%p= "Hello there " + name')
-      .done((res) => should.match_expected(@haml, res.result({ name: 'my friend' }), path.join(@path, 'pstring.haml'), done))
+      .then((res) => should.match_expected(@haml, res.result({ name: 'my friend' }), path.join(@path, 'pstring.haml')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'precompile.haml')
     @haml.compileFile(lpath)
-      .done((res) => should.match_expected(@haml, res.result({ friend: 'doge' }), lpath, done))
+      .then((res) => should.match_expected(@haml, res.result({ friend: 'doge' }), lpath))
 
-  it 'should not support client compiles', (done) ->
+  it 'should not support client compiles', ->
     @haml.compileClient("%p= 'Here comes the ' + thing")
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @haml.render("%p= wow()")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'marc', ->
 
@@ -1139,25 +1154,25 @@ describe 'marc', ->
     @marc.engine.should.be.ok
     @marc.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @marc.render(
       'I am using __markdown__ with {{label}}!'
       data:
         label: 'marc'
     ).catch(
       should.not.exist
-    ).done((res) =>
-      should.match_expected(@marc, res.result, path.join(@path, 'basic.md'), done)
+    ).then((res) =>
+      should.match_expected(@marc, res.result, path.join(@path, 'basic.md'))
     )
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.md')
     @marc.renderFile(lpath, data: {label: 'marc'})
-      .done((res) => should.match_expected(@marc, res.result, lpath, done))
+      .then((res) => should.match_expected(@marc, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @marc.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
 describe 'toffee', ->
 
@@ -1171,7 +1186,7 @@ describe 'toffee', ->
     @toffee.engine.should.be.ok
     @toffee.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @toffee.render('''
       {#
         for supply in supplies {:<li>#{supply}</li>:}
@@ -1179,57 +1194,58 @@ describe 'toffee', ->
       ''',
         supplies: ['mop', 'trash bin', 'flashlight']
       ).catch(should.not.exist)
-      .done((res) => should.match_expected(@toffee, res.result, path.join(@path, 'basic.toffee'), done))
+      .then((res) => should.match_expected(@toffee, res.result, path.join(@path, 'basic.toffee')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.toffee')
     @toffee.renderFile(lpath, {supplies: ['mop', 'trash bin', 'flashlight']})
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@toffee, res.result, lpath, done))
+      .then((res) => should.match_expected(@toffee, res.result, lpath))
 
-  it 'should compile a string', (done) ->
+  it 'should compile a string', ->
     @toffee.compile('''
       {#
         for supply in supplies {:<li>#{supply}</li>:}
       #}
       ''',
         supplies: ['mop', 'trash bin', 'flashlight']
-      ).done((res) => should.match_expected(@toffee, res.result, path.join(@path, 'template.toffee'), done))
+      ).then((res) => should.match_expected(@toffee, res.result, path.join(@path, 'template.toffee')))
 
-  it 'should compile a file', (done) ->
+  it 'should compile a file', ->
     lpath = path.join(@path, 'template.toffee')
     @toffee.compileFile(lpath, {supplies: ['mop', 'trash bin', 'flashlight']})
-      .done((res) => should.match_expected(@toffee, res.result, lpath, done))
+      .then((res) => should.match_expected(@toffee, res.result, lpath))
 
-  it 'should client-compile a string', (done) ->
+  it 'should client-compile a string', ->
     @toffee.compileClient('''
       {#
         for supply in supplies {:<li>#{supply}</li>:}
       #}
       ''', {})
-      .done((res) => should.match_expected(@toffee, res.result, path.join(@path, 'my_templates.toffee'), done))
+      .then((res) => should.match_expected(@toffee, res.result, path.join(@path, 'my_templates.toffee')))
 
-  it 'should client-compile a string without headers', (done) ->
+  it 'should client-compile a string without headers', ->
     @toffee.compileClient('''
       {#
         for supply in supplies {:<li>#{supply}</li>:}
       #}
       ''',
       headers: false
-      ).done((res) => should.match_expected(@toffee, res.result, path.join(@path, 'no-header-templ.toffee'), done))
+      ).then((res) => should.match_expected(@toffee, res.result, path.join(@path, 'no-header-templ.toffee')))
 
-  it 'should client-compile a file', (done) ->
+  it 'should client-compile a file', ->
     lpath = path.join(path.relative(process.cwd(), @path), 'my_templates-2.toffee')
     @toffee.compileFileClient(lpath, {})
-      .done((res) => should.match_expected(@toffee, res.result, lpath, done))
+      .then((res) => should.match_expected(@toffee, res.result, lpath))
 
-  it 'should handle errors', (done) ->
+  it 'should handle errors', ->
     @toffee.render('''
       {#
         for supply in supplies {:<li>#{supply}</li>
       #}
       ''', {})
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
 describe 'babel', ->
   before ->
@@ -1242,41 +1258,41 @@ describe 'babel', ->
     @babel.engine.should.be.ok
     @babel.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     p = path.join(@path, 'string.js')
     @babel.render("console.log('foo');", { presets: ['es2015'] }).catch(should.not.exist)
-      .done((res) => should.match_expected(@babel, res.result, p, done))
+      .then((res) => should.match_expected(@babel, res.result, p))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.js')
     @babel.renderFile(lpath, { presets: ['es2015'] })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@babel, res.result, lpath, done))
+      .then((res) => should.match_expected(@babel, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @babel.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) ->
-        should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @babel.render("!   ---@#$$@%#$")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.js')
-    @babel.renderFile(lpath, { presets: ['es2015'], sourcemap: true }).done (res) =>
+    @babel.renderFile(lpath, { presets: ['es2015'], sourcemap: true }).then (res) =>
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@babel, res.result, lpath, done)
+      should.match_expected(@babel, res.result, lpath)
 
-  it 'should not allow keys outside of babel\'s options', (done) ->
+  it 'should not allow keys outside of babel\'s options', ->
     lpath = path.join(@path, 'basic.js')
     @babel.renderFile(lpath, { presets: ['es2015'], foobar: 'wow' })
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@babel, res.result, lpath, done))
+      .then((res) => should.match_expected(@babel, res.result, lpath))
 
 describe 'buble', ->
   before ->
@@ -1289,35 +1305,35 @@ describe 'buble', ->
     @buble.engine.should.be.ok
     @buble.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     p = path.join(@path, 'string.js')
     @buble.render("console.log('foo');").catch(should.not.exist)
-      .done((res) => should.match_expected(@buble, res.result, p, done))
+      .then((res) => should.match_expected(@buble, res.result, p))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.js')
     @buble.renderFile(lpath)
       .catch(should.not.exist)
-      .done((res) => should.match_expected(@buble, res.result, lpath, done))
+      .then((res) => should.match_expected(@buble, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @buble.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) ->
-        should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @buble.render("!   ---@#$$@%#$")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.js')
-    @buble.renderFile(lpath).done (res) =>
+    @buble.renderFile(lpath).then (res) =>
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@buble, res.result, lpath, done)
+      should.match_expected(@buble, res.result, lpath)
 
 describe 'jsx', ->
 
@@ -1331,32 +1347,33 @@ describe 'jsx', ->
     @jsx.engine.should.be.ok
     @jsx.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @jsx.render('<div className="foo">{this.props.bar}</div>', { bare: true })
-      .done((res) => should.match_expected(@jsx, res.result, path.join(@path, 'string.jsx'), done))
+      .then((res) => should.match_expected(@jsx, res.result, path.join(@path, 'string.jsx')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.jsx')
     @jsx.renderFile(lpath)
-      .done((res) => should.match_expected(@jsx, res.result, lpath, done))
+      .then((res) => should.match_expected(@jsx, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @jsx.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @jsx.render("!   ---@#$$@%#$")
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.jsx')
-    @jsx.renderFile(lpath, sourcemap: true ).done (res) =>
+    @jsx.renderFile(lpath, sourcemap: true ).then (res) =>
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@jsx, res.result, lpath, done)
+      should.match_expected(@jsx, res.result, lpath)
 
 describe 'cjsx', ->
 
@@ -1370,18 +1387,18 @@ describe 'cjsx', ->
     @cjsx.engine.should.be.ok
     @cjsx.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @cjsx.render('<div className="foo"></div>')
-      .done((res) => should.match_expected(@cjsx, res.result, path.join(@path, 'string.cjsx'), done))
+      .then((res) => should.match_expected(@cjsx, res.result, path.join(@path, 'string.cjsx')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.cjsx')
     @cjsx.renderFile(lpath)
-      .done((res) => should.match_expected(@cjsx, res.result, lpath, done))
+      .then((res) => should.match_expected(@cjsx, res.result, lpath))
 
-  it 'should not be able to compile', (done) ->
+  it 'should not be able to compile', ->
     @cjsx.compile()
-      .done(((r) -> should.not.exist(r); done()), ((r) -> should.exist(r); done()))
+      .then(((r) -> should.not.exist(r)), ((r) -> should.exist(r)))
 
 describe 'postcss', ->
 
@@ -1395,33 +1412,34 @@ describe 'postcss', ->
     @postcss.engine.should.be.ok
     @postcss.name.should.be.ok
 
-  it 'should render a string', (done) ->
+  it 'should render a string', ->
     @postcss.render('.test { color: green; }')
-      .done((res) => should.match_expected(@postcss, res.result, path.join(@path, 'string.css'), done))
+      .then((res) => should.match_expected(@postcss, res.result, path.join(@path, 'string.css')))
 
-  it 'should render a file', (done) ->
+  it 'should render a file', ->
     lpath = path.join(@path, 'basic.css')
     @postcss.renderFile(lpath)
-      .done((res) => should.match_expected(@postcss, res.result, lpath, done))
+      .then((res) => should.match_expected(@postcss, res.result, lpath))
 
-  it 'should render a file with plugin', (done) ->
+  it 'should render a file with plugin', ->
     lpath = path.join(@path, 'var.css')
     varsPlugin = require('postcss-simple-vars')
     @postcss.renderFile(lpath, {use: [varsPlugin]})
-      .done((res) => should.match_expected(@postcss, res.result, lpath, done))
+      .then((res) => should.match_expected(@postcss, res.result, lpath))
 
-  it 'should generate sourcemaps', (done) ->
+  it 'should generate sourcemaps', ->
     lpath = path.join(@path, 'basic.css')
     opts = {map: true}
-    @postcss.renderFile(lpath, opts).done (res) =>
+    @postcss.renderFile(lpath, opts).then (res) =>
       res.sourcemap.should.exist
       res.sourcemap.version.should.equal(3)
       res.sourcemap.mappings.length.should.be.above(1)
       # postcss converts the absolute path to a relative path
       # res.sourcemap.sources[0].should.equal(lpath)
       res.sourcemap.sourcesContent.length.should.be.above(0)
-      should.match_expected(@postcss, res.result, lpath, done)
+      should.match_expected(@postcss, res.result, lpath)
 
-  it 'should correctly handle errors', (done) ->
+  it 'should correctly handle errors', ->
     @postcss.render('.test { ')
-      .done(should.not.exist, (-> done()))
+      .then(should.not.exist)
+      .catch((x) -> x)
