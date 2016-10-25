@@ -4,4 +4,5 @@ src
 Makefile
 docs
 coverage
+yarn.lock
 polytest_*
