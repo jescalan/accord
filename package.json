@@ -31,7 +31,7 @@
     "clean-css": "^3.4.18",
     "coco": "^0.9.1",
     "coffee-coverage": "^1.0.1",
-    "coffee-react-transform": "^4.0.0",
+    "coffee-react-transform": "^5.0.0",
     "coffee-script": "^1.11.0",
     "coveralls": "^2.11.11",
     "css-parse": "^2.0.0",
