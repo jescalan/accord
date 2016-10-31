@@ -9,7 +9,7 @@ global.should = chai.should()
 global.accord = accord
 global.W = W
 
-global.should.match_expected = function (compiler, content, epath, done) {
+global.should.match_expected = function (compiler, content, epath) {
   // console.log(content)
   var parser
   switch (compiler.output) {
@@ -38,5 +38,4 @@ global.should.match_expected = function (compiler, content, epath, done) {
   var results = parser(content.trim())
 
   util.inspect(expected).should.deep.eql(util.inspect(results))
-  return done()
 }
