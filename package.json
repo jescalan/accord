@@ -54,7 +54,7 @@
     "mocha-lcov-reporter": "^1.2.0",
     "myth": "^1.5.0",
     "node-sass": "^3.13.0",
-    "parse5": "^2.2.2",
+    "parse5": "^3.0.0",
     "polytest": "0.0.1",
     "postcss": "^5.2.5",
     "postcss-simple-vars": "^3.0.0",
