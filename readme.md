@@ -12,9 +12,13 @@ A unified interface for compiled languages and templates in JavaScript.
 
 ### Why should you care?
 
-There are two other libraries that already attempt to provide a common compiler interface: [consolidate.js](https://github.com/tj/consolidate.js) and [transformers](https://github.com/ForbesLindesay/transformers). After reviewing & using both of them, we designed accord to provide a more maintainable code base and way of writing adapters.
+There are two other libraries that already attempt to provide a common compiler interface: [consolidate.js](https://github.com/tj/consolidate.js) and [JSTransformers](https://github.com/jstransformers/jstransformer). After reviewing & using both of them, we designed accord to provide a more maintainable code base and way of writing adapters.
 
-Accord adapters are different because they use standard JavaScript inheritance (aka: classes in CoffeeScript), and they avoid the issues with the mixture of sync and async compilers by using promises for everything.
+Accord:
+
+- Uses standard JavaScript inheritance (aka: classes in CoffeeScript) in its adapters
+- Supports source maps
+- Lets you use any major version of an adapter
 
 ### Installation
 
