@@ -18,6 +18,7 @@ Accord:
 
 - Uses standard JavaScript inheritance (aka: classes in CoffeeScript) in its adapters
 - Supports source maps
+- Lets you use any major version of an adapter
 
 ### Installation
 
