@@ -11,8 +11,11 @@ class SCSS extends Adapter
   _render: (str, options) ->
     deferred = W.defer()
 
-    if options.sourcemap is true
-      options.sourceMap = true
+    if options.sourcemap
+      if typeof options.sourcemap is 'string'
+        options.sourceMap = options.sourcemap
+      else
+        options.sourceMap = true
       options.outFile = options.filename.replace('.scss', '.css')
       options.omitSourceMapUrl = true
       options.sourceMapContents = true
@@ -35,9 +38,10 @@ class SCSS extends Adapter
       if res.map
         data.sourcemap = JSON.parse(res.map.toString('utf8'))
         basePath = path.dirname(options.filename)
-        data.sourcemap.sources =
-          data.sourcemap.sources.map (relativePath) ->
-            path.join(basePath, relativePath)
+        if typeof options.sourceMap isnt 'string'
+          data.sourcemap.sources =
+            data.sourcemap.sources.map (relativePath) ->
+              path.join(basePath, relativePath)
 
       deferred.resolve(data)
 

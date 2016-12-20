@@ -11,8 +11,11 @@ class SCSS extends Adapter
   _render: (str, options) ->
     deferred = W.defer()
 
-    if options.sourcemap is true
-      options.sourceMap = true
+    if options.sourcemap
+      if typeof options.sourcemap is 'string'
+        options.sourceMap = options.sourcemap
+      else
+        options.sourceMap = true
       options.outFile = path.basename(options.filename).replace('.scss', '.css')
       options.omitSourceMapUrl = true
       options.sourceMapContents = true
