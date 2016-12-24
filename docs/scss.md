@@ -6,7 +6,12 @@ This adapter uses [node-sass](https://github.com/andrew/node-sass), an incredibl
 
 ## Source Maps
 
-Libsass does not yet support source maps, although at the time of writing there is [an open pull request](https://github.com/sass/libsass/pull/591) to work on this.
+`node-sass` (include its dependency `libsass`) currently supports sourcemap. And you can use `sourcemap` option to enable this feature.
+
+1. When passing `Boolean` value to `sourcemap`, it means enable/disable the sourcemap. And the `sources` property of generated sourcemap is array of absolute paths.
+2. When passing `String` value to `sourcemap`, the `sources` property of generated sourcemap is array of relative paths (relative to the scss file).
+
+See [node-sass Options.sourceMap](https://github.com/sass/node-sass#sourcemap) for more details.
 
 ## Additional Options
 It has a pretty standard API, and uses the [options documented here](https://github.com/andrew/node-sass#options). Do not pass through `data` or `file`, as this will be overridden by accord's wrapper - everything else is fair game.
