@@ -125,18 +125,32 @@ describe 'pug', ->
       .then((res) => should.match_expected(@pug, res.result({foo: 'such options'}), lpath))
 
   it 'should client-compile a string', ->
-    @pug.compileClient("p imma firin mah lazer!\np= foo", {foo: 'such options'})
-      .then((res) => should.match_expected(@pug, res.result, path.join(@path, 'cstring.pug')))
+    @pug.compileClient("p imma firin mah lazer!\np= foo")
+      .then (res) =>
+        tpl_string = "#{res.result}; template({ foo: 'such options' })"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@pug, tpl, path.join(@path, 'cstring.pug'))
 
   it 'should client-compile a file', ->
     lpath = path.join(@path, 'client.pug')
-    @pug.compileFileClient(lpath, {foo: 'such options'})
-      .then((res) => should.match_expected(@pug, res.result, lpath))
+    @pug.compileFileClient(lpath)
+      .then (res) =>
+        tpl_string = "#{res.result}; template({ foo: 'such options' })"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@pug, tpl, lpath)
 
   it 'should handle external file requests', ->
     lpath = path.join(@path, 'partial.pug')
     @pug.renderFile(lpath)
       .then((res) => should.match_expected(@pug, res.result, lpath))
+
+  it 'should render complex pug files', ->
+    lpath = path.join(@path, 'client-complex.pug')
+    @pug.compileFileClient(lpath)
+      .then (res) =>
+        tpl_string = "#{res.result}; template({ wow: 'local' })"
+        tpl = eval.call(global, tpl_string)
+        should.match_expected(@pug, tpl, lpath)
 
   it 'should correctly handle errors', ->
     @pug.render("!= nonexistantfunction()")
