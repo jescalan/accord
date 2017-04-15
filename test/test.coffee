@@ -94,6 +94,65 @@ describe 'jade', ->
     .then (res) ->
       uniq(res).length.should.equal(res.length)
 
+describe 'pug', ->
+
+  before ->
+    @pug = accord.load('pug')
+    @path = path.join(__dirname, 'fixtures', 'pug')
+
+  it 'should expose name, extensions, output, and engine', ->
+    @pug.extensions.should.be.an.instanceOf(Array)
+    @pug.output.should.be.a('string')
+    @pug.engine.should.be.ok
+    @pug.name.should.be.ok
+
+  it 'should render a string', ->
+    @pug.render('p BLAHHHHH\np= foo', { foo: 'such options' })
+      .then((res) => should.match_expected(@pug, res.result, path.join(@path, 'rstring.pug')))
+
+  it 'should render a file', ->
+    lpath = path.join(@path, 'basic.pug')
+    @pug.renderFile(lpath, { foo: 'such options' })
+      .then((res) => should.match_expected(@pug, res.result, lpath))
+
+  it 'should compile a string', ->
+    @pug.compile("p why cant I shot web?\np= foo")
+      .then((res) => should.match_expected(@pug, res.result({foo: 'such options'}), path.join(@path, 'pstring.pug')))
+
+  it 'should compile a file', ->
+    lpath = path.join(@path, 'precompile.pug')
+    @pug.compileFile(lpath)
+      .then((res) => should.match_expected(@pug, res.result({foo: 'such options'}), lpath))
+
+  it 'should client-compile a string', ->
+    @pug.compileClient("p imma firin mah lazer!\np= foo", {foo: 'such options'})
+      .then((res) => should.match_expected(@pug, res.result, path.join(@path, 'cstring.pug')))
+
+  it 'should client-compile a file', ->
+    lpath = path.join(@path, 'client.pug')
+    @pug.compileFileClient(lpath, {foo: 'such options'})
+      .then((res) => should.match_expected(@pug, res.result, lpath))
+
+  it 'should handle external file requests', ->
+    lpath = path.join(@path, 'partial.pug')
+    @pug.renderFile(lpath)
+      .then((res) => should.match_expected(@pug, res.result, lpath))
+
+  it 'should correctly handle errors', ->
+    @pug.render("!= nonexistantfunction()")
+      .catch((err) ->
+        err.message.should.equal('nonexistantfunction is not a function on line 1')
+      )
+
+  it "should handle rapid async calls with different deeply nested locals correctly", ->
+    lpath = path.join(@path, 'async.pug')
+    opts  = {wow: {such: 'test'}}
+    W.map [1..100], (i) =>
+      opts.wow = {such: i}
+      @pug.renderFile(lpath, opts).catch(should.not.exist)
+    .then (res) ->
+      uniq(res).length.should.equal(res.length)
+
 describe 'swig', ->
 
   before ->
