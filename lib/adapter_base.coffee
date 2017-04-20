@@ -1,6 +1,7 @@
 W            = require 'when'
 clone        = require 'lodash.clone'
 partialRight = require 'lodash.partialright'
+assign       = require 'lodash.assign'
 resolve      = require 'resolve'
 path         = require 'path'
 fs           = require 'fs'
@@ -96,7 +97,7 @@ class Adapter
   renderFile: (file, opts = {}) ->
     opts = clone(opts, true)
     readFile(file, 'utf8')
-      .then partialRight(@render, Object.assign({ filename: file }, opts)).bind(@)
+      .then partialRight(@render, assign({ filename: file }, opts)).bind(@)
 
   ###*
    * Compile a string to a function
@@ -116,7 +117,7 @@ class Adapter
   ###
   compileFile: (file, opts = {}) ->
     readFile(file, 'utf8')
-      .then partialRight(@compile, Object.assign({ filename: file }, opts)).bind(@)
+      .then partialRight(@compile, assign({ filename: file }, opts)).bind(@)
 
   ###*
    * Compile a string to a client-side-ready function
@@ -137,7 +138,7 @@ class Adapter
   ###
   compileFileClient: (file, opts = {}) ->
     readFile(file, 'utf8')
-      .then partialRight(@compileClient, Object.assign(opts, {filename: file})).bind(@)
+      .then partialRight(@compileClient, assign(opts, {filename: file})).bind(@)
 
   ###*
    * Some adapters that compile for client also need helpers, this method

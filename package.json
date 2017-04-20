@@ -8,6 +8,7 @@
     "convert-source-map": "^1.2.0",
     "glob": "^7.0.5",
     "indx": "^0.2.3",
+    "lodash.assign": "^4.2.0",
     "lodash.clone": "^4.3.2",
     "lodash.defaults": "^4.0.1",
     "lodash.flatten": "^4.2.0",

@@ -3,6 +3,7 @@ sourcemaps = require '../../sourcemaps'
 W          = require 'when'
 path       = require 'path'
 convert    = require 'convert-source-map'
+assign     = require 'lodash.assign'
 
 class MinifyJS extends Adapter
   name: 'minify-js'
@@ -17,7 +18,7 @@ class MinifyJS extends Adapter
       options.outSourceMap = path.basename(options.filename)
 
     compile =>
-      res = @engine.minify(str, Object.assign(options, fromString: true))
+      res = @engine.minify(str, assign(options, fromString: true))
       obj = { result: res.code }
 
       if options.sourceMap
