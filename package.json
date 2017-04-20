@@ -35,7 +35,7 @@
     "coffee-script": "^1.11.0",
     "coveralls": "^2.11.15",
     "css-parse": "^2.0.0",
-    "csso": "^2.2.0",
+    "csso": "^3.0.0",
     "dogescript": "^2.3.0",
     "dot": "^1.1.1",
     "eco": "^1.0.3",
