@@ -19,14 +19,12 @@ module.exports = function(__obj) {
       return _safe(result);
     };
     (function() {
-      _print(_safe('<p>precompilez</p><p>'));
-
-      _print(this.foo);
-
-      _print(_safe('</p>'));
-
+      _print(_safe('Woah look, a '));
+    
+      _print(thing);
+    
     }).call(this);
-
+    
     return __out.join('');
   }).call((function() {
     var obj = {
