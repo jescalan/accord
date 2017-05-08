@@ -149,7 +149,11 @@ class Adapter
 
 requireEngine = (engineName, customPath) ->
   if customPath?
-    engine = require(resolve.sync(path.basename(customPath), basedir: customPath))
+    try
+      engine = require(resolve.sync(path.basename(customPath), basedir: customPath))
+    catch err
+      engine = require(customPath)
+
     engine.__accord_path = customPath
   else
     try
