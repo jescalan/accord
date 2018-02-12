@@ -4,7 +4,7 @@ partialRight = require 'lodash.partialright'
 resolve      = require 'resolve'
 path         = require 'path'
 fs           = require 'fs'
-readFile     = require('when/node/function').lift fs.readFile 
+readFile     = require('when/node/function').lift fs.readFile
 
 class Adapter
   ###*
@@ -149,7 +149,10 @@ class Adapter
 
 requireEngine = (engineName, customPath) ->
   if customPath?
-    engine = require(resolve.sync(path.basename(customPath), basedir: customPath))
+    engine = require(resolve.sync(path.basename(customPath), {
+      basedir: customPath,
+      preserveSymlinks: false
+    }))
     engine.__accord_path = customPath
   else
     try
