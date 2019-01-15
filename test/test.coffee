@@ -197,11 +197,12 @@ describe 'swig', ->
     @swig.compileFile(lpath)
       .then((res) => should.match_expected(@swig, res.result({title: 'Hello!'}), lpath))
 
-  it.skip 'should client-compile a string', ->
+  it 'should client-compile a string', ->
+    lpath = path.join(@path, 'cstring.swig')
     @swig.compileClient("<h1>{% if foo %}Bar{% endif %}</h1>", {foo: true})
-      .then((res) => should.match_expected(@swig, res.result, path.join(@path, 'cstring.swig')))
+      .then((res) => should.match_expected(@swig, res.result, lpath))
 
-  it.skip 'should client-compile a file', ->
+  it 'should client-compile a file', ->
     lpath = path.join(@path, 'client.swig')
     @swig.compileFileClient(lpath)
       .then((res) => should.match_expected(@swig, res.result, lpath))
