@@ -16,7 +16,7 @@ exports.load = (name, custom_path, engine_name) ->
   adapter_name = match_version_to_adapter(name, version)
 
   if not adapter_name
-    throw new Error("#{name} version #{version} is not currently supported")
+    throw new Error("#{name} version #{version} is not currently supported.")
 
   return new (require(adapter_name))(engine_name, engine_path)
 
@@ -63,7 +63,7 @@ resolve_engine_path = (name, custom_path) ->
 
   loop
     if filepath is '/'
-      throw new Error("cannot resolve root of node module #{name}")
+      throw new Error("Cannot resolve root of node module #{name}.")
     filepath = path.dirname(filepath) # cut off the last part of the path
     if fs.existsSync(path.join filepath, 'package.json')
       # if there's a package.json directly under it, we've found the root of

@@ -62,7 +62,7 @@ class Adapter
     if @engineName?
       # a specific engine is required by user
       if @engineName not in @supportedEngines
-        throw new Error("engine '#{@engineName}' not supported")
+        throw new Error("'#{@engineName}' is not currently supported.")
       @engine = requireEngine(@engineName, customPath)
     else
       for @engineName in @supportedEngines
@@ -73,8 +73,8 @@ class Adapter
         return # it worked, we're done
       # nothing in the loop worked, throw an error
       throw new Error("""
-        'tried to require: #{@supportedEngines}'.
-        None found. Make sure one has been installed!
+        '#{@supportedEngines} not found'.
+        Check that they have been installed.
       """)
 
   ###*
@@ -84,7 +84,7 @@ class Adapter
    * @return {Promise}
   ###
   render: (str, opts = {}) ->
-    if not @_render then return W.reject new Error('render not supported')
+    if not @_render then return W.reject new Error('Render not supported.')
     @_render(str, opts)
 
   ###*
@@ -105,7 +105,7 @@ class Adapter
    * @return {Promise}
   ###
   compile: (str, opts = {}) ->
-    if not @_compile then return W.reject new Error('compile not supported')
+    if not @_compile then return W.reject new Error('Compile not supported.')
     @_compile(str, opts)
 
   ###*
@@ -126,7 +126,7 @@ class Adapter
   ###
   compileClient: (str, opts = {}) ->
     if not @_compileClient
-      return W.reject new Error('client-side compile not supported')
+      return W.reject new Error('Client-side compile not supported.')
     @_compileClient(str, opts)
 
   ###*
@@ -159,7 +159,7 @@ requireEngine = (engineName, customPath) ->
       engine = require(engineName)
       engine.__accord_path = resolvePath(engineName)
     catch err
-      throw new Error("'#{engineName}' not found. make sure it has been installed!")
+      throw new Error("'#{engineName}' not found. Check that it has been installed.")
 
   try
     if not engine.version
@@ -179,7 +179,7 @@ resolvePath = (name) ->
   filepath = require.resolve(name)
   loop
     if filepath is '/'
-      throw new Error("cannot resolve root of node module #{name}")
+      throw new Error("Cannot resolve root of node module #{name}")
     filepath = path.dirname(filepath) # cut off the last part of the path
     if fs.existsSync(path.join filepath, 'package.json')
       # if there's a package.json directly under it, we've found the root of the
