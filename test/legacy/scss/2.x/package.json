@@ -13,7 +13,7 @@
     "fobject": "0.0.3",
     "glob": "5.x",
     "indx": "0.2.x",
-    "lodash": "3.x",
+    "lodash": "4.x",
     "resolve": "1.x",
     "semver": "^4.3.4",
     "uglify-js": "2.x",
